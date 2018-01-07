@@ -1,6 +1,8 @@
 {
   "author": "Rob Hughes",
   "dependencies": {
-    "alexa-sdk": "^1.0.6"
+    "alexa-sdk": "^1.0.6",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1"
   }
 }

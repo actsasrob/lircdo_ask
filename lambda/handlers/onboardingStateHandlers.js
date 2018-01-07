@@ -32,32 +32,12 @@ var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDI
       name = UKFirstNameSlot;
     }
 
-    // Save Name in Session Attributes and Ask for Country
+    // Save Name in Session Attributes
     if (name) {
       this.attributes['userName'] = name;
-      this.emit(':ask', `Ok ${name}! Tell me what country you're from by saying: I'm from, and then the country you're from.`, `Tell me what country you're from by saying: I'm from, and then the country you're from.`);
+      this.emit(':ask', `Ok ${userName}! you can ask me to perform various LIRC actions.  What would you like to do?`, `What would you like to do?`);
     } else {
       this.emit(':ask', `Sorry, I didn\'t recognise that name!`, `'Tell me your name by saying: My name is, and then your name.'`);
-    }
-  },
-
-  'CountryCapture': function () {
-    // Get Slot Values
-    var country = this.event.request.intent.slots.Country.value;
-
-    // Get User Name from Session Attributes
-    var userName = this.attributes['userName'];
-
-    // Save Name in Session Attributes and Ask for Country
-    if (country) {
-      this.attributes['userCountry'] = country;
-
-      // Change State to Main
-      this.handler.state = constants.states.MAIN;
-
-      this.emit(':ask', `Ok ${userName}! Your from ${country}, that's great! You can ask me about the various alexa meetups around the world, or listen to the alexa dev chat podcast.  What would you like to do?`, `What would you like to do?`);
-    } else {
-      this.emit(':ask', `Sorry, I didn\'t recognise that country!`, `Tell me what country you're from by saying: I'm from, and then the country you're from.`);
     }
   },
 

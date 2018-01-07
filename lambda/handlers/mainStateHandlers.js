@@ -3,11 +3,15 @@ var Alexa = require('alexa-sdk');
 // Constants
 var constants = require('../constants/constants');
 
-// Data
-//var alexaMeetups = require('../data/alexaMeetups');
+// Callback app constants
+var callback_app = require('../constants/catalog_external');
 
 // Helpers
 var convertArrayToReadableString = require('../helpers/convertArrayToReadableString');
+var serverAPI = require('../helpers/serverAPI');
+
+// Trust self-signed certs whe connecting to server-side app
+//process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 // Main Handlers
 var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
@@ -17,7 +21,7 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
     var userName = this.attributes['userName'];
     if (userName) {
       // Welcome User Back by Name
-      this.emit(':ask', `Welcome back ${userName}! You can ask me to perform various actions using lirc.`,  `What would you like to do?`);
+      this.emit(':ask', `Welcome back ${userName}! You can perform lirc actions.`,  `What would you like to do?`);
     } else {
       // Change State to Onboarding:
       this.handler.state = constants.states.ONBOARDING;
@@ -26,21 +30,43 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
   },
 
   'lircdo': function () {
+    var params = {shared_secret: callback_app.SHARED_SECRET};
+
     // Get Slot Values
+    console.log('enter lircdo: CALLBACK_APP_FQDN: ' + callback_app.CALLBACK_APP_FQDN);
+
     var LircActionSlot = this.event.request.intent.slots.LircAction.value;
     var LircComponentSlot = this.event.request.intent.slots.LircComponent.value;
 
-    var LircAction = "undefined";
-    var LircComponent = "undefined";
-    if (LircActionSlot) {
-      LircAction = LircActionSlot;
-    }
+    var lircAction = "undefined";
+    var lircComponent = "undefined";
     if (LircComponentSlot) {
-      LircComponent = LircComponentSlot;
+      lircComponent = LircComponentSlot;
+      params.lircComponent = lircComponent;
     }
+    if (LircActionSlot) {
+      lircAction = LircActionSlot;
+      params.lircAction = lircAction; 
+   
+        console.log('lircdo: invoking callback lircdo_ask with params: ', params);
+        serverAPI.invoke_callback('lircdo_ask', params)
+          .then((responseDetails) => {
+            console.log('lircdo: responseDetails', JSON.stringify(responseDetails));
+            // Get status
+            //var status = responseDetails.status;
 
-    // Respond to User
-    this.emit(':ask', `lircdo invoked for component ${LircComponent} with action ${LircAction}`, 'How else can I help you?');
+            // Respond to user with action status
+            this.emit(':ask', `Action status was ${responseDetails.status} with message ${responseDetails.message}, What next?`, 'What next?');
+          })
+          .catch((error) => {
+            console.log('lircdo ERROR', error);
+            this.emit(':tell' `Sorry, there was a problem performing the requested action.`);
+          });
+    } else { 
+       // Missing action to perform
+       //this.emit(':ask', `lircdo invoked for component ${lircComponent} with action ${lircAction}`, 'What next?');
+       this.emit(':ask', 'Missing action to peform. Please say again.', 'What next?');
+    }
   },
 
   'avr_action': function () {
@@ -58,7 +84,7 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
     }
 
     // Respond to User
-    this.emit(':ask', `avr_action invoked with AVR action ${LircAVRAction} with AV device ${LircAVDevice}`, 'How else can I help you?');
+    this.emit(':ask', `avr_action invoked with AVR action ${LircAVRAction} with AV device ${LircAVDevice}`, 'What next?');
   },
 
   'channel_action': function () {
@@ -80,30 +106,39 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
       LircArgument = LircArgumentSlot;
     }
     // Respond to User
-    this.emit(':ask', `channel_action invoked with channel action ${LircChannelAction} for component ${LircComponent} and argument ${LircArgument}`, 'How else can I help you?');
+    this.emit(':ask', `channel_action invoked with channel action ${LircChannelAction} for component ${LircComponent} and argument ${LircArgument}`, 'What next?');
   },
 
   'volume_action': function () {
+    console.log('Start volume_action intent');
+    console.log(this.event.request.intent.slots);
+    console.log(this.event.request.intent.slots.LircVolumeAction.resolutions.resolutionsPerAuthority[0]);
     // Get Slot Values
     var LircVolumeActionSlot = this.event.request.intent.slots.LircVolumeAction.value;
+    //var LircVolumeActionSlotID = this.event.request.intent.slots.LircVolumeAction.resolutions.resolutionsPerAuthority[].values[].value.id;
+    var LircVolumeActionSlotID = 'test';
     var LircComponentSlot = this.event.request.intent.slots.LircComponent.value;
     var LircArgumentSlot = this.event.request.intent.slots.LircNumericArgument.value;
 
     var LircVolumeAction = "undefined";
+    var LircVolumeActionID = "undefined";
     var LircComponent = "undefined";
     var LircArgument = "undefined";
     if (LircVolumeActionSlot) {
       LircVolumeAction = LircVolumeActionSlot;
     }
+    if (LircVolumeActionSlotID) {
+      LircVolumeActionID = LircVolumeActionSlotID;
+    }
     if (LircComponentSlot) {
       LircComponent = LircComponentSlot;
     }
-    if (LircNumericArgumentSlot) {
-      LircArgument = LircNumericArgumentSlot;
+    if (LircArgumentSlot) {
+      LircArgument = LircArgumentSlot;
     }
 
     // Respond to User
-    this.emit(':ask', `volume_action invoked with volume action ${LircVolumeAction} for component ${LircComponent} and argument ${LircArgument}`, 'How else can I help you?');
+    this.emit(':ask', `volume_action invoked with volume action ${LircVolumeAction} and action ID ${LircVolumeActionSlotID} for component ${LircComponent} and argument ${LircArgument}`, 'What next?');
   },
 
 

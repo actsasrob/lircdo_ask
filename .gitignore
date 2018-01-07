@@ -1,2 +1,4 @@
 lambda.zip
 lambda/node_modules
+lambda/constants/catalog_external.json
+*.swp
