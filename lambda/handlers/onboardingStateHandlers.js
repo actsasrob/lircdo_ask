@@ -7,6 +7,7 @@ var constants = require('../constants/constants');
 var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDING, {
 
   'NewSession': function () {
+    console.log('onboardStateHandlers.NewSession');
     // Check for User Data in Session Attributes
     var userName = this.attributes['userName'];
     if (userName) {
@@ -20,6 +21,7 @@ var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDI
   },
 
   'NameCapture': function () {
+    console.log('onboardStateHandlers.NameCapture');
     // Get Slot Values
     var USFirstNameSlot = this.event.request.intent.slots.USFirstName.value;
     var UKFirstNameSlot = this.event.request.intent.slots.UKFirstName.value;
@@ -35,7 +37,12 @@ var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDI
     // Save Name in Session Attributes
     if (name) {
       this.attributes['userName'] = name;
-      this.emit(':ask', `Ok ${userName}! you can ask me to perform various LIRC actions.  What would you like to do?`, `What would you like to do?`);
+
+      // Change State to Main:
+      this.handler.state = constants.states.MAIN;
+
+      //this.emit(':ask', `Ok ${userName}! you can ask me to perform various LIRC actions.  What would you like to do?`, `What would you like to do?`);
+      this.emit(':ask', `Ok ${name}! you can ask me to perform various LIRC actions.  What would you like to do?`, `What would you like to do?`);
     } else {
       this.emit(':ask', `Sorry, I didn\'t recognise that name!`, `'Tell me your name by saying: My name is, and then your name.'`);
     }
@@ -55,11 +62,12 @@ var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDI
   },
 
   'AMAZON.HelpIntent' : function () {
+    console.log('onboardingStateHander.HelpIntent');
     // User Name Attribute
     var userName = this.attributes['userName'];
 
     if (userName) {
-      this.emit(':ask', `Please tell me what country you're from by saying: I'm from, and then the country you're from.`, `Tell me what country you're from by saying: I'm from, and then the country you're from.`);
+      this.emit(':ask', `Help Intent What action would you like to perform`, `Help Intent What action would you like to perform`);
     } else {
       this.emit(':ask', 'Please tell me your name by saying: My name is, and then your name.', 'Tell me your name by saying: My name is, and then your name.');
     }
