@@ -55,38 +55,29 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
        var params = {shared_secret: callback_app.SHARED_SECRET};
 
        // Get Slot Values
-       var LircActionSlot = this.event.request.intent.slots.LircAction.value;
-       var LircComponentSlot = this.event.request.intent.slots.LircComponent.value;
-
-       var lircAction = "undefined";
-       var lircComponent = "undefined";
-       if (LircComponentSlot) {
-         lircComponent = LircComponentSlot;
+       var lircAction = delegateDialog.isSlotValid(this.event.request, 'LircAction');
+       var lircComponent = delegateDialog.isSlotValid(this.event.request, 'LircComponent');
+       if (lircComponent) {
          params.lircComponent = lircComponent;
        }
-       if (LircActionSlot) {
-          lircAction = LircActionSlot;
+       if (lircAction) {
           params.lircAction = lircAction; 
-   
-          console.log('lircdo: invoking callback lircdo_ask with params: ', params);
-          serverAPI.invoke_callback('lircdo_ask', params)
-            .then((responseDetails) => {
-              console.log('lircdo: responseDetails', JSON.stringify(responseDetails));
-              // Respond to user with action status
-              this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}`).listen('What next?');
-              this.emit(":responseReady");
-              // Respond to user with action status
-              //this.emit(':ask', `Action status was ${responseDetails.status} with message ${responseDetails.message}, What next?`, 'What next?');
-            })
-            .catch((error) => {
-              console.log('lircdo ERROR', error);
-              this.emit(':tell' `Sorry, there was a problem performing the requested action.`);
-            });
-       } else {  // This should never happen because delegate dialog should have filled all required slots
-          // Missing action to perform
-          //this.emit(':ask', `lircdo invoked for component ${lircComponent} with action ${lircAction}`, 'What next?');
-          this.emit(':ask', 'Missing action to peform. Please say again.', 'What next?');
-       }
+       } 
+       console.log('lircdo: invoking callback lircdo_ask with params: ', params);
+       serverAPI.invoke_callback('lircdo_ask', params)
+         .then((responseDetails) => {
+           console.log('lircdo: responseDetails', JSON.stringify(responseDetails));
+           // Respond to user with action status
+           this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}`).listen('What next?');
+           this.emit(":responseReady");
+           // Respond to user with action status
+           //this.emit(':ask', `Action status was ${responseDetails.status} with message ${responseDetails.message}, What next?`, 'What next?');
+         })
+         .catch((error) => {
+           console.log('lircdo ERROR', error);
+           this.emit(':tell' `Sorry, there was a problem performing the requested action.`);
+         });
+       
     }
   },
 
