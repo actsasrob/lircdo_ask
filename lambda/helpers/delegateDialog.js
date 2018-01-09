@@ -28,8 +28,11 @@ module.exports = {
         //console.log("request = "+JSON.stringify(request)); //uncomment if you want to see the request
         var slotValue;
 
-        //if we have a slot, get the text and store it into speechOutput
-        if (slot && slot.value) {
+        // If entity resolution found an exact match then return the canonical slot id as value, otherwise return the found value
+        if (slot && slot.resolutions & slot.resolutions.resolutionsPerAuthority[0].status.code === 'ER_SUCCESS_MATCH') {
+           slotValue = slot.resolutions.resolutionsPerAuthority[0].values[0].value.id.toLowerCase();
+           return slotValue;
+        } else if (slot && slot.value) {
             //we have a value in the slot
             slotValue = slot.value.toLowerCase();
             return slotValue;
