@@ -55,8 +55,8 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
        var params = {shared_secret: callback_app.SHARED_SECRET};
 
        // Get Slot Values
-       var lircAction = delegateDialog.isSlotValid(this.event.request, 'LircAction');
-       var lircComponent = delegateDialog.isSlotValid(this.event.request, 'LircComponent');
+       var lircAction = delegateDialog.slotValue(this.event.request.intent.slots.LircAction, true);
+       var lircComponent = delegateDialog.slotValue(this.event.request.intent.slots.LircComponent, true);
        if (lircComponent) {
          params.lircComponent = lircComponent;
        }
@@ -107,20 +107,28 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
        var params = {shared_secret: callback_app.SHARED_SECRET};
 
        // Get Slot Values
-       var LircAVRActionSlot = this.event.request.intent.slots.LircAVRAction.value;
-       var LircAVDeviceSlot = this.event.request.intent.slots.LircAVDevice.value;
+       var lircAVRAction = delegateDialog.slotValue(this.event.request.intent.slots.LircAVRAction, true);
+       var lircAVDevice = delegateDialog.slotValue(this.event.request.intent.slots.LircAVDevice, true);
 
-       var LircAVRAction = "undefined";
-       var LircAVDevice = "undefined";
-       if (LircAVRActionSlot) {
-         LircAVRAction = LircAVRActionSlot;
+       if (lircAVRAction) {
+         params.lircAVRAction = lircAVRAction;
        }
-       if (LircAVDeviceSlot) {
-         LircAVDevice = LircAVDeviceSlot;
+       if (lircAVDevice) {
+         params.lircAVDevice = lircAVDevice;
        }
+       console.log('avr_action: invoking callback avr_action_ask with params: ', params);
+       serverAPI.invoke_callback('avr_action_ask', params)
+         .then((responseDetails) => {
+           console.log('avr_action: responseDetails', JSON.stringify(responseDetails));
+           // Respond to user with action status
+           this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}`).listen('What next?');
+           this.emit(":responseReady");
+         })
+         .catch((error) => {
+           console.log('avr_action ERROR', error);
+           this.emit(':tell' `Sorry, there was a problem performing the requested action.`);
+         });
 
-       // Respond to User
-       this.emit(':ask', `avr_action invoked with AVR action ${LircAVRAction} with AV device ${LircAVDevice}`, 'What next?');
     }
   },
 
@@ -129,45 +137,52 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
     //delegate to Alexa to collect all the required slot values
     //var filledSlots = delegateDialog.delegateSlotCollection.call(this);
     //var filledSlots = delegateDialog.delegateSlotCollection.call(this);
-    console.log("lircdo: "+this.event.request.dialogState);
+    console.log("channel_action: "+this.event.request.dialogState);
     if (this.event.request.dialogState === "STARTED") {
-       console.log("in Beginning");
+       console.log("channel_action: in Beginning");
        var updatedIntent=this.event.request.intent;
        //optionally pre-fill slots: update the intent object with slot values for which
        //you have defaults, then return Dialog.Delegate with this updated intent
        // in the updatedIntent property
        this.emit(":delegate", updatedIntent);
     } else if (this.event.request.dialogState !== "COMPLETED") {
-       console.log("in not completed");
+       console.log("channel_action: in not completed");
        // return a Dialog.Delegate directive with no updatedIntent property.
        this.emit(":delegate");
     } else {
-       console.log("lircdo: in completed");
-       console.log("lircdo: returning: "+ JSON.stringify(this.event.request.intent));
+       console.log("channel_action: in completed");
+       console.log("channel_action: returning: "+ JSON.stringify(this.event.request.intent));
        // Dialog is now complete and all required slots should be filled,
        // so call your normal intent handler.
 
        var params = {shared_secret: callback_app.SHARED_SECRET};
 
        // Get Slot Values
-       var LircChannelActionSlot = this.event.request.intent.slots.LircChannelAction.value;
-       var LircComponentSlot = this.event.request.intent.slots.LircComponent.value;
-       var LircArgumentSlot = this.event.request.intent.slots.LircNumericArgument.value;
+       var lircChannelAction = delegateDialog.slotValue(this.event.request.intent.slots.LircChannelAction, true);
+       var lircComponent = delegateDialog.slotValue(this.event.request.intent.slots.LircComponent, true);
+       var lircArgument = delegateDialog.slotValue(this.event.request.intent.slots.LircNumericArgument, true);
+       if (lircChannelAction) {
+         params.lircChannelAction = lircChannelAction;
+       }
+       if (lircComponent) {
+         params.lircComponent = lircComponent;
+       }
+       if (lircArgument) {
+         params.lircArgument = lircArgument;
+       }
+       console.log('channel_action: invoking callback channel_action_ask with params: ', params);
+       serverAPI.invoke_callback('channel_action_ask', params)
+         .then((responseDetails) => {
+           console.log('channel_action: responseDetails', JSON.stringify(responseDetails));
+           // Respond to user with action status
+           this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}`).listen('What next?');
+           this.emit(":responseReady");
+         })
+         .catch((error) => {
+           console.log('channel_action ERROR', error);
+           this.emit(':tell' `Sorry, there was a problem performing the requested action.`);
+         });
 
-       var LircChannelAction = "undefined";
-       var LircComponent = "undefined";
-       var LircArgument = "undefined";
-       if (LircChannelActionSlot) {
-         LircChannelAction = LircChannelActionSlot;
-       }
-       if (LircComponentSlot) {
-         LircComponent = LircComponentSlot;
-       }
-       if (LircArgumentSlot) {
-         LircArgument = LircArgumentSlot;
-       }
-       // Respond to User
-       this.emit(':ask', `channel_action invoked with channel action ${LircChannelAction} for component ${LircComponent} and argument ${LircArgument}`, 'What next?');
     }
   },
 
@@ -202,9 +217,9 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
        // Get Slot Values
        //var LircVolumeActionSlotID = this.event.request.intent.slots.LircVolumeAction.resolutions.resolutionsPerAuthority[].values[].value.id;
 
-       var lircVolumeAction = delegateDialog.isSlotValid(this.event.request, 'LircVolumeAction');
-       var lircComponent = delegateDialog.isSlotValid(this.event.request, 'LircComponent');
-       var lircArgument = delegateDialog.isSlotValid(this.event.request, 'LircNumericArgument');
+       var lircVolumeAction = delegateDialog.slotValue(this.event.request.intent.slots.LircVolumeAction, true);
+       var lircComponent = delegateDialog.slotValue(this.event.request.intent.slots.LircComponent, true);
+       var lircArgument = delegateDialog.slotValue(this.event.request.intent.slots.LircNumericArgument, true);
        if (lircVolumeAction) {
           params.lircVolumeAction = lircVolumeAction; 
        }

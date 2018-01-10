@@ -23,9 +23,22 @@ module.exports = {
        }
    },
 
+   slotValue: (slot, useId) => {
+       var value = null;
+       if (slot && slot.value) {
+          value = slot.value;
+       }
+       var resolution = (slot.resolutions && slot.resolutions.resolutionsPerAuthority && slot.resolutions.resolutionsPerAuthority.length > 0) ? slot.resolutions.resolutionsPerAuthority[0] : null;
+       if(resolution && resolution.status.code == 'ER_SUCCESS_MATCH'){
+           var resolutionValue = resolution.values[0].value;
+           value = resolutionValue.id && useId ? resolutionValue.id : resolutionValue.name;
+       }
+       return value;
+   },
+
    isSlotValid: (request, slotName) => {
         var slot = request.intent.slots[slotName];
-        //console.log("request = "+JSON.stringify(request)); //uncomment if you want to see the request
+        console.log("isSlotValid: request = "+JSON.stringify(request)); //uncomment if you want to see the request
         var slotValue;
 
         // If entity resolution found an exact match then return the canonical slot id as value, otherwise return the found value
