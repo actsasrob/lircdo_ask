@@ -22,7 +22,8 @@ module.exports = {
       })
       .catch((error) => {
         // API ERROR
-        reject(`invoke_callback: ${callback_action} `, error);
+        //reject(`invoke_callback: ${callback_action} `, error);
+        reject(`invoke_callback: ${callback_action} ` + error);
       });
     });
   },
