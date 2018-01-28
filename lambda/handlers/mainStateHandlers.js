@@ -18,14 +18,14 @@ var delegateDialog = require('../helpers/delegateDialog');
 var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
 
   'LaunchRequest': function () {
-    // Check for User Data in Session Attributes
-    var userName = this.attributes['userName'];
-    if (userName) {
-      // Welcome User Back by Name
-      this.emit(':ask', `Welcome back ${userName}! You can perform lirc actions.`,  `What would you like to do?`);
+    console.log('mainStateHandlers.LaunchRequest: start');
+    // Check for server-side application FQDN in Session Attributes
+    var applicationFQDN = this.attributes['applicationFQDN'];
+    if (applicationFQDN) {
+      this.emit(':ask', `Welcome back. You can perform lirc actions.`,  `What would you like to do?`);
     } else {
-      // Change State to Onboarding:
-      this.handler.state = constants.states.ONBOARDING;
+      // Change State to Pairing:
+      this.handler.state = constants.states.PAIRING;
       this.emitWithState('NewSession');
     }
   },
@@ -244,7 +244,24 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
     } 
   },
 
+    'pair_server_again': function () {
+        console.log("pair_server_again: start");
+        console.log("pair_server_again: this.event.request="+JSON.stringify(this.event.request));
+        var sessionAttributes={};
+        var filledSlots = delegateDialog.delegateSlotCollection.call(this);
 
+        console.log("pair_server_again: after delegateSlotCollection: this.event="+JSON.stringify(this.event));
+        if (this.event.request.intent.confirmationStatus !== 'DENIED') {
+           delete this.attributes.applicationFQDN;
+           delete this.attributes.STATE;
+           this.handler.state = constants.states.PAIRING;
+           this.emitWithState('NewSession');
+        }
+        else {
+           this.response.speak('The pairing request has been cancelled. You can perform a LIRC action. What would you like to do?').listen('What would you like to do?');
+           this.emit(':responseReady');
+        }
+   },
   'AMAZON.StopIntent': function () {
     // State Automatically Saved with :tell
     this.emit(':tell', `Goodbye.`);
@@ -254,16 +271,19 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
     this.emit(':tell', `Goodbye.`);
   },
   'SessionEndedRequest': function () {
+    console.log('mainStateHandler: SessionEndedRequest: start');
     // Force State Save When User Times Out
     this.emit(':saveState', true);
   },
 
   'AMAZON.HelpIntent' : function () {
+    console.log('mainStateHandler: AMAZON.HelpIntent: start');
     this.emit(':ask', `You can ask me to perform various actions using lirc.`,  `What would you like to do?`);
   },
-  'Unhandled' : function () {
-    this.emitWithState('AMAZON.HelpIntent');
-  }
+  //'Unhandled' : function () {
+  //  console.log('mainStateHandler: Unhandled: start');
+  //  this.emitWithState('AMAZON.HelpIntent');
+  //}
 
 });
 

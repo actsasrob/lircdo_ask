@@ -4,11 +4,12 @@ var constants = Object.freeze({
   appId : '',
 
   //  DynamoDB Table Name
-  dynamoDBTableName : 'lircdo',
+  dynamoDBTableName : 'lircdo_table01',
 
   // Skill States
   states : {
-    ONBOARDING : '',
+    INITIAL : '',
+    PAIRING : '_PAIRING',
     MAIN : '_MAIN',
   }
 
