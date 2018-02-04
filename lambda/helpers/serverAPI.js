@@ -1,19 +1,25 @@
 var request = require('request-promise');
 
 // Callback app constants
-var callback_app = require('../constants/catalog_external');
+//var callback_app = require('../constants/catalog_external');
 
 module.exports = {
 
-  invoke_callback: (callback_action, params) => {
+  invoke_callback: (callback_action, attributes, params) => {
+    var app_fqdn = attributes['applicationFQDN'];
+    var app_port = attributes['applicationPort'];
+    var ca_cert = attributes['ca_cert'];
+    ca_cert = ca_cert.replace(/\./g, '\n');
+    console.log(`invoke_callback: callback_action=${callback_action} app_fqdn=${app_fqdn} app_port=${app_port}`);
+
     return new Promise((resolve, reject) => {
-      // Call server-side lircdo_ask action 
+      // Call server-side callback action 
       request({
         method: 'GET',
-        uri: `${callback_app.CALLBACK_APP_SCHEME}://${callback_app.CALLBACK_APP_FQDN}:${callback_app.CALLBACK_APP_PORT}/${callback_action}`,
+        uri: `https://${app_fqdn}:${app_port}/${callback_action}`,
         qs: params,
         agentOptions: {
-           ca: callback_app.ca
+           ca: ca_cert
         }
       })
       .then((response) => {
@@ -26,6 +32,33 @@ module.exports = {
         reject(`invoke_callback: ${callback_action} ` + error);
       });
     });
+  },
+  invoke_pair_callback: (ip_address, port, params) => {
+    console.log('invoke_pair_callback:  ip_address=' + ip_address + ' port = ' +  port + ' params=', JSON.stringify(params));
+    return new Promise((resolve, reject) => {
+      // Call server-side lircdo_ask pair action
+      request({
+        method: 'GET',
+        uri: `https://${ip_address}:${port}/pair_action_ask`,
+        qs: params,
+	json: true,
+	// insecure: true, // doesn't work
+	rejectUnauthorized: false,
+	//process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+      })
+      .then((response) => {
+        // Return Users Details
+        console.log('invoke_pair_callback: response=', JSON.stringify(response));
+        //resolve(JSON.parse(response));
+        resolve(response);
+      })
+      .catch((error) => {
+        // API ERROR
+        console.log('invoke_pair_callback: error=' + error);
+        reject(`invoke_pair_callback: ` + error);
+      });
+    });
+    console.log('invoke_pair_callback: after request()');
   },
 
 };

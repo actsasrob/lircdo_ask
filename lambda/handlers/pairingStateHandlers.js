@@ -1,4 +1,4 @@
-/* eslint-disable  func-names */
+/if (this.event.request.intent.dialogState === 'COMPLETED')* eslint-disable  func-names */
 /* eslint quote-props: ["error", "consistent"]*/
 
 // alexa-cookbook sample code
@@ -34,6 +34,8 @@ const Alexa = require('alexa-sdk');
 // Constants
 var constants = require('../constants/constants');
 
+var serverAPI = require('../helpers/serverAPI');
+
 //Pairing Server  Handlers
 var pairingStateHandlers = Alexa.CreateStateHandler(constants.states.PAIRING, {
 
@@ -61,34 +63,94 @@ var pairingStateHandlers = Alexa.CreateStateHandler(constants.states.PAIRING, {
         console.log("pair_server: start");
         console.log("pair_server: this.event.request="+JSON.stringify(this.event.request));
         var sessionAttributes={};
-        var filledSlots = delegateSlotCollection.call(this);
+        //var filledSlots = delegateSlotCollection.call(this);
+        //console.log("pair_server: after delegateSlotCollection: this.event="+JSON.stringify(this.event));
+       if (this.event.request.dialogState === "STARTED") {
+          console.log("in Beginning");
+          var updatedIntent=this.event.request.intent;
+          //optionally pre-fill slots: update the intent object with slot values for which
+          //you have defaults, then return Dialog.Delegate with this updated intent
+          // in the updatedIntent property
+          this.event.request.intent.slots.ApplicationPort.value = '8843';
+          this.emit(":delegate", updatedIntent);
+       } else if (this.event.request.dialogState !== "COMPLETED") {
 
-        console.log("pair_server: after delegateSlotCollection: this.event="+JSON.stringify(this.event));
+           console.log("in not completed");
+           // return a Dialog.Delegate directive with no updatedIntent property.
+           this.emit(":delegate");
+       } else { // this.event.request.intent.slots.OctetA.confirmationStatus
+           //compose speechOutput that simply reads all the collected slot values
+           var speechOutput = randomPhrase(pairIntro);
 
-        //compose speechOutput that simply reads all the collected slot values
-        var speechOutput = randomPhrase(pairIntro);
+           //speechOutput += "Pairing request has been cancelled.";
 
-        speechOutput += "Your application I.P. address is ";
+           //Now let's recap
+           var octetA=this.event.request.intent.slots.OctetA.value;
+           var octetB=this.event.request.intent.slots.OctetB.value;
+           var octetC=this.event.request.intent.slots.OctetC.value;
+           var octetD=this.event.request.intent.slots.OctetD.value;
+           var applicationPort=this.event.request.intent.slots.ApplicationPort.value;
+           var applicationPin=this.event.request.intent.slots.ApplicationPin.value;
+           //speechOutput+= "" + octetA + " dot " + octetB + " dot " + octetC + " dot " + octetD + " with port " + applicationPort + " and pin " + applicationPin;
+           console.log('pair_server: ' + octetA + " dot " + octetB + " dot " + octetC + " dot " + octetD + " with port " + applicationPort + " and pin " + applicationPin);
+           console.log("pair_server: this.event.request.intent.slots.OctetA.confirmationStatus=" + this.event.request.intent.slots.OctetA.confirmationStatus);
+           console.log("pair_server: this.event.request.intent.slots.ApplicationPort.confirmationStatus=" + this.event.request.intent.slots.ApplicationPort.confirmationStatus);
+           console.log("pair_server: this.event.request.intent.slots.ApplicationPin.confirmationStatus=" + this.event.request.intent.slots.ApplicationPin.confirmationStatus); 
+           var typeof1 = typeof this.event.request.intent.slots.OctetA.confirmationStatus;
+           console.log("pair_server: typeof this.event.request.intent.slots.OctetA.confirmationStatus=" + typeof1);
+           console.log('pair_server: intent=', JSON.stringify(this.event.request.intent));
+	   if (this.event.request.intent.slots.OctetA.confirmationStatus === 'CONFIRMED' && this.event.request.intent.slots.ApplicationPort.confirmationStatus === 'CONFIRMED' &&  this.event.request.intent.slots.ApplicationPin.confirmationStatus === 'CONFIRMED') {
+               var params = { pin: applicationPin };
+               var ip_addr = octetA + "." + octetB + "." + octetC + "." + octetD;
+               console.log(`pair_server: invoking serverAPI.invoke_pair_callback(${ip_addr}, ${applicationPort}, params)`);
+               serverAPI.invoke_pair_callback(ip_addr, applicationPort, params)
+                 .then((responseDetails) => {            
+                    console.log('pair_server: responseDetails', JSON.stringify(responseDetails));
+		    var json_response = responseDetails;
+		    var status = 'error';
+		    var message = 'unspecified';
+		    if (typeof json_response.status !== 'undefined') {
+                       status = json_response.status;
+		    }
+		    if (json_response.status !== 'success') {
+                       if(typeof json_response.message !== 'undefined') {
+                          message = json_response.message;
+                       }
+	               speechOutput = `Pairing was not successful. The server-side application returned message ${message}`; 
+		       this.response.speak(speechOutput);
+		       this.emit(':responseReady');
+                    }
+		    else
+                    {
+                       // Respond to user with action status            
+                       speechOutput = 'The server-side LIRC Do application has been paired successfully. You should now restart the server-side LIRC Do application in non-pairing mode.';
+                       this.attributes['applicationFQDN'] = json_response.fqdn;
+                       this.attributes['applicationPort'] = json_response.port;
+                       this.attributes['shared_secret'] = json_response.shared_secret;
+                       this.attributes['ca_cert'] = json_response.ca_cert;
+                       this.handler.state = constants.states.MAIN;
+		       this.response.speak(speechOutput);
+		       this.emit(':responseReady');
+		    }
+                 })
+                 .catch((error) => {
+                   console.log('pair server ERROR', error);            
+                   speechOutput = 'Sorry, there was a problem performing the requested action. error is' + error;
+		   this.emit(':tell', speechOutput);
+                 });
+ 
+	   }
+           else
+           {
+              speechOutput = "Pairing request has been cancelled.";
+	      this.response.speak(speechOutput);
+	      this.emit(":responseReady");
+           }
 
-        //Now let's recap
-        var octetA=this.event.request.intent.slots.OctetA.value;
-        var octetB=this.event.request.intent.slots.OctetB.value;
-        var octetC=this.event.request.intent.slots.OctetC.value;
-        var octetD=this.event.request.intent.slots.OctetD.value;
-        var applicationPort=this.event.request.intent.slots.ApplicationPort.value;
-        var applicationPin=this.event.request.intent.slots.ApplicationPin.value;
-        //speechOutput+= "" + octetA + " dot " + octetB + " dot " + octetC + " dot " + octetD + " with port " + applicationPort + " and pin " + applicationPin;
-
-        this.attributes['applicationFQDN'] = 'lirc.robhughes.net';
-        this.attributes['applicationPort'] = applicationPort;
-
-        speechOutput = 'The server-side LIRC Do application has been paired successfully';
-
-        this.handler.state = constants.states.MAIN;
-
-        //say the results
-        this.response.speak(speechOutput);
-        this.emit(":responseReady");
+           //say the results
+           //this.response.speak(speechOutput);
+           //this.emit(":responseReady");
+        } // end if (this.event.request.dialogState === 'COMPLETED')
     },
     'AMAZON.HelpIntent': function () {
         console.log('pairingStateHandler:AMAZON.HelpIntent: start');

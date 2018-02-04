@@ -4,7 +4,7 @@ var Alexa = require('alexa-sdk');
 var constants = require('../constants/constants');
 
 // Callback app constants
-var callback_app = require('../constants/catalog_external');
+//var callback_app = require('../constants/catalog_external');
 
 // Helpers
 var convertArrayToReadableString = require('../helpers/convertArrayToReadableString');
@@ -52,7 +52,8 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
        console.log("lircdo: returning: "+ JSON.stringify(this.event.request.intent));
        // Dialog is now complete and all required slots should be filled,
        // so call your normal intent handler.
-       var params = {shared_secret: callback_app.SHARED_SECRET};
+       var shared_secret = this.attributes['shared_secret'];
+       var params = {shared_secret: shared_secret};
 
        // Get Slot Values
        var lircAction = delegateDialog.slotValue(this.event.request.intent.slots.LircAction, true);
@@ -64,7 +65,7 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
           params.lircAction = lircAction; 
        } 
        console.log('lircdo: invoking callback lircdo_ask with params: ', params);
-       serverAPI.invoke_callback('lircdo_ask', params)
+       serverAPI.invoke_callback('lircdo_ask', this.attributes, params)
          .then((responseDetails) => {
            console.log('lircdo: responseDetails', JSON.stringify(responseDetails));
            // Respond to user with action status
@@ -75,7 +76,7 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
          })
          .catch((error) => {
            console.log('lircdo ERROR', error);
-           this.emit(':tell' `Sorry, there was a problem performing the requested action.`);
+           this.emit(':tell', `Sorry, there was a problem performing the requested action.`);
          });
        
     }
@@ -104,7 +105,9 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
        // Dialog is now complete and all required slots should be filled,
        // so call your normal intent handler.
 
-       var params = {shared_secret: callback_app.SHARED_SECRET};
+       var shared_secret = this.attributes['shared_secret'];
+       //var params = {shared_secret: callback_app.SHARED_SECRET};
+       var params = {shared_secret: shared_secret};
 
        // Get Slot Values
        var lircAVRAction = delegateDialog.slotValue(this.event.request.intent.slots.LircAVRAction, true);
@@ -117,7 +120,7 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
          params.lircAVDevice = lircAVDevice;
        }
        console.log('avr_action: invoking callback avr_action_ask with params: ', params);
-       serverAPI.invoke_callback('avr_action_ask', params)
+       serverAPI.invoke_callback('avr_action_ask', this.attributes, params)
          .then((responseDetails) => {
            console.log('avr_action: responseDetails', JSON.stringify(responseDetails));
            // Respond to user with action status
@@ -126,7 +129,7 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
          })
          .catch((error) => {
            console.log('avr_action ERROR', error);
-           this.emit(':tell' `Sorry, there was a problem performing the requested action.`);
+           this.emit(':tell', `Sorry, there was a problem performing the requested action.`);
          });
 
     }
@@ -155,7 +158,8 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
        // Dialog is now complete and all required slots should be filled,
        // so call your normal intent handler.
 
-       var params = {shared_secret: callback_app.SHARED_SECRET};
+       var shared_secret = this.attributes['shared_secret'];
+       var params = {shared_secret: shared_secret};
 
        // Get Slot Values
        var lircChannelAction = delegateDialog.slotValue(this.event.request.intent.slots.LircChannelAction, true);
@@ -171,7 +175,7 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
          params.lircArgument = lircArgument;
        }
        console.log('channel_action: invoking callback channel_action_ask with params: ', params);
-       serverAPI.invoke_callback('channel_action_ask', params)
+       serverAPI.invoke_callback('channel_action_ask', this.attributes, params)
          .then((responseDetails) => {
            console.log('channel_action: responseDetails', JSON.stringify(responseDetails));
            // Respond to user with action status
@@ -180,7 +184,7 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
          })
          .catch((error) => {
            console.log('channel_action ERROR', error);
-           this.emit(':tell' `Sorry, there was a problem performing the requested action.`);
+           this.emit(':tell', `Sorry, there was a problem performing the requested action.`);
          });
 
     }
@@ -209,7 +213,8 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
        // Dialog is now complete and all required slots should be filled,
        // so call your normal intent handler.
 
-       var params = {shared_secret: callback_app.SHARED_SECRET};
+       var shared_secret = this.attributes['shared_secret'];
+       var params = {shared_secret: shared_secret};
 
        console.log(this.event.request.intent.slots);
        console.log(this.event.request.intent.slots.LircVolumeAction.resolutions.resolutionsPerAuthority[0]);
@@ -230,7 +235,7 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
           params.lircArgument = lircArgument;
        }
        console.log('volume_action: invoking callback lircdo_ask with params: ', params);
-        serverAPI.invoke_callback('volume_action_ask', params)
+        serverAPI.invoke_callback('volume_action_ask', this.attributes, params)
           .then((responseDetails) => {
             console.log('volume_action: responseDetails', JSON.stringify(responseDetails));
             // Respond to user with action status
@@ -239,7 +244,7 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
           })
           .catch((error) => {
             console.log('volume_action ERROR', error);
-            this.emit(':tell' `Sorry, there was a problem performing the requested action.`);
+            this.emit(':tell', `Sorry, there was a problem performing the requested action.`);
           });
     } 
   },
