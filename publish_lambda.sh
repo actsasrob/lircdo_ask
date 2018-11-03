@@ -1,11 +1,13 @@
 #!/bin/bash
 
+nvm use 8.0
+
 overallstatus=0
-which nodejs > /dev/null 2>&1
+which node > /dev/null 2>&1
 if [ "$?" -eq 0 ]; then
-   echo "Running nodejs --check..."
+   echo "Running node --check..."
    cd lambda
-   nodejs --check index.js
+   node --check index.js
    status=$?
    if [ "$status" -ne 0 ]; then
       echo "error: non-zero status when checking index.js"
@@ -14,7 +16,7 @@ if [ "$?" -eq 0 ]; then
    listofjsfiles=$(find handlers/ helpers/ constants/ -name "*.js")
    for file in $listofjsfiles; do
       #echo "checking file $file"
-      nodejs --check $file
+      node --check $file
       status=$?
       if [ "$status" -ne 0 ]; then
          echo "error: non-zero status when checking ${file}"
@@ -25,7 +27,7 @@ if [ "$?" -eq 0 ]; then
 fi
 
 if [ "$overallstatus" -ne 0 ]; then
-   echo "error: non-zero status from nodejs --check"
+   echo "error: non-zero status from node --check"
    exit $overallstatus
 fi
 
@@ -34,4 +36,4 @@ cd lambda
 npm install
 zip -r --quiet ../lambda.zip *
 cd ..
-aws lambda update-function-code --function-name lircdo --zip-file fileb://lambda.zip --profile robhughes_us-east-1
+aws lambda update-function-code --function-name lircdo_nodejsv08 --zip-file fileb://lambda.zip --profile robhughes_us-east-1
