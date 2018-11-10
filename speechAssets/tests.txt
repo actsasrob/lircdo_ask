@@ -1,3 +1,0 @@
-my address is one nine two dot one six eight dot three dot four
-my application port is 8843
-my application pin is 493
