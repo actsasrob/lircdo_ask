@@ -1,0 +1,1020 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "zaba do",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "avr_action",
+                    "slots": [
+                        {
+                            "name": "LircAVRAction",
+                            "type": "LIRC_AVR_ACTION",
+                            "samples": [
+                                "{LircAVRAction} to {LircAVDevice}"
+                            ]
+                        },
+                        {
+                            "name": "LircAVDevice",
+                            "type": "LIRC_AV_DEVICE",
+                            "samples": [
+                                "{LircAVRAction} to {LircAVDevice}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "{LircAVRAction} {LircAVDevice}",
+                        "{LircAVRAction} to {LircAVDevice}"
+                    ]
+                },
+                {
+                    "name": "channel_action",
+                    "slots": [
+                        {
+                            "name": "LircChannelAction",
+                            "type": "LIRC_CHANNEL_ACTION",
+                            "samples": [
+                                "{LircChannelAction} to {LircNumericArgument}",
+                                "change {LircComponent} {LircChannelAction} to {LircNumericArgument}",
+                                "{LircChannelAction} {LircComponent} to {LircNumericArgument}"
+                            ]
+                        },
+                        {
+                            "name": "LircComponent",
+                            "type": "LIRC_COMPONENT"
+                        },
+                        {
+                            "name": "LircNumericArgument",
+                            "type": "AMAZON.NUMBER",
+                            "samples": [
+                                "{LircChannelAction} to {LircNumericArgument}",
+                                "{LircChannelAction} {LircComponent} to {LircNumericArgument}",
+                                "set {LircComponent} {LircChannelAction} to {LircNumericArgument}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "{LircChannelAction} {LircComponent} to {LircNumericArgument}",
+                        "change {LircComponent} {LircChannelAction} to {LircNumericArgument}",
+                        "{LircChannelAction} to {LircNumericArgument}"
+                    ]
+                },
+                {
+                    "name": "lircdo",
+                    "slots": [
+                        {
+                            "name": "LircComponent",
+                            "type": "LIRC_COMPONENT"
+                        },
+                        {
+                            "name": "LircAction",
+                            "type": "LIRC_ACTION",
+                            "samples": [
+                                "turn {LircComponent} {LircAction}",
+                                "power {LircComponent} {LircAction}",
+                                "{LircAction} for {LircComponent}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "turn {LircComponent} {LircAction}",
+                        "power {LircComponent} {LircAction}",
+                        "{LircAction} {LircComponent} tray"
+                    ]
+                },
+                {
+                    "name": "NameCapture",
+                    "slots": [
+                        {
+                            "name": "USFirstName",
+                            "type": "AMAZON.US_FIRST_NAME"
+                        },
+                        {
+                            "name": "UKFirstName",
+                            "type": "AMAZON.GB_FIRST_NAME"
+                        }
+                    ],
+                    "samples": [
+                        "my name is {USFirstName}",
+                        "my name is {UKFirstName}"
+                    ]
+                },
+                {
+                    "name": "pair_server",
+                    "slots": [
+                        {
+                            "name": "OctetA",
+                            "type": "AMAZON.NUMBER",
+                            "samples": [
+                                "the application address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
+                                "{OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
+                                "the address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}"
+                            ]
+                        },
+                        {
+                            "name": "OctetB",
+                            "type": "AMAZON.NUMBER",
+                            "samples": [
+                                "the application address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
+                                "the address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
+                                " {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}"
+                            ]
+                        },
+                        {
+                            "name": "OctetC",
+                            "type": "AMAZON.NUMBER",
+                            "samples": [
+                                "the application address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
+                                "the address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
+                                "{OctetA} dot {OctetB} dot {OctetC} dot {OctetD}"
+                            ]
+                        },
+                        {
+                            "name": "OctetD",
+                            "type": "AMAZON.NUMBER",
+                            "samples": [
+                                "the application address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
+                                "the address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
+                                "{OctetA} dot {OctetB} dot {OctetC} dot {OctetD}"
+                            ]
+                        },
+                        {
+                            "name": "ApplicationPin",
+                            "type": "AMAZON.NUMBER",
+                            "samples": [
+                                "my pin is {ApplicationPin}",
+                                "the application pin is {ApplicationPin}",
+                                "the pin number is {ApplicationPin}"
+                            ]
+                        },
+                        {
+                            "name": "ApplicationPort",
+                            "type": "AMAZON.NUMBER",
+                            "samples": [
+                                "the port is {ApplicationPort}",
+                                "the application port is {ApplicationPort}",
+                                "{ApplicationPort}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "my application address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
+                        "my address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
+                        "the address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}"
+                    ]
+                },
+                {
+                    "name": "pair_server_again",
+                    "slots": [],
+                    "samples": [
+                        "pair server"
+                    ]
+                },
+                {
+                    "name": "volume_action",
+                    "slots": [
+                        {
+                            "name": "LircVolumeAction",
+                            "type": "LIRC_VOLUME_ACTION",
+                            "samples": [
+                                "{LircVolumeAction} {LircComponent} volume by {LircNumericArgument}",
+                                "{LircVolumeAction} by {LircNumericArgument}"
+                            ]
+                        },
+                        {
+                            "name": "LircComponent",
+                            "type": "LIRC_COMPONENT"
+                        },
+                        {
+                            "name": "LircNumericArgument",
+                            "type": "AMAZON.NUMBER",
+                            "samples": [
+                                "{LircVolumeAction} {LircComponent} volume by {LircNumericArgument}",
+                                "{LircVolumeAction} by {LircNumericArgument}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "{LircVolumeAction} {LircComponent} volume by {LircNumericArgument}",
+                        "{LircVolumeAction} by {LircNumericArgument}"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "LIRC_ACTION",
+                    "values": [
+                        {
+                            "id": "TRAY_CLOSE",
+                            "name": {
+                                "value": "close tray",
+                                "synonyms": [
+                                    "close"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "TRAY_OPEN",
+                            "name": {
+                                "value": "open tray",
+                                "synonyms": [
+                                    "open",
+                                    "toggle tray"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "POWER_ON",
+                            "name": {
+                                "value": "power on",
+                                "synonyms": [
+                                    "turn on",
+                                    "on"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "POWER_OFF",
+                            "name": {
+                                "value": "power off",
+                                "synonyms": [
+                                    "turn off",
+                                    "off"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "MENU_SHOW",
+                            "name": {
+                                "value": "show menu",
+                                "synonyms": [
+                                    "display menu",
+                                    "menu",
+                                    "show"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "MENU_DISMISS",
+                            "name": {
+                                "value": "dismiss menu",
+                                "synonyms": [
+                                    "dismiss"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "PAUSE",
+                            "name": {
+                                "value": "pause",
+                                "synonyms": [
+                                    "halt"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "UNPAUSE",
+                            "name": {
+                                "value": "unpause",
+                                "synonyms": [
+                                    "continue",
+                                    "play"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RECORD",
+                            "name": {
+                                "value": "record",
+                                "synonyms": [
+                                    "record show",
+                                    "record movie"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "TOP_MENU",
+                            "name": {
+                                "value": "top menu"
+                            }
+                        },
+                        {
+                            "id": "SUBTITLES",
+                            "name": {
+                                "value": "subtitles"
+                            }
+                        },
+                        {
+                            "id": "CLOSE_CAPTIONS",
+                            "name": {
+                                "value": "close captions"
+                            }
+                        },
+                        {
+                            "id": "FAVORITES",
+                            "name": {
+                                "value": "favorites",
+                                "synonyms": [
+                                    "show favorites",
+                                    "display favorites"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "INFORMATION",
+                            "name": {
+                                "value": "info",
+                                "synonyms": [
+                                    "show info",
+                                    "show information"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "LAST_CHANNEL",
+                            "name": {
+                                "value": "last",
+                                "synonyms": [
+                                    "last channel",
+                                    "go back"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "STOP_PLAY",
+                            "name": {
+                                "value": "stop play",
+                                "synonyms": [
+                                    "stop record",
+                                    "stop recording"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "DVR_MENU",
+                            "name": {
+                                "value": "dvr menu"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "LIRC_AV_DEVICE",
+                    "values": [
+                        {
+                            "id": "COMPONENT_DVD",
+                            "name": {
+                                "value": "dvd player",
+                                "synonyms": [
+                                    "dvd"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_DVR",
+                            "name": {
+                                "value": "dvr",
+                                "synonyms": [
+                                    "digital video recorder"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_HDP",
+                            "name": {
+                                "value": "hdp"
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_TV",
+                            "name": {
+                                "value": "tv",
+                                "synonyms": [
+                                    "television"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_STB",
+                            "name": {
+                                "value": "set top box",
+                                "synonyms": [
+                                    "stb"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_CABLE",
+                            "name": {
+                                "value": "cable box",
+                                "synonyms": [
+                                    "cable"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_SATELLITE",
+                            "name": {
+                                "value": "satellite",
+                                "synonyms": [
+                                    "satellite dish"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_TUNER",
+                            "name": {
+                                "value": "tuner"
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_FIRETV",
+                            "name": {
+                                "value": "firetv",
+                                "synonyms": [
+                                    "fire tv",
+                                    "amazon fire tv",
+                                    "fire stick"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_VCR",
+                            "name": {
+                                "value": "vcr",
+                                "synonyms": [
+                                    "video cassette recorder"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_APPLETV",
+                            "name": {
+                                "value": "apple tv",
+                                "synonyms": [
+                                    "apple tv"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_PS4",
+                            "name": {
+                                "value": "ps4",
+                                "synonyms": [
+                                    "playstation"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_PS3",
+                            "name": {
+                                "value": "ps3",
+                                "synonyms": [
+                                    "playstation3"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "LIRC_AVR_ACTION",
+                    "values": [
+                        {
+                            "id": "CHANGE_COMPONENT",
+                            "name": {
+                                "value": "change component",
+                                "synonyms": [
+                                    "set component",
+                                    "device",
+                                    "component"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "LIRC_CHANNEL_ACTION",
+                    "values": [
+                        {
+                            "id": "CHANNEL_CHANGE",
+                            "name": {
+                                "value": "change channel",
+                                "synonyms": [
+                                    "set channel",
+                                    "channel"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "LIRC_COMPONENT",
+                    "values": [
+                        {
+                            "id": "COMPONENT_DVD",
+                            "name": {
+                                "value": "dvd player",
+                                "synonyms": [
+                                    "dvd"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_DVR",
+                            "name": {
+                                "value": "dvr",
+                                "synonyms": [
+                                    "digital video recorder"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_HDP",
+                            "name": {
+                                "value": "hdp",
+                                "synonyms": [
+                                    "ps4"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_TV",
+                            "name": {
+                                "value": "tv",
+                                "synonyms": [
+                                    "television"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_STB",
+                            "name": {
+                                "value": "set top box",
+                                "synonyms": [
+                                    "stb",
+                                    "settopbox"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_CABLE",
+                            "name": {
+                                "value": "cable box",
+                                "synonyms": [
+                                    "cable"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_SATELLITE",
+                            "name": {
+                                "value": "satellite",
+                                "synonyms": [
+                                    "satellite dish"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_TUNER",
+                            "name": {
+                                "value": "tuner"
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_FIRETV",
+                            "name": {
+                                "value": "firetv",
+                                "synonyms": [
+                                    "fire tv",
+                                    "amazon fire tv",
+                                    "amazon fire stick"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_VCR",
+                            "name": {
+                                "value": "vcr",
+                                "synonyms": [
+                                    "video cassette recorder"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_APPLETV",
+                            "name": {
+                                "value": "apple tv",
+                                "synonyms": [
+                                    "apple tv"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_SYSTEM",
+                            "name": {
+                                "value": "System"
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_AVR",
+                            "name": {
+                                "value": "avr",
+                                "synonyms": [
+                                    "av receiver",
+                                    "audio video receiver"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_XBOX",
+                            "name": {
+                                "value": "xbox"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "LIRC_VOLUME_ACTION",
+                    "values": [
+                        {
+                            "id": "VOLUME_INCREASE",
+                            "name": {
+                                "value": "increase volume",
+                                "synonyms": [
+                                    "increase",
+                                    "raise volume",
+                                    "raise"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "VOLUME_DECREASE",
+                            "name": {
+                                "value": "decrease volume",
+                                "synonyms": [
+                                    "decrease",
+                                    "lower volume",
+                                    "lower"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "avr_action",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "LircAVRAction",
+                            "type": "LIRC_AVR_ACTION",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-avr_action.IntentSlot-LircAVRAction"
+                            }
+                        },
+                        {
+                            "name": "LircAVDevice",
+                            "type": "LIRC_AV_DEVICE",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-avr_action.IntentSlot-LircAVDevice"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "channel_action",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "LircChannelAction",
+                            "type": "LIRC_CHANNEL_ACTION",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-channel_action.IntentSlot-LircChannelAction"
+                            }
+                        },
+                        {
+                            "name": "LircComponent",
+                            "type": "LIRC_COMPONENT",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "LircNumericArgument",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-channel_action.IntentSlot-LircNumericArgument"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "lircdo",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "LircComponent",
+                            "type": "LIRC_COMPONENT",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "LircAction",
+                            "type": "LIRC_ACTION",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-lircdo.IntentSlot-LircAction"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "pair_server",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "OctetA",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": true,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "confirmation": "Confirm.Intent-pair_server.IntentSlot-OctetA",
+                                "elicitation": "Elicit.Intent-pair_server.IntentSlot-OctetA"
+                            }
+                        },
+                        {
+                            "name": "OctetB",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-pair_server.IntentSlot-OctetB"
+                            }
+                        },
+                        {
+                            "name": "OctetC",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-pair_server.IntentSlot-OctetC"
+                            }
+                        },
+                        {
+                            "name": "OctetD",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-pair_server.IntentSlot-OctetD"
+                            }
+                        },
+                        {
+                            "name": "ApplicationPin",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": true,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "confirmation": "Confirm.Intent-pair_server.IntentSlot-ApplicationPin",
+                                "elicitation": "Elicit.Intent-pair_server.IntentSlot-ApplicationPin"
+                            }
+                        },
+                        {
+                            "name": "ApplicationPort",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": true,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "confirmation": "Confirm.Intent-pair_server.IntentSlot-ApplicationPort",
+                                "elicitation": "Elicit.Intent-pair_server.IntentSlot-ApplicationPort"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "pair_server_again",
+                    "confirmationRequired": true,
+                    "prompts": {
+                        "confirmation": "Confirm.Intent-pair_server_again"
+                    },
+                    "slots": []
+                },
+                {
+                    "name": "volume_action",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "LircVolumeAction",
+                            "type": "LIRC_VOLUME_ACTION",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-volume_action.IntentSlot-LircVolumeAction"
+                            }
+                        },
+                        {
+                            "name": "LircComponent",
+                            "type": "LIRC_COMPONENT",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "LircNumericArgument",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-volume_action.IntentSlot-LircNumericArgument"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Intent-avr_action.IntentSlot-LircAVRAction",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "AVR action missing. say again"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Intent-avr_action.IntentSlot-LircAVDevice",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Component missing. say again"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Intent-channel_action.IntentSlot-LircChannelAction",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Action mission. You can say change channel to number."
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Intent-channel_action.IntentSlot-LircNumericArgument",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Action mission. You can say change channel to number."
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Intent-lircdo.IntentSlot-LircAction",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Action missing. say again"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Intent-pair_server.IntentSlot-OctetA",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What is the application I.P. address. you can say my application address is, followed by the I.P. address"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Intent-pair_server.IntentSlot-OctetA",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Is I.P. address {OctetA} dot {OctetB} dot {OctetC} dot {OctetD} correct?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Intent-pair_server.IntentSlot-OctetB",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What is the application I.P. address. you can say my application address is, followed by the I.P. address"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Intent-pair_server.IntentSlot-OctetC",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What is the application I.P. address. you can say my application address is, followed by the I.P. address"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Intent-pair_server.IntentSlot-OctetD",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What is the application I.P. address. you can say my application address is, followed by the I.P. address"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Intent-pair_server.IntentSlot-ApplicationPin",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What is the {ApplicationPin}"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Intent-pair_server.IntentSlot-ApplicationPin",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Is {ApplicationPin} the correct pin"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Intent-pair_server.IntentSlot-ApplicationPort",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What is the application port. you can say my application port is, followed by the port number"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Intent-pair_server.IntentSlot-ApplicationPort",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Is {ApplicationPort} the correct port number?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Intent-pair_server_again",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Pairing with the server-side application will cause the current application information to be forgotten. do you wish to continue?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Intent-volume_action.IntentSlot-LircVolumeAction",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Action missing. You can say increase volume by number"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Intent-volume_action.IntentSlot-LircNumericArgument",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Argument missing. You can say things like lower volume by number."
+                    }
+                ]
+            }
+        ]
+    }
+}
