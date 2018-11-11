@@ -1,17 +1,22 @@
 // Big thanks to Oscar Merry and the excellent Advanced Alexa course over at A Cloud Guru
 // Source code for this project borrowed from: https://github.com/MerryOscar/voice-devs-lessons
 
-//var Alexa = require('alexa-sdkr'); // v1 sdk
-var Alexa = require('ask-sdk-v1adapter'); // v2 sdk
+//var Alexa = require('alexa-sdk'); // v1 sdk
+var Alexa = require('ask-sdk-v1adapter'); // v2 sdk with v1 adapter
 //var Alexa = require('alexa-sdk-core'); // v2 sdk no adapter
 
+var AWS = require('aws-sdk');
+// Set the region 
+AWS.config.update({region: 'us-east-1'}); // Required to allow mocha tests to run without
+                                          //  complaining that region is not set for DynamoDB
+
 // Constants
-var constants = require('constants/constants');
+var constants = require('./constants/constants');
 
 // Handlers
-var initialStateHandlers = require('handlers/initialStateHandlers');
-var pairingStateHandlers = require('handlers/pairingStateHandlers');
-var mainStateHandlers = require('handlers/mainStateHandlers');
+var initialStateHandlers = require('./handlers/initialStateHandlers');
+var pairingStateHandlers = require('./handlers/pairingStateHandlers');
+var mainStateHandlers = require('./handlers/mainStateHandlers');
 
 exports.handler = function(event, context, callback){
   var alexa = Alexa.handler(event, context);
@@ -43,6 +48,9 @@ exports.handler = function(event, context, callback){
 //         )
 //	 .withTableName(constants.dynamoDBTableName)
 //	 .withAutoCreateTable(true)
+//	 .withDynamoDbClient(
+//	     new AWS.DynamoDB({ apiVersion: "latest", region: "us-east-1" })
+//	       )
 //         .create();
 //     }
 //

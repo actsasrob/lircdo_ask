@@ -23,7 +23,9 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
     // Check for server-side application FQDN in Session Attributes
     var applicationFQDN = this.attributes['applicationFQDN'];
     if (applicationFQDN) {
-      this.emit(':ask', `Welcome back. You can perform lirc actions.`,  `What would you like to do?`);
+       let say = constants.mainStateHandlerLaunchHandlerSpeech.say;
+       let reprompt = constants.mainStateHandlerLaunchHandlerSpeech.reprompt;
+       this.emit(':ask', say[Math.floor(Math.random() * say.length)], reprompt[Math.floor(Math.random() * reprompt.length)]);
     } else {
       // Change State to Pairing:
       this.handler.state = constants.states.PAIRING;
@@ -34,9 +36,13 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
   'lircdo': function () {
 
     //delegate to Alexa to collect all the required slot values
-    //var filledSlots = delegateDialog.delegateSlotCollection.call(this);
-    //var filledSlots = delegateDialog.delegateSlotCollection.call(this);
-    console.log("lircdo: "+this.event.request.dialogState);
+    console.log("lircdo: this.event.request.dialogState="+this.event.request.dialogState);
+    //console.log("lircdo: this.event.request="+ JSON.stringify(this.event.request));
+    //
+    if (this.event.request.dialogState !== "STARTED" && this.event.request.dialogState !== "IN_PROGRESS")  { // needed by mocha tests as request.dialogState is not set
+       this.event.request.dialogState="COMPLETED";
+    }
+
     if (this.event.request.dialogState === "STARTED") {
        console.log("in Beginning");
        var updatedIntent=this.event.request.intent;
@@ -70,10 +76,8 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
          .then((responseDetails) => {
            console.log('lircdo: responseDetails', JSON.stringify(responseDetails));
            // Respond to user with action status
-           this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}`).listen('What next?');
+           this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}. What's next?`).listen('What\'s next?');
            this.emit(":responseReady");
-           // Respond to user with action status
-           //this.emit(':ask', `Action status was ${responseDetails.status} with message ${responseDetails.message}, What next?`, 'What next?');
          })
          .catch((error) => {
            console.log('lircdo ERROR', error);
@@ -84,11 +88,13 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
   },
 
   'avr_action': function () {
-    console.log('avr_action enter');
-    //delegate to Alexa to collect all the required slot values
-    //var filledSlots = delegateDialog.delegateSlotCollection.call(this);
-    //var filledSlots = delegateDialog.delegateSlotCollection.call(this);
-    console.log("avr_action: "+this.event.request.dialogState);
+    console.log('avr_action: enter');
+    console.log("avr_action: this.event.request.dialogState="+this.event.request.dialogState);
+
+    if (this.event.request.dialogState !== "STARTED" && this.event.request.dialogState !== "IN_PROGRESS")  { // needed by mocha tests as request.dialogState is not set
+       this.event.request.dialogState="COMPLETED";
+    }
+
     if (this.event.request.dialogState === "STARTED") {
        console.log("in Beginning");
        var updatedIntent=this.event.request.intent;
@@ -125,7 +131,7 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
          .then((responseDetails) => {
            console.log('avr_action: responseDetails', JSON.stringify(responseDetails));
            // Respond to user with action status
-           this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}`).listen('What next?');
+           this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}. What's next?`).listen('What\'s next?');
            this.emit(":responseReady");
          })
          .catch((error) => {
@@ -137,11 +143,13 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
   },
 
   'channel_action': function () {
-    console.log('channel_action enter');
-    //delegate to Alexa to collect all the required slot values
-    //var filledSlots = delegateDialog.delegateSlotCollection.call(this);
-    //var filledSlots = delegateDialog.delegateSlotCollection.call(this);
-    console.log("channel_action: "+this.event.request.dialogState);
+    console.log('channel_action: enter');
+    console.log("channel_action: this.event.request.dialogState="+this.event.request.dialogState);
+
+    if (this.event.request.dialogState !== "STARTED" && this.event.request.dialogState !== "IN_PROGRESS")  { // needed by mocha tests as request.dialogState is not set
+       this.event.request.dialogState="COMPLETED";
+    }
+
     if (this.event.request.dialogState === "STARTED") {
        console.log("channel_action: in Beginning");
        var updatedIntent=this.event.request.intent;
@@ -180,7 +188,7 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
          .then((responseDetails) => {
            console.log('channel_action: responseDetails', JSON.stringify(responseDetails));
            // Respond to user with action status
-           this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}`).listen('What next?');
+           this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}. What's next?`).listen('What\'s next?');
            this.emit(":responseReady");
          })
          .catch((error) => {
@@ -192,11 +200,13 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
   },
 
   'volume_action': function () {
-    console.log('volume_action enter');
-   //delegate to Alexa to collect all the required slot values
-    //var filledSlots = delegateDialog.delegateSlotCollection.call(this);
-    //var filledSlots = delegateDialog.delegateSlotCollection.call(this);
-    console.log("volume_action: "+this.event.request.dialogState);
+    console.log('volume_action: enter');
+    console.log("volume_action: this.event.request.dialogState="+this.event.request.dialogState);
+
+    if (this.event.request.dialogState !== "STARTED" && this.event.request.dialogState !== "IN_PROGRESS")  { // needed by mocha tests as request.dialogState is not set
+       this.event.request.dialogState="COMPLETED";
+    }
+
     if (this.event.request.dialogState === "STARTED") {
        console.log("in Beginning");
        var updatedIntent=this.event.request.intent;
@@ -218,10 +228,9 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
        var params = {shared_secret: shared_secret};
 
        console.log(this.event.request.intent.slots);
-       console.log(this.event.request.intent.slots.LircVolumeAction.resolutions.resolutionsPerAuthority[0]);
+       //console.log(this.event.request.intent.slots.LircVolumeAction.resolutions.resolutionsPerAuthority[0]);
 
        // Get Slot Values
-       //var LircVolumeActionSlotID = this.event.request.intent.slots.LircVolumeAction.resolutions.resolutionsPerAuthority[].values[].value.id;
 
        var lircVolumeAction = delegateDialog.slotValue(this.event.request.intent.slots.LircVolumeAction, true);
        var lircComponent = delegateDialog.slotValue(this.event.request.intent.slots.LircComponent, true);
@@ -235,12 +244,12 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
        if (lircArgument) {
           params.lircArgument = lircArgument;
        }
-       console.log('volume_action: invoking callback lircdo_ask with params: ', params);
+       console.log('volume_action: invoking callback channel_action_ask with params: ', params);
         serverAPI.invoke_callback('volume_action_ask', this.attributes, params)
           .then((responseDetails) => {
             console.log('volume_action: responseDetails', JSON.stringify(responseDetails));
             // Respond to user with action status
-            this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}`).listen('What next?');
+           this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}. What's next?`).listen('What\'s next?');
             this.emit(":responseReady");
           })
           .catch((error) => {

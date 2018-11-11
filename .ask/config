@@ -26,12 +26,12 @@
         "lambda": [
           {
             "arn": "arn:aws:lambda:us-east-1:524683554318:function:ask-custom-lircdo_ask_nodejsv8-default",
-            "functionName": "ask-custom-lircdo_ask_nodejsv8-default",
+            "functionName": "arn:aws:lambda:us-east-1:524683554318:function:ask-custom-lircdo_ask_nodejsv8-default",
             "awsRegion": "us-east-1",
             "alexaUsage": [
               "custom/default"
             ],
-            "revisionId": "9f1a7d07-d849-48c5-ba4a-d845eac6486e"
+            "revisionId": "1b29feea-d84d-43f1-a93d-d24ac36a1a94"
           }
         ]
       }

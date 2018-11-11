@@ -30,7 +30,7 @@
 
 'use strict';
 //const Alexa = require('alexa-sdk'); // v1 sdk
-const Alexa = require('ask-sdk-v1adapter'); // v2 sdk
+const Alexa = require('ask-sdk-v1adapter'); // v2 sdk with v1 adapter
 
 // Constants
 var constants = require('../constants/constants');
@@ -40,6 +40,7 @@ var initialStateHandlers = Alexa.CreateStateHandler(constants.states.INITIAL, {
 
     'NewSession': function () {
       console.log('initialStateHandlers.NewSession');
+
       // Check for User Data in Session Attributes
       var applicationFQDN = this.attributes['applicationFQDN'];
       if (applicationFQDN) {
