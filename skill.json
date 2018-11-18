@@ -3,20 +3,30 @@
     "publishingInformation": {
       "locales": {
         "en-US": {
-          "summary": "Command home audio video equipment using LIRC",
+          "summary": "Command home audio/video components using LIRC",
           "examplePhrases": [
-            "Alexa open baba zoo",
-            "Alexa ask baba zoo to power on system",
-            "Alexa tell baba zoo to change channel to 746"
+            "Alexa, open baba zoo",
+            "Alexa, ask baba zoo to power on system",
+            "Alexa, tell baba zoo to change channel to 746"
           ],
           "name": "lircdo_ask_nodejsv8",
-          "description": "Command home audio video equipment using Linux Infrared Remote Control (LIRC)"
+          "description": "Command home audio/video components using Linux Infrared Remote Control (LIRC)",
+	  "smallIconUri": "https://s3.amazonaws.com/lircdo/icons/lircdo108x108.png",
+	  "largeIconUri": "https://s3.amazonaws.com/lircdo/icons/lircdo512x512.png",
+          "keywords": [
+            "Smart Home",
+            "linux",
+            "infrared",
+            "remote control",
+            "audio",
+            "video"
+          ]
         }
       },
       "isAvailableWorldwide": true,
-      "testingInstructions": "Sample Testing Instructions.",
-      "category": "EDUCATION_AND_REFERENCE",
-      "distributionCountries": []
+      "testingInstructions": "Say 'Alexa, open baba zoo'",
+      "category": "SMART_HOME",
+      "distributionCountries": ["US", "GB"]
     },
     "apis": {
       "custom": {
@@ -31,7 +41,13 @@
       "usesPersonalInfo": false,
       "isChildDirected": false,
       "isExportCompliant": true,
-      "containsAds": false
+      "containsAds": false,
+      "locales": {
+		         "en-US": {
+			       "privacyPolicyUrl": "https://s3.amazonaws.com/lircdo/resources/privacy_policy.html",
+			       "termsOfUseUrl": "https://s3.amazonaws.com/lircdo/resources/privacy_policy.html"
+			          }
+                 }
     }
   }
 }
