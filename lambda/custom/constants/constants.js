@@ -14,8 +14,8 @@ var constants = Object.freeze({
   },
 
   mainStateHandlerLaunchHandlerSpeech: {
-     say : ['Welcome back. What action would like like to perform?', 'Welcome back. What would you like to do?'],
-     reprompt : ['What action would like like to perform?', 'What would you like to do?'],
+     say : ['Welcome back. What action would like to perform?', 'Welcome back. What would you like to do?'],
+     reprompt : ['What action would like to perform?', 'What would you like to do?'],
   },
 
 });
