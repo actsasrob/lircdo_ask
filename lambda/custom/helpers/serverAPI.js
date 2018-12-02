@@ -19,7 +19,7 @@ module.exports = {
         uri: `https://${app_fqdn}:${app_port}/${callback_action}`,
         qs: params,
         agentOptions: {
-           ca: ca_cert
+           //ca: ca_cert  // only needed when using self-signed certificate
         }
       })
       .then((response) => {
