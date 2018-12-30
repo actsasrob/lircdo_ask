@@ -113,7 +113,6 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
        // so call your normal intent handler.
 
        var shared_secret = this.attributes['shared_secret'];
-       //var params = {shared_secret: callback_app.SHARED_SECRET};
        var params = {shared_secret: shared_secret};
 
        // Get Slot Values
