@@ -18,6 +18,11 @@ var constants = Object.freeze({
      reprompt : ['What action would like to perform?', 'What would you like to do?'],
   },
 
+  initialStateHandlerSpeech: {
+     say : ['We need to pair the LIRC do server-side application. Please say the application pin of the server like, my application pin is, followed by the pin number'],
+     reprompt :['Please say the application pin of the server like, my application pin is, followed by the pin number'],
+  },
+
 });
 
 module.exports = constants;

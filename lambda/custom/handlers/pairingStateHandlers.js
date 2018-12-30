@@ -10,15 +10,18 @@
 // TODO add URL to this entry in the cookbook
 
 
+// Constants
+var constants = require('../constants/constants');
+
  // 1. Text strings =====================================================================================================
  //    Modify these strings and messages to change the behavior of your Lambda function
 
  var speechOutput;
  var reprompt;
- //var welcomeOutput = "We need to pair the LIRC do server-side application. Please say the I.P. address of the server like my application address is octet one dot octet two dot octet three dot octet four";
- var welcomeOutput = "We need to pair the LIRC do server-side application. Please say the application pin of the server like, my application pin is, followed by the pin number";
- //var welcomeReprompt = "Please say the I.P. address of the server like my application address is octet one dot octet two dot octet three dot octet four";
- var welcomeReprompt = "Please say the application pin of the server like, my application pin is, followed by the pin number";
+ //var welcomeOutput = "We need to pair the LIRC do server-side application. Please say the application pin of the server like, my application pin is, followed by the pin number";
+ //var welcomeReprompt = "Please say the application pin of the server like, my application pin is, followed by the pin number";
+ var welcomeOutput = constants.initialStateHandlerSpeech.say[0];
+ var welcomeReprompt = constants.initialStateHandlerSpeech.reprompt[0];
  var pairIntro = [
    "Okay, I have all the necessary info to pair your LIRC do application. ",
    "Here is the info I collected. ",
@@ -31,9 +34,6 @@
 'use strict';
 //const Alexa = require('alexa-sdk'); // v1 sdk
 const Alexa = require('ask-sdk-v1adapter'); // v2 sdk
-
-// Constants
-var constants = require('../constants/constants');
 
 var serverAPI = require('../helpers/serverAPI');
 

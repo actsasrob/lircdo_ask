@@ -1,24 +1,22 @@
 /* eslint-disable  func-names */
 /* eslint quote-props: ["error", "consistent"]*/
 
-// alexa-cookbook sample code
-
 // There are three sections, Text Strings, Skill Code, and Helper Function(s).
 // You can copy and paste the entire file contents as the code for a new Lambda function,
 // or copy & paste section #3, the helper function, to the bottom of your existing Lambda code.
 
-// TODO add URL to this entry in the cookbook
-
+// Constants
+var constants = require('../constants/constants')
 
  // 1. Text strings =====================================================================================================
  //    Modify these strings and messages to change the behavior of your Lambda function
 
  var speechOutput;
  var reprompt;
- //var welcomeOutput = "We need to pair the LIRC do server-side application. Please say the I.P. address of the server like my application address is octet one dot octet two dot octet three dot octet four";
- var welcomeOutput = "We need to pair the LIRC do server-side application. Please say the application pin of the server like, my application pin is, followed by the pin number";
- //var welcomeReprompt = "Please say the I.P. address of the server like my application address is octet one dot octet two dot octet three dot octet four";
- var welcomeReprompt = "Please say the application pin of the server like, my application pin is, followed by the pin number";
+ //var welcomeOutput = "We need to pair the LIRC do server-side application. Please say the application pin of the server like, my application pin is, followed by the pin number";
+ //var welcomeReprompt = "Please say the application pin of the server like, my application pin is, followed by the pin number";
+ var welcomeOutput = constants.initialStateHandlerSpeech.say[0];
+ var welcomeReprompt = constants.initialStateHandlerSpeech.reprompt[0];
  var pairIntro = [
    "Okay, I have all the necessary info to pair your LIRC do application. ",
    "Here is the info I collected. ",
