@@ -52,7 +52,7 @@ The first time you launch the lircdo Alexa skill it will prompt you to pair the 
 
 Once the lircdo skill is published as a publicly available skill you will be able to enable it by making a request to your Alexa-enabled device. Say "Alexa, enable lircdo". In that phrase "Alexa" is the wake word. You may have changed your wake word to something like "Echo" or "Computer". Replace the "Alexa" wake word as appropriate.
 
-I am in the process of doing some cleanup and testing of the lircdo Alexa skill and lircdo service. I plan to submit the lircdo Alexa skill soon to the Alexa Skills team for review. Hopefully it will be accepted and published as a publicly available skill.
+I am in the process of doing some cleanup and testing of the lircdo Alexa skill and lircdo service. I plan to submit the lircdo Alexa skill soon to the Alexa Skills team certification process. Hopefully it will be accepted and published as a publicly available skill.
 
 ## More About lircdo Alexa Skill
 
