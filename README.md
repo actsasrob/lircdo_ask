@@ -42,8 +42,11 @@ The lircdo callback then makes an HTTPS request to the lircdo service running on
 
 All the above processing is handled by the lircdo Alexa skill. You are currently reading the README document for the github project that implements the lircdo Alexa skill including the models that define the intents recognized by the skill and the actual node.js logic that implements the AWS lambda function that is invoked by the Alexa service when it needs to launch the lircdo Alexa skill.
 
-At this point, if you wish to understand how the lircdo server/service process incoming HTTPS requests, navigate to the [README file](https://github.com/actsasrob/lircdo/blob/master/README.md) for the github project which implements the logic for the lircdo service.
+If you wish to understand how the lircdo server/service process incoming HTTPS requests, navigate to the [README file](https://github.com/actsasrob/lircdo/blob/master/README.md) for the github project which implements the logic for the lircdo service.
 
+### Pairing lircdo Alexa skill with lircdo server/service
+
+The first time you launch the lircdo Alexa skill it will prompt you to pair the lircdo server/service residing in your home.  You will be prompted for a three digit pin, the WAN-side IP address of your home internet router, and the port number the lircdo service listens on. The pin is a randomly generated three digit code generated when the lircdo service is installed. The pin prevents someone from pairing the lircdo Alexa skill with someone else's lircdo server. During the pairing process the lircdo Alexa skill performs a reverse DNS lookup on the IP address to find the fully qualified domain name (FQDN) associated with the IP address. The lircdo Alexa skill then connects to your lircdo service using the FQDN and port number and passes along the pin number. If this is successful the lircdo service responds with a shared secrect. The shared secret is randomly generated when the lircdo service is installed. Later when the lircdo Alexa skill invokes a lircdo service callback it passes along the shared secret. The lircdo server compares the incoming shared secret and returns a 401 "unauthorized" message and refuses to perform the action if the shared secret does not match. The lircdo Alexa skill uses the FQDN when interacting with the lircdo service. Most residential internet service customers receive a dynamic IP address which will change over time. Because of this you must keep the IP address associated with the FQDN update-to-date. There are many companies that provide a "dynamic DNS" service that facilitate keeping the IP address up-to-date for domains that you own. I use [dyn.com](https://dyn.com). In additional the internet router provided by my internet provider has a helpful feature that communicates with my account over at dyn.com that keeps the IP address for my  various domains up-to-date. If your router does not provide this functionality you can find varioussolutions on the internet that you can install on a server in your home that will communicate with tyour dynamic DNS provider to keep the IP address associated with your domain up-to-date.
 
 Once the lircdo skill is published as a publicly available skill you will be able to enable it by making a request to your Alexa-enabled device. Say "Alexa, enable lircdo". In that phrase "Alexa" is the wake word. You may have changed your wake word to something like "Echo" or "Computer". Replace the "Alexa" wake word as appropriate.
 
@@ -56,11 +59,11 @@ Most folks won't need to do anything with this project. I maintain and publish u
 
 However if you wish to fork the project for your own use here are the steps needed to set up a development environment and publish updates to your own Alexa skill.
 
-You will need an Amazon Developer account and an Amazon Web Service (AWS) account to host the lambda function, IAM roles, and the Dynamo DB database. I won't cover how to obtain those. There are many great tutorials available via the internet.
+You will need an Amazon Developer account to create Alexa skills and an Amazon Web Service (AWS) account to host the lambda function, IAM roles, and the Dynamo DB database. I won't cover how to obtain those. There are many great tutorials available via the internet.
 
 ## Setup Development Environment
 
-### Install node version manager (NVM):
+### Install node version manager (NVM)
 ```
 curl https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 ```
