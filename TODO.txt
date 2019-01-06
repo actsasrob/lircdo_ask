@@ -1,0 +1,3 @@
+Address findings from the Amazon Developer certification functional tests.
+Help intent should actually provide state appropriate help responses.
+
