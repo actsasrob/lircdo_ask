@@ -68,7 +68,7 @@ describe("Lirc Do Skill", function () {
                         {
                                 request: requestWithEntityResolution,
                                 callback: assertResponseText, 
-				says: 'Action status was success with message success. What\'s next?',
+				says: 'Action status was success. What\'s next?',
                                 reprompts: 'What\'s next?',
                                 shouldEndSession: false
                         }
@@ -153,7 +153,7 @@ describe("Lirc Do Skill", function () {
                         {
                                 request: requestWithSlots,
                                 callback: assertResponseText, 
-                                says: 'Action status was success with message success. What\'s next?',
+                                says: 'Action status was success. What\'s next?',
                                 reprompts: 'What\'s next?',
                                 shouldEndSession: false
                         }
@@ -192,7 +192,7 @@ describe("Lirc Do Skill", function () {
                         {
                                 request: requestWithEntityResolution,
                                 callback: assertResponseText, 
-                                says: 'Action status was success with message success. What\'s next?',
+                                says: 'Action status was success. What\'s next?',
                                 reprompts: 'What\'s next?',
                                 shouldEndSession: false
                         }
@@ -217,7 +217,7 @@ describe("Lirc Do Skill", function () {
                         {
                                 request: requestWithSlots,
                                 callback: assertResponseText,
-                                says: 'Action status was success with message success. What\'s next?',
+                                says: 'Action status was success. What\'s next?',
                                 reprompts: 'What\'s next?',
                                 shouldEndSession: false
                         }
@@ -255,7 +255,7 @@ describe("Lirc Do Skill", function () {
                         {
                                 request: requestWithEntityResolution,
                                 callback: assertResponseText, 
-                                says: 'Action status was success with message success. What\'s next?',
+                                says: 'Action status was success. What\'s next?',
                                 reprompts: 'What\'s next?',
                                 shouldEndSession: false
                         }
@@ -279,7 +279,7 @@ describe("Lirc Do Skill", function () {
                         {
                                 request: requestWithSlots,
                                 callback: assertResponseText,
-                                says: 'Action status was success with message success. What\'s next?',
+                                says: 'Action status was success. What\'s next?',
                                 reprompts: 'What\'s next?',
                                 shouldEndSession: false
                         }
@@ -371,7 +371,7 @@ describe("Lirc Do Skill", function () {
                         {
                                 request: requestWithEntityResolution,
                                 callback: assertResponseText,
-                                says: 'Action status was success with message success. What\'s next?',
+                                says: 'Action status was success. What\'s next?',
                                 reprompts: 'What\'s next?',
                                 shouldEndSession: false
                         }
@@ -395,7 +395,7 @@ describe("Lirc Do Skill", function () {
                         {
                                 request: requestWithSlots,
                                 callback: assertResponseText,
-                                says: 'Action status was success with message success. What\'s next?',
+                                says: 'Action status was success. What\'s next?',
                                 reprompts: 'What\'s next?',
                                 shouldEndSession: false
                         }
