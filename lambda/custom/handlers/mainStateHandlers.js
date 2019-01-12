@@ -76,7 +76,11 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
          .then((responseDetails) => {
            console.log('lircdo: responseDetails', JSON.stringify(responseDetails));
            // Respond to user with action status
-           this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}. What's next?`).listen('What\'s next?');
+	   if (responseDetails === "success") {
+	      this.response.speak(`Action status was ${responseDetails.status}. What's next?`).listen('What\'s next?');
+           } else {
+              this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}. What's next?`).listen('What\'s next?');
+           }
            this.emit(":responseReady");
          })
          .catch((error) => {
@@ -130,7 +134,11 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
          .then((responseDetails) => {
            console.log('avr_action: responseDetails', JSON.stringify(responseDetails));
            // Respond to user with action status
-           this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}. What's next?`).listen('What\'s next?');
+	   if (responseDetails === "success") {
+              this.response.speak(`Action status was ${responseDetails.status}. What's next?`).listen('What\'s next?');
+	   } else {
+              this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}. What's next?`).listen('What\'s next?');
+	   }
            this.emit(":responseReady");
          })
          .catch((error) => {
@@ -187,7 +195,11 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
          .then((responseDetails) => {
            console.log('channel_action: responseDetails', JSON.stringify(responseDetails));
            // Respond to user with action status
-           this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}. What's next?`).listen('What\'s next?');
+	   if (responseDetails === "success") {
+	      this.response.speak(`Action status was ${responseDetails.status}. What's next?`).listen('What\'s next?');
+	   } else {
+	      this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}. What's next?`).listen('What\'s next?');
+	   }
            this.emit(":responseReady");
          })
          .catch((error) => {
@@ -248,7 +260,11 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
           .then((responseDetails) => {
             console.log('volume_action: responseDetails', JSON.stringify(responseDetails));
             // Respond to user with action status
-           this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}. What's next?`).listen('What\'s next?');
+	    if (responseDetails === "success") {
+	       this.response.speak(`Action status was ${responseDetails.status}. What's next?`).listen('What\'s next?');
+	    } else {
+	       this.response.speak(`Action status was ${responseDetails.status} with message ${responseDetails.message}. What's next?`).listen('What\'s next?');
+	    }
             this.emit(":responseReady");
           })
           .catch((error) => {
