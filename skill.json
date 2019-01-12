@@ -23,7 +23,7 @@
           ]
         }
       },
-      "isAvailableWorldwide": true,
+      "isAvailableWorldwide": false,
       "testingInstructions": "Say 'Alexa, open baba zoo'",
       "category": "SMART_HOME",
       "distributionCountries": ["US", "GB"]
