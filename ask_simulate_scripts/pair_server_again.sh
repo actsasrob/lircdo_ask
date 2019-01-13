@@ -1,5 +1,5 @@
 #!/bin/bash
-ask simulate -l en-US -p default -t "open baba zoo"
+ask simulate -l en-US -p default -t "open lirc do"
 sleep 2
 ask simulate -l en-US -p default -t "pair server again"
 sleep 2
