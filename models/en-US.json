@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "baba zoo",
+            "invocationName": "lirc do",
             "intents": [
                 {
                     "name": "AMAZON.CancelIntent",
