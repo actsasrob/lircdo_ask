@@ -4,9 +4,9 @@
   "description": "Control home audio/video equipment using voice commands",
   "main": "index.js",
   "dependencies": {
-    "ask-sdk": "^2.0.0",
-    "ask-sdk-v1adapter": "^2.2.0",
-    "request": "^2.79.0",
+    "ask-sdk": "^2.3.0",
+    "ask-sdk-v1adapter": "^2.3.0",
+    "request": "^2.88.0",
     "request-promise": "^4.1.1"
   },
   "keywords": [
