@@ -155,7 +155,8 @@ var pairingStateHandlers = Alexa.CreateStateHandler(constants.states.PAIRING, {
     },
     'AMAZON.HelpIntent': function () {
         console.log('pairingStateHandler:AMAZON.HelpIntent: start');
-	this.emit(':ask', `You can operate your audio and video equipment using voice commands. But first we need to pair the lirc do server. To do that respond to the prompts when launching the skill. ok?`,  `Before you can command your home audio and video equipment you must first pair the lirc do server. To do that respond to the prompts when opening the skill. ok?`);
+	this.response.speak(`You can operate your audio and video equipment using voice commands. But first we need to pair the lirc do server. To start the pairing process now say your lirc do server pin number. You can say my application pin, is followed by the pin number.`).listen(`To start the lirc do server pairing process say your lirc do server pin number. You can say my application pin is, followed by the pin number.`);
+	this.emit(':responseReady');
     },
     'AMAZON.CancelIntent': function () {
         speechOutput = "Goodbye.";
