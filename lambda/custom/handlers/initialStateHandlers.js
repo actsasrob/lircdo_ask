@@ -59,7 +59,7 @@ var initialStateHandlers = Alexa.CreateStateHandler(constants.states.INITIAL, {
 
     'AMAZON.HelpIntent': function () {
         console.log('initialStateHandler:AMAZON.HelpIntent: start');
-	this.response.speak(`You can operate your audio and video equipment using voice commands. But first we need to pair the lirc do server. To start the pairing process now say your lirc do server pin number. You can say my application pin, is followed by the pin number.`).listen(`To start the lirc do server pairing process say your lirc do server pin number. You can say my application pin is, followed by the pin number.`);
+	this.response.speak(`You can operate your audio and video equipment using voice commands. But first we need to pair the lirc do server. To start the pairing process now say your lirc do server pin number. You can say my application pin is, followed by the pin number.`).listen(`To start the lirc do server pairing process say your lirc do server pin number. You can say my application pin is, followed by the pin number.`);
         this.emit(':responseReady');
     },
     'AMAZON.CancelIntent': function () {

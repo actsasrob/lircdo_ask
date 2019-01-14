@@ -1,3 +1,2 @@
-Address findings from the Amazon Developer certification functional tests.
-Help intent should actually provide state appropriate help responses.
+main state state handler Help intent should give the user some sample actions to perform.
 
