@@ -59,16 +59,15 @@ var initialStateHandlers = Alexa.CreateStateHandler(constants.states.INITIAL, {
 
     'AMAZON.HelpIntent': function () {
         console.log('initialStateHandler:AMAZON.HelpIntent: start');
-        this.response.speak(WelcomeOutput).listen(repromptOutput);
-        this.emit(':responseReady');
+	this.emit(':ask', `You can operate your audio and video equipment using voice commands. But first we need to pair the lirc do server. To do that respond to the prompts when launching the skill. ok?`,  `Before you can command your home audio and video equipment you must first pair the lirc do server. To do that respond to the prompts when opening the skill. ok?`);
     },
     'AMAZON.CancelIntent': function () {
-        speechOutput = "";
+        speechOutput = "Goodbye.";
         this.response.speak(speechOutput);
         this.emit(':responseReady');
     },
     'AMAZON.StopIntent': function () {
-        speechOutput = "";
+        speechOutput = "So long.";
         this.response.speak(speechOutput);
         this.emit(':responseReady');
     },

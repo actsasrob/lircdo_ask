@@ -294,7 +294,7 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
    },
   'AMAZON.StopIntent': function () {
     // State Automatically Saved with :tell
-    this.emit(':tell', `Goodbye.`);
+    this.emit(':tell', `So long.`);
   },
   'AMAZON.CancelIntent': function () {
     // State Automatically Saved with :tell
@@ -308,7 +308,7 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
 
   'AMAZON.HelpIntent' : function () {
     console.log('mainStateHandler: AMAZON.HelpIntent: start');
-    this.emit(':ask', `You can ask me to perform various actions using lirc.`,  `What would you like to do?`);
+    this.emit(':ask', `You can operate your home audio and video equipment using voice commands. What would you like to do?`,  `What would you like to do?`);
   },
   //'Unhandled' : function () {
   //  console.log('mainStateHandler: Unhandled: start');
