@@ -79,15 +79,12 @@ You will need an Amazon Developer account to create Alexa skills and an Amazon W
     source .bashrc
 
 ### Install node.js version 8.10. The lircdo Alexa skill has only been tested with node.js v8.10.0.
-```
-nvm install  8.10.0
-nvm alias default 8.10.0 
-```
+
+    nvm install  8.10.0
+    nvm alias default 8.10.0 
 
 ### Clone the lircdo_ask git project:
-```
-git clone git@github.com:actsasrob/lircdo_ask.git
-```
+    git clone git@github.com:actsasrob/lircdo_ask.git
 
 Edit the lambda/custom/constants/constants.js file and change the appId constant to be the ID of your Amazon skill. This is an extra safety step which allows your lambda function to only be invoked by the associated Amazon skill.
 
@@ -98,43 +95,31 @@ The ASK CLI allows you to manage Alexa skills programmatically from the command 
 Here is a nice [overview](https://developer.amazon.com/docs/smapi/quick-start-alexa-skills-kit-command-line-interface.html) of the ASK CLI.
 
 #### Globally install ask-cli node.js module
-```
-npm install -g ask-cli
-```
+    npm install -g ask-cli
 
 #### One-time setup to configure ask
-```
-ask init
-```
+    ask init
 
 ### Deploy Project Updates From Github Project To Alexa Skill
-```
-cd to top-level project dir
-ask deploy           # Update the lambda function and model
-ask deploy -t lambda # Just update the lambda function
-ask deploy -t model  # Just update the model
-```
+    cd to top-level project dir
+    ask deploy           # Update the lambda function and model
+    ask deploy -t lambda # Just update the lambda function
+    ask deploy -t model  # Just update the model
 
 ## Testing
 
 ### Install mocha
-```
-npm install -g mocha
-```
+    npm install -g mocha
 
 Execute the "ask simulate" scripts in the ask_simulate_scripts directory from the top-level project directory: e.g.
 
-```
-./ask_simulate_scripts/pair.sh
-```
+    ./ask_simulate_scripts/pair.sh
 
 **NOTE:** If you look at the contents of the scripts in the ask_simulate_scripts directory you may notice the Alexa skill is invoked as "open baba zoo" instead of "open lircdo". This is because I have created a second Alexa skill named "baba zoo" paired with with its own lircdo server/service which I use for test purposes only. This allows me to do testing, and in particular, run bulk mocha tests, without causing my main lircdo server/service to emit many IR signals to my home audio/video equipment.
 
 ## Execute the mocha tests from the test directory: e.g.
-```
-cd test
-./testit.sh
-```
+    cd test
+    ./testit.sh
 
 ## Credit
 
