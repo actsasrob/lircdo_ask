@@ -67,20 +67,16 @@ You will need an Amazon Developer account to create Alexa skills and an Amazon W
 ## Setup Development Environment
 
 ### Install node version manager (NVM)
-```
-curl https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-```
+    curl https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 
 #### Add the following to your .bashrc file:
-```
-export NVM_DIR="<path to your home dir>/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-```
+
+    export NVM_DIR="<path to your home dir>/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 #### Source your .bashrc file:
-```
-source .bashrc
-```
+
+    source .bashrc
 
 ### Install node.js version 8.10. The lircdo Alexa skill has only been tested with node.js v8.10.0.
 ```
