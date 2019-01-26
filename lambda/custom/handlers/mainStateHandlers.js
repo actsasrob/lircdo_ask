@@ -277,20 +277,25 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
     'pair_server_again': function () {
         console.log("pair_server_again: start");
         console.log("pair_server_again: this.event.request="+JSON.stringify(this.event.request));
-        var sessionAttributes={};
-        var filledSlots = delegateDialog.delegateSlotCollection.call(this);
 
-        console.log("pair_server_again: after delegateSlotCollection: this.event="+JSON.stringify(this.event));
-        if (this.event.request.intent.confirmationStatus !== 'DENIED') {
-           delete this.attributes.applicationFQDN;
-           delete this.attributes.STATE;
-           this.handler.state = constants.states.PAIRING;
-           this.emitWithState('NewSession');
+        console.log(this.event.request.dialogState + " <- dialogstate")
+        if (this.event.request.dialogState !== "COMPLETED") {
+           this.emit(":delegate");
         }
         else {
-           this.response.speak('The pairing request has been cancelled. You can perform a LIRC action. What would you like to do?').listen('What would you like to do?');
-           this.emit(':responseReady');
-        }
+           let intent = this.event.request.intent;
+           if (intent.confirmationStatus === "DENIED") {
+              let speechOutput = `Ok, the pairing process has ben cancelled`;
+
+              this.emit(":tell", speechOutput);
+           }
+           else if (intent.confirmationStatus === "CONFIRMED") {
+              delete this.attributes.applicationFQDN;
+              delete this.attributes.STATE;
+              this.handler.state = constants.states.PAIRING;
+              this.emitWithState('NewSession');
+           }
+        }	
    },
   'AMAZON.StopIntent': function () {
     // State Automatically Saved with :tell
