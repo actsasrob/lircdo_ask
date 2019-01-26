@@ -115,7 +115,7 @@ Execute the "ask simulate" scripts in the ask_simulate_scripts directory from th
 
     ./ask_simulate_scripts/pair.sh
 
-**NOTE:** If you look at the contents of the scripts in the ask_simulate_scripts directory you may notice the Alexa skill is invoked as "open baba zoo" instead of "open lircdo". This is because I have created a second Alexa skill named "baba zoo" paired with with its own lircdo server/service which I use for test purposes only. This allows me to do testing, and in particular, run bulk mocha tests, without causing my main lircdo server/service to emit many IR signals to my home audio/video equipment.
+**NOTE:** If you look at the contents of the scripts in the ask_simulate_scripts directory you may notice the Alexa skill is invoked as "open baba zoo" instead of "open lircdo". This is because I have created a second Alexa skill with invocation name "baba zoo" paired with with its own lircdo server/service which I use for test purposes only. This allows me to do testing, and in particular, run bulk mocha tests, without causing my main lircdo server/service to emit many IR signals to my home audio/video equipment.
 
 ## Execute the mocha tests from the test directory: e.g.
     cd test
