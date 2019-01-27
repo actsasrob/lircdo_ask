@@ -565,7 +565,16 @@
                             "name": {
                                 "value": "hdp",
                                 "synonyms": [
-                                    "ps4"
+                                    "high definition player"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_PS4",
+                            "name": {
+                                "value": "ps4",
+                                "synonyms": [
+                                    "playstation 4"
                                 ]
                             }
                         },
