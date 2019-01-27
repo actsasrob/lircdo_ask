@@ -27,7 +27,8 @@ var constants = require('../constants/constants');
    "Here is the info I collected. ",
    "I collected the following info. "
  ];
-
+ var cardTitle = constants.initialStateHandlerCard.title;
+ var cardContent = constants.initialStateHandlerCard.content;
 
  // 2. Skill Code =======================================================================================================
 
@@ -53,7 +54,8 @@ var pairingStateHandlers = Alexa.CreateStateHandler(constants.states.PAIRING, {
         console.log('pairingStateHandler.NewSession: set state to PAIRING');
         this.handler.state = constants.states.PAIRING;
         delete this.attributes.STATE;
-        this.response.speak(welcomeOutput).listen(welcomeReprompt);
+        //this.response.speak(welcomeOutput).listen(welcomeReprompt);
+        this.response.speak(welcomeOutput).cardRenderer(cardTitle, cardContent).listen(welcomeReprompt);
         this.emit(':responseReady');
 
         //this.emit(':ask', 'Welcome to lirc do! The skill that lets you perform various home automation tasks using linux IR remote control, or lirc, in your home by using an IR enabled device such as a raspberry pi. But first, I\'d like to get to know you better. Tell me your name by saying: My name is, and then your name.', 'Tell me your name by saying: My name is, and then your name.');

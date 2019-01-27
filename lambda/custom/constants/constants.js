@@ -22,6 +22,10 @@ var constants = Object.freeze({
      say : ['We need to pair the LIRC do server-side application. Please say the application pin of the server like, my application pin is, followed by the pin number'],
      reprompt :['Please say the application pin of the server like, my application pin is, followed by the pin number'],
   },
+  initialStateHandlerCard: {
+	  title: 'lircdo Help',
+	  content: 'Please navigate to the following link to learn more about lircdo including building the lircdo server: https://github.com/actsasrob/lircdo_ask/blob/master/README.md\n\nNavigate to this link to learn about how to interact with the lircdo Alexa skill: https://github.com/actsasrob/lircdo_ask/blob/master/README_using_skill.md',
+  },
 
 });
 
