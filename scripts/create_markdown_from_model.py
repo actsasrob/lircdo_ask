@@ -38,7 +38,7 @@ for type in types_ordered:
 	#print("type %s\n" % (type.get("name")))
 	type_name = type.get("name")
 	type_values = type.get("values") 
-	print("### %s Slot\n" % (type_to_action(type_name)))
+	print("### <a id=\"%s\"></a>%s Slot\n" % (type_to_action(type_name), type_to_action(type_name)))
 	print("| What you can say | lircdo server meta Key & Value |")
 	print("|-----|-----|")
 	for type_value in type_values:
