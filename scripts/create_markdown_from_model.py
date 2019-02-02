@@ -6,6 +6,22 @@ import json
 def build_dict(seq, key):
 	    return dict((d[key], dict(d, index=index)) for (index, d) in enumerate(seq))
 
+def type_to_action(argument): 
+    switcher = { 
+        "LIRC_ACTION": "LircAction", 
+        "LIRC_COMPONENT": "LircComponent", 
+        "LIRC_AVR_ACTION": "LircAVRAction",
+        "LIRC_AV_DEVICE": "LircAVDevice", 
+        "LIRC_CHANNEL_ACTION": "LircChannelAction",
+        "LIRC_VOLUME_ACTION": "LircVolumeAction",
+    } 
+  
+    # get() method of dictionary data type returns  
+    # value of passed argument if it is present  
+    # in dictionary otherwise second argument will 
+    # be assigned as default value of passed argument 
+    return switcher.get(argument, "nothing") 
+
 with open(sys.argv[1], 'r') as f:
     the_model = json.load(f)
 
@@ -22,7 +38,7 @@ for type in types_ordered:
 	#print("type %s\n" % (type.get("name")))
 	type_name = type.get("name")
 	type_values = type.get("values") 
-	print("### %s Slot\n" % (type_name))
+	print("### %s Slot\n" % (type_to_action(type_name)))
 	print("| What you can say | lircdo server meta Key & Value |")
 	print("|-----|-----|")
 	for type_value in type_values:
