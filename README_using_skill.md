@@ -147,19 +147,20 @@ The text surrounded by curly braces are known as "slots". See the table below fo
 
 | What you can say | lircdo server meta Key & Value |
 |-----|-----|
-| "dvd player","dvd"| component=COMPONENT_DVD |
-| "dvr","digital video recorder"| component=COMPONENT_DVR |
-| "hdp"| component=COMPONENT_HDP |
-| "tv","television"| component=COMPONENT_TV |
-| "set top box","stb"| component=COMPONENT_STB |
+| "dvd player","dvd, d.v.d. player"| component=COMPONENT_DVD |
+| "dvr","digital video recorder, d. v. r."| component=COMPONENT_DVR |
+| "hdp","high definition player, h. d. p."| component=COMPONENT_HDP |
+| "ps4","playstation four, playstation, p. s. four"| component=COMPONENT_PS4 |
+| "tv","television, t. v."| component=COMPONENT_TV |
+| "set top box","s. t. b.","settopbox"| component=COMPONENT_STB |
 | "cable box","cable"| component=COMPONENT_CABLE |
 | "satellite","satellite dish"| component=COMPONENT_SATELLITE |
 | "tuner"| component=COMPONENT_TUNER |
-| "firetv","fire tv","amazon fire tv","fire stick","amazon fire stick"| component=COMPONENT_FIRETV |
-| "vcr","video cassette recorder"| component=COMPONENT_VCR |
-| "apple tv","apple tv"| component=COMPONENT_APPLETV |
-| "ps4","playstation"| component=COMPONENT_PS4 |
-| "ps3","playstation3"| component=COMPONENT_PS3 |
+| "firetv","fire tv","fire t. v.","amazon fire tv","amazon fire t. v.","fire stick","amazon fire stick"| component=COMPONENT_FIRETV |
+| "vcr","video cassette recorder","v. c. r."| component=COMPONENT_VCR |
+| "apple tv","apple t. v."| component=COMPONENT_APPLETV |
+| "avr","a. v. receiver","audio video receiver","a. v. r."| component=COMPONENT_AVR |
+| "xbox","x. box","x. box one","x. box three hundred sixty"| component=COMPONENT_XBOX |
 
 ### <a id="LircChannelAction"></a>LircChannelAction Slot
 
