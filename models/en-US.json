@@ -246,8 +246,7 @@
                             "name": {
                                 "value": "open tray",
                                 "synonyms": [
-                                    "open",
-                                    "toggle tray"
+                                    "open", "toggle tray"
                                 ]
                             }
                         },
@@ -256,8 +255,7 @@
                             "name": {
                                 "value": "power on",
                                 "synonyms": [
-                                    "turn on",
-                                    "on"
+                                    "turn on", "on"
                                 ]
                             }
                         },
@@ -395,7 +393,7 @@
                             "name": {
                                 "value": "dvd player",
                                 "synonyms": [
-                                    "dvd"
+                                    "dvd, d.v.d. player"
                                 ]
                             }
                         },
@@ -404,14 +402,26 @@
                             "name": {
                                 "value": "dvr",
                                 "synonyms": [
-                                    "digital video recorder"
+                                    "digital video recorder, d. v. r."
                                 ]
                             }
                         },
                         {
                             "id": "COMPONENT_HDP",
                             "name": {
-                                "value": "hdp"
+                                "value": "hdp",
+                                "synonyms": [
+                                    "high definition player, h. d. p."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "COMPONENT_PS4",
+                            "name": {
+                                "value": "ps4",
+                                "synonyms": [
+                                    "playstation four, playstation, p. s. four"
+                                ]
                             }
                         },
                         {
@@ -419,7 +429,7 @@
                             "name": {
                                 "value": "tv",
                                 "synonyms": [
-                                    "television"
+                                    "television, t. v."
                                 ]
                             }
                         },
@@ -428,7 +438,8 @@
                             "name": {
                                 "value": "set top box",
                                 "synonyms": [
-                                    "stb"
+                                    "s. t. b.",
+                                    "settopbox"
                                 ]
                             }
                         },
@@ -462,7 +473,9 @@
                                 "value": "firetv",
                                 "synonyms": [
                                     "fire tv",
+				    "fire t. v.",
                                     "amazon fire tv",
+				    "amazon fire t. v.",
                                     "fire stick",
                                     "amazon fire stick"
                                 ]
@@ -473,7 +486,8 @@
                             "name": {
                                 "value": "vcr",
                                 "synonyms": [
-                                    "video cassette recorder"
+                                    "video cassette recorder",
+				    "v. c. r."
                                 ]
                             }
                         },
@@ -482,29 +496,37 @@
                             "name": {
                                 "value": "apple tv",
                                 "synonyms": [
-                                    "apple tv"
+                                    "apple t. v."
                                 ]
                             }
                         },
                         {
-                            "id": "COMPONENT_PS4",
+                            "id": "COMPONENT_AVR",
                             "name": {
-                                "value": "ps4",
+                                "value": "avr",
                                 "synonyms": [
-                                    "playstation"
+                                    "a. v. receiver",
+                                    "audio video receiver",
+				    "a. v. r."
                                 ]
                             }
                         },
                         {
-                            "id": "COMPONENT_PS3",
+                            "id": "COMPONENT_XBOX",
                             "name": {
-                                "value": "ps3",
-                                "synonyms": [
-                                    "playstation3"
-                                ]
+                                "value": "xbox",
+				"synonyms": [
+			            "x. box",
+				    "x. box one",
+				    "x. box three hundred sixty"
+				]
                             }
                         }
                     ]
+		    
+		    
+		    
+                    
                 },
                 {
                     "name": "LIRC_AVR_ACTION",
