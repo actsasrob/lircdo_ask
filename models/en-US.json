@@ -547,7 +547,7 @@
                             "name": {
                                 "value": "dvd player",
                                 "synonyms": [
-                                    "dvd"
+                                    "dvd, d.v.d. player"
                                 ]
                             }
                         },
@@ -556,7 +556,7 @@
                             "name": {
                                 "value": "dvr",
                                 "synonyms": [
-                                    "digital video recorder"
+                                    "digital video recorder, d. v. r."
                                 ]
                             }
                         },
@@ -565,7 +565,7 @@
                             "name": {
                                 "value": "hdp",
                                 "synonyms": [
-                                    "high definition player"
+                                    "high definition player, h. d. p."
                                 ]
                             }
                         },
@@ -574,7 +574,7 @@
                             "name": {
                                 "value": "ps4",
                                 "synonyms": [
-                                    "playstation 4"
+                                    "playstation four, playstation, p. s. four"
                                 ]
                             }
                         },
@@ -583,7 +583,7 @@
                             "name": {
                                 "value": "tv",
                                 "synonyms": [
-                                    "television"
+                                    "television, t. v."
                                 ]
                             }
                         },
@@ -592,7 +592,7 @@
                             "name": {
                                 "value": "set top box",
                                 "synonyms": [
-                                    "stb",
+                                    "s. t. b.",
                                     "settopbox"
                                 ]
                             }
@@ -627,7 +627,9 @@
                                 "value": "firetv",
                                 "synonyms": [
                                     "fire tv",
+				    "fire t. v.",
                                     "amazon fire tv",
+				    "amazon fire t. v.",
                                     "fire stick",
                                     "amazon fire stick"
                                 ]
@@ -638,7 +640,8 @@
                             "name": {
                                 "value": "vcr",
                                 "synonyms": [
-                                    "video cassette recorder"
+                                    "video cassette recorder",
+				    "v. c. r."
                                 ]
                             }
                         },
@@ -647,7 +650,7 @@
                             "name": {
                                 "value": "apple tv",
                                 "synonyms": [
-                                    "apple tv"
+                                    "apple t. v."
                                 ]
                             }
                         },
@@ -662,15 +665,21 @@
                             "name": {
                                 "value": "avr",
                                 "synonyms": [
-                                    "av receiver",
-                                    "audio video receiver"
+                                    "a. v. receiver",
+                                    "audio video receiver",
+				    "a. v. r."
                                 ]
                             }
                         },
                         {
                             "id": "COMPONENT_XBOX",
                             "name": {
-                                "value": "xbox"
+                                "value": "xbox",
+				"synonyms": [
+			            "x. box",
+				    "x. box one",
+				    "x. box three hundred sixty"
+				]
                             }
                         }
                     ]
