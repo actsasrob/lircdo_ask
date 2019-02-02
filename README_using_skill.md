@@ -7,7 +7,7 @@ This README file will hopefully help users understand how to interact with the l
 Intents are types of actions that can be handled by the Alexa skill.
 
 Currently the lircdo Alexa skill understands five kinds of intents: 
-* generic "lircdo" intents like "power on system", "open dvd tray" etc.
+* generic "[lircdo](#lircdo_intent)" intents like "power on system", "open dvd tray" etc.
 * audio/video receiver (AVR) intents like "change component to tv", "set component to fire tv", "set device to apple tv"
 * volume intents like "raise volume on set top box by 5" and "lower volume by 10"
 * channel intents like "change channel on set top box to 746" or "set channel to 231"
@@ -21,11 +21,11 @@ Currently the lircdo Alexa skill understands five kinds of intents:
 | avr_action     | Change selected component of Audio Video Receiver (AVR) | intent=avr_action |
 | pair_server    | Used to pair the Alexa lircdo skill with the lircdo server | N/A |
  
-## Generic "lircdo" Intent
+## ### <a id="lircdo_intent"></a>Generic "lircdo" Intent
 
 Perform a variety of actions on a variety of A/V components.
 
-### Phrases Understand by lircdo intent
+### Phrases understand by lircdo intent
 
     "turn {LircComponent} {LircAction}",
     "power {LircComponent} {LircAction}",
@@ -44,7 +44,7 @@ The text surrounded by curly braces are known as "slots". See the table below fo
 
 Change channel of A/V component.
 
-### Phrases Understand by channel_action intent
+### Phrases understand by channel_action intent
 
     "{LircChannelAction} {LircComponent} to {LircNumericArgument}",
     "change {LircComponent} {LircChannelAction} to {LircNumericArgument}",
@@ -63,7 +63,7 @@ The text surrounded by curly braces are known as "slots". See the table below fo
 
 Raise or lower volume of A/V component.
 
-### Phrases Understand by volume_action intent
+### Phrases understand by volume_action intent
 
     "{LircVolumeAction} {LircComponent} volume by {LircNumericArgument}",
     "{LircVolumeAction} by {LircNumericArgument}"
@@ -80,7 +80,7 @@ The text surrounded by curly braces are known as "slots". See the table below fo
 
 Change selected component of Audio Video Receiver (AVR).
 
-### Phrases Understand by avr_action intent
+### Phrases understand by avr_action intent
 
     "{LircAVRAction} {LircAVDevice}",
     "{LircAVRAction} to {LircAVDevice}"
