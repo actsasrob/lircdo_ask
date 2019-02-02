@@ -2,7 +2,7 @@
 
 This README file will hopefully help users understand how to interact with the lircdo Alexa skill.
 
-## Intents
+## <a id="lircdo_intents"></a>Intents
 
 Intents are types of actions that can be handled by the Alexa skill.
 
