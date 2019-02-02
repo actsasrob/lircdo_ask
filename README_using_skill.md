@@ -7,7 +7,7 @@ This README file will hopefully help users understand how to interact with the l
 Intents are types of actions that can be handled by the Alexa skill.
 
 Currently the lircdo Alexa skill understands five kinds of intents: 
-* generic "lircdo" intents like "power on system", "change component to dvd player", "open dvd tray" etc.
+* generic "lircdo" intents like "power on system", "open dvd tray" etc.
 * audio/video receiver (AVR) intents like "change component to tv", "set component to fire tv", "set device to apple tv"
 * volume intents like "raise volume on set top box by 5" and "lower volume by 10"
 * channel intents like "change channel on set top box to 746" or "set channel to 231"
@@ -23,11 +23,75 @@ Currently the lircdo Alexa skill understands five kinds of intents:
  
 ## Generic "lircdo" Intent
 
+Perform a variety of actions on a variety of A/V components.
+
+### Phrases Understand by lircdo intent
+
+    "turn {LircComponent} {LircAction}",
+    "power {LircComponent} {LircAction}",
+    "{LircAction} for {LircComponent}",
+    "{LircAction} {LircComponent} tray",
+    "{LircAction} tray"
+
+The text surrounded by curly braces are known as "slots". See the table below for more information about each slot.
+
 | Slot          |      Description      |  Optional |
 |---------------|-------------|------|
 | LircAction    |  An action to perform | no |
 | LircComponent | The A/V component to apply the action to |  yes |
 
+## channel_action intent
+
+Change channel of A/V component.
+
+### Phrases Understand by channel_action intent
+
+    "{LircChannelAction} {LircComponent} to {LircNumericArgument}",
+    "change {LircComponent} {LircChannelAction} to {LircNumericArgument}",
+    "set {LircComponent} {LircChannelAction} to {LircNumericArgument}",
+    "{LircChannelAction} to {LircNumericArgument}"
+
+The text surrounded by curly braces are known as "slots". See the table below for more information about each slot.
+
+| Slot          |      Description      |  Optional |
+|---------------|-------------|------|
+| LircChannelAction    |  A channel action to perform | no |
+| LircComponent | The A/V component to apply the action to |  yes |
+| LircNumericArgument | A positive integer channel number |  no |
+
+## volume_action intent
+
+Raise or lower volume of A/V component.
+
+### Phrases Understand by volume_action intent
+
+    "{LircVolumeAction} {LircComponent} volume by {LircNumericArgument}",
+    "{LircVolumeAction} by {LircNumericArgument}"
+
+The text surrounded by curly braces are known as "slots". See the table below for more information about each slot.
+
+| Slot          |      Description      |  Optional |
+|---------------|-------------|------|
+| LircVolumeAction    |  A volume action to perform | no |
+| LircComponent | The A/V component to apply the action to |  yes |
+| LircNumericArgument | A positive integer indicating how much the volume should be raised or lowered. Note: for raise volume actions the maximum value allowed by the lircdo server is 5 |  yes |
+
+## avr_action intent
+
+Change selected component of Audio Video Receiver (AVR).
+
+### Phrases Understand by avr_action intent
+
+    "{LircAVRAction} {LircAVDevice}",
+    "{LircAVRAction} to {LircAVDevice}"
+
+The text surrounded by curly braces are known as "slots". See the table below for more information about each slot.
+
+
+| Slot          |      Description      |  Optional |
+|---------------|-------------|------|
+| LircAVRAction    |  A A/V action to perform | no |
+| LircAVDevice | The A/V device to apply the action to |  no |
 
 ## Slots
 
@@ -57,29 +121,29 @@ Currently the lircdo Alexa skill understands five kinds of intents:
 
 | What you can say | lircdo server meta Key & Value |
 |-----|-----|
-| "dvd player","dvd"| component=COMPONENT_DVD |
-| "dvr","digital video recorder"| component=COMPONENT_DVR |
-| "hdp","high definition player"| component=COMPONENT_HDP |
-| "ps4","playstation 4"| component=COMPONENT_PS4 |
-| "tv","television"| component=COMPONENT_TV |
-| "set top box","stb","settopbox"| component=COMPONENT_STB |
+| "dvd player","dvd, d.v.d. player"| component=COMPONENT_DVD |
+| "dvr","digital video recorder, d. v. r."| component=COMPONENT_DVR |
+| "hdp","high definition player, h. d. p."| component=COMPONENT_HDP |
+| "ps4","playstation four, playstation, p. s. four"| component=COMPONENT_PS4 |
+| "tv","television, t. v."| component=COMPONENT_TV |
+| "set top box","s. t. b.","settopbox"| component=COMPONENT_STB |
 | "cable box","cable"| component=COMPONENT_CABLE |
 | "satellite","satellite dish"| component=COMPONENT_SATELLITE |
 | "tuner"| component=COMPONENT_TUNER |
-| "firetv","fire tv","amazon fire tv","fire stick","amazon fire stick"| component=COMPONENT_FIRETV |
-| "vcr","video cassette recorder"| component=COMPONENT_VCR |
-| "apple tv","apple tv"| component=COMPONENT_APPLETV |
+| "firetv","fire tv","fire t. v.","amazon fire tv","amazon fire t. v.","fire stick","amazon fire stick"| component=COMPONENT_FIRETV |
+| "vcr","video cassette recorder","v. c. r."| component=COMPONENT_VCR |
+| "apple tv","apple t. v."| component=COMPONENT_APPLETV |
 | "System"| component=COMPONENT_SYSTEM |
-| "avr","av receiver","audio video receiver"| component=COMPONENT_AVR |
-| "xbox"| component=COMPONENT_XBOX |
+| "avr","a. v. receiver","audio video receiver","a. v. r."| component=COMPONENT_AVR |
+| "xbox","x. box","x. box one","x. box three hundred sixty"| component=COMPONENT_XBOX |
 
-### LIRC_AVR_ACTION Slot
+### LircAVRAction Slot
 
 | What you can say | lircdo server meta Key & Value |
 |-----|-----|
 | "change component","set component","set device","change device","device","component"| action=CHANGE_COMPONENT |
 
-### LIRC_AV_DEVICE Slot
+### LircAVDevice Slot
 
 | What you can say | lircdo server meta Key & Value |
 |-----|-----|
@@ -97,16 +161,15 @@ Currently the lircdo Alexa skill understands five kinds of intents:
 | "ps4","playstation"| component=COMPONENT_PS4 |
 | "ps3","playstation3"| component=COMPONENT_PS3 |
 
-### LIRC_CHANNEL_ACTION Slot
+### LircChannelAction Slot
 
 | What you can say | lircdo server meta Key & Value |
 |-----|-----|
 | "change channel","set channel","channel"| action=CHANNEL_CHANGE |
 
-### LIRC_VOLUME_ACTION Slot
+### LircVolumeAction Slot
 
 | What you can say | lircdo server meta Key & Value |
 |-----|-----|
 | "increase volume","increase","raise volume","raise"| action=VOLUME_INCREASE |
 | "decrease volume","decrease","lower volume","lower"| action=VOLUME_DECREASE |
-
