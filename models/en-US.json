@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "lirc do",
+            "invocationName": "lurk do",
             "intents": [
                 {
                     "name": "AMAZON.CancelIntent",

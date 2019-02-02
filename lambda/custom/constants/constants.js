@@ -1,7 +1,7 @@
 var constants = Object.freeze({
 
   // App-ID. Set The App ID
-  appId : 'amzn1.ask.skill.2ade1cff-3cb6-4230-94b6-4ff20ec3caf7',
+  appId : 'amzn1.ask.skill.1640f539-4c65-43e2-8523-62478f40d2ba',
 
   //  DynamoDB Table Name
   dynamoDBTableName : 'lircdo_table01',
