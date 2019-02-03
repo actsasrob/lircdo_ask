@@ -13,7 +13,7 @@ Currently the lircdo Alexa skill understands five kinds of intents:
 * [channel intents](#channel_action_intent) like "change channel on set top box to 746" or "set channel to 231"
 * pair server intent requests. When you launch the lircdo skill for the first time it will prompt you for information that it needs to connect with the lircdo server/service in your home. 
 
-| Intent Name | Description | lircdo server key and value |
+| Intent Name | Description | lircdo server Key & Value |
 |-------------|-------------|------|
 | [lircdo](#lircdo_intent) | Perform a variety of actions on a variety of A/V components | intent=lircdo |
 | [channel_action](#channel_action_intent) | Change channel of A/V component | intent=channel_action |
