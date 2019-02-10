@@ -65,6 +65,7 @@ var pairingStateHandlers = Alexa.CreateStateHandler(constants.states.PAIRING, {
     'pair_server': function () {
         console.log("pair_server: start");
         console.log("pair_server: this.event.request="+JSON.stringify(this.event.request));
+        console.log("pair_server: this="+JSON.stringify(this));
         var sessionAttributes={};
         //var filledSlots = delegateSlotCollection.call(this);
         //console.log("pair_server: after delegateSlotCollection: this.event="+JSON.stringify(this.event));

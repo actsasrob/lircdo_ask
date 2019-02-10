@@ -1,2 +1,12 @@
 main state state handler Help intent should give the user some sample actions to perform.
 
+Handle state base one userId and deviceId basis. This would allow user's to pair a different lircdo server for each Alexa device.
+
+deviceList = [ { deviceId: this.event.context.System.device.deviceId, fqdn: "fqdn1", port: "port1", shared_secret: "ss1" }, { deviceId: "device2", fqdn: "fqdn2"} ];
+                       speechOutput = 'The server-side LIRC Do application has been paired successfully. You should now restart the server-side LIRC Do application in non-pairing mode.';
+                       this.attributes['applicationFQDN'] = json_response.fqdn;
+                       this.attributes['applicationPort'] = json_response.port;
+                       this.attributes['shared_secret'] = json_response.shared_secret;
+                       this.attributes['deviceList'] = deviceList;
+
+

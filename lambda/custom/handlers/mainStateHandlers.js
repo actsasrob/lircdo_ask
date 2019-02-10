@@ -37,6 +37,7 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
 
     //delegate to Alexa to collect all the required slot values
     console.log("lircdo: this.event.request.dialogState="+this.event.request.dialogState);
+    //console.log("lircdo: this ="+ JSON.stringify(this));
     //console.log("lircdo: this.event.request="+ JSON.stringify(this.event.request));
     //
     if (this.event.request.dialogState !== "STARTED" && this.event.request.dialogState !== "IN_PROGRESS")  { // needed by mocha tests as request.dialogState is not set
@@ -291,6 +292,8 @@ var mainStateHandlers = Alexa.CreateStateHandler(constants.states.MAIN, {
            }
            else if (intent.confirmationStatus === "CONFIRMED") {
               delete this.attributes.applicationFQDN;
+              delete this.attributes.applicationPort;
+              delete this.attributes.shared_secret;
               delete this.attributes.STATE;
               this.handler.state = constants.states.PAIRING;
               this.emitWithState('NewSession');

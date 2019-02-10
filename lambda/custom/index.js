@@ -9,7 +9,6 @@ var AWS = require('aws-sdk');
 // Set the region 
 AWS.config.update({region: 'us-east-1'}); // Required to allow mocha tests to run without
                                           //  complaining that region is not set for DynamoDB
-
 // Constants
 var constants = require('./constants/constants');
 

@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "lurk do",
+            "invocationName": "ear remote",
             "intents": [
                 {
                     "name": "AMAZON.CancelIntent",
