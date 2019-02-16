@@ -4,7 +4,10 @@ var constants = Object.freeze({
   appId : 'amzn1.ask.skill.1640f539-4c65-43e2-8523-62478f40d2ba',
 
   //  DynamoDB Table Name
-  dynamoDBTableName : 'lircdo_table01',
+  dynamoDBTableName : 'lircdo_table_v2',
+
+  // Default application port
+  defaultApplicationPort : '8843',
 
   // Skill States
   states : {
@@ -26,6 +29,11 @@ var constants = Object.freeze({
 	  title: 'lircdo Help',
 	  content: 'Please navigate to the following link to learn more about lircdo including building the lircdo server: https://github.com/actsasrob/lircdo_ask/blob/master/README.md\n\nNavigate to this link to learn about how to interact with the lircdo Alexa skill: https://github.com/actsasrob/lircdo_ask/blob/master/README_using_skill.md',
   },
+  initialStateHandlerRequiredSlots: [
+	  "OctetA",
+	  "ApplicationPin",
+	  "ApplicationPort",
+  ],
 
 });
 
