@@ -8,12 +8,13 @@
 
 //const Alexa = require('ask-sdk-core');
 const Alexa = require('ask-sdk');
+const AWS = require('aws-sdk');
 const https = require('https');
 
-//var AWS = require('aws-sdk');
 // Set the region 
-//AWS.config.update({region: 'us-east-1'}); // Required to allow mocha tests to run without
-                                          //  complaining that region is not set for DynamoDB
+//Alexa.config.update({region: 'us-east-1'}); // Required to allow mocha tests to run without
+                                            //  complaining that region is not set for DynamoDB
+
 // Constants
 var constants = require('./constants/constants');
 
@@ -27,7 +28,8 @@ const LaunchRequestHandler = {
     //    return instructions to start pairing process
     // else 
     //    ask what to do 
-    return handlerInput.requestEnvelope.session.new || handlerInput.requestEnvelope.request.type === 'LaunchRequest';
+    //return handlerInput.requestEnvelope.session.new || handlerInput.requestEnvelope.request.type === 'LaunchRequest';
+    return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
   },
   async handle(handlerInput) {
     //console.log(`Intent: ${handlerInput.requestEnvelope.request.intent.name}: in handle:`);
@@ -86,7 +88,7 @@ const InProgressPairServerIntent = {
           && currentSlot.resolutions
           && currentSlot.resolutions.resolutionsPerAuthority[0]) {
           if (currentSlot.resolutions.resolutionsPerAuthority[0].status.code === 'ER_SUCCESS_MATCH') {
-            if (currentSlot.resolutions.resolutionsPerAuthority[0].values.length > 1) {
+            /*if (currentSlot.resolutions.resolutionsPerAuthority[0].values.length > 1) {
               prompt = 'Which would you like';
               const size = currentSlot.resolutions.resolutionsPerAuthority[0].values.length;
 
@@ -103,6 +105,7 @@ const InProgressPairServerIntent = {
                 .addElicitSlotDirective(currentSlot.name)
                 .getResponse();
             }
+	    */
           } else if (currentSlot.resolutions.resolutionsPerAuthority[0].status.code === 'ER_SUCCESS_NO_MATCH') {
             if (constants.initialStateHandlerRequiredSlots.indexOf(currentSlot.name) > -1) {
               prompt = `What ${currentSlot.name} are you looking for`;
@@ -134,6 +137,9 @@ const CompletedPairServerIntent = {
   },
   async handle(handlerInput) {
     console.log(`CompletedPairServerIntent.handler: Intent: ${handlerInput.requestEnvelope.request.intent.name}`);
+    
+    const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
+
     const filledSlots = handlerInput.requestEnvelope.request.intent.slots;
 
     const slotValues = getSlotValues(filledSlots);
@@ -143,7 +149,7 @@ const CompletedPairServerIntent = {
     const params = { 'pin': slotValues.ApplicationPin.resolved };
     console.log(`CompletedPairServerIntent.handler: ip_address: ${ip_address} applicationPort: ${applicationPort} params: ${JSON.stringify(params)}`);
     
-    const lircdoServerOptions = buildLircdoServerOptions(false, ip_address, applicationPort, '/pair_action_ask', params);
+    const lircdoServerOptions = buildLircdoServerOptions(false, ip_address, applicationPort, constants.stateHandlerIntentNameToCallbackLookup[requestEnvelope.request.intent.name], params);
     console.log(`CompletedPairServerIntent.handler: lircdoServerOptions: ${JSON.stringify(lircdoServerOptions)}`);
 
     let outputSpeech = '';
@@ -177,65 +183,19 @@ const CompletedPairServerIntent = {
   },
 };
 
-const LaunchRequestHandlerPM = {
-  canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
-  },
-  handle(handlerInput) {
-    return handlerInput.responseBuilder
-      .speak('Welcome to pet match. I can help you find the best dog for you. ' +
-        'What are two things you are looking for in a dog?')
-      .reprompt('What size and temperament are you looking for in a dog?')
-      .getResponse();
-  },
-};
 
-const MythicalCreaturesHandler = {
-  canHandle(handlerInput) {
-    if (handlerInput.requestEnvelope.request.type !== 'IntentRequest'
-      || handlerInput.requestEnvelope.request.intent.name !== 'PetMatchIntent') {
-      return false;
-    }
-
-    let isMythicalCreatures = false;
-    if (handlerInput.requestEnvelope.request.intent.slots.pet
-      && handlerInput.requestEnvelope.request.intent.slots.pet.resolutions
-      && handlerInput.requestEnvelope.request.intent.slots.pet.resolutions.resolutionsPerAuthority[0]
-      && handlerInput.requestEnvelope.request.intent.slots.pet.resolutions.resolutionsPerAuthority[0].values
-      && handlerInput.requestEnvelope.request.intent.slots.pet.resolutions.resolutionsPerAuthority[0].values[0]
-      && handlerInput.requestEnvelope.request.intent.slots.pet.resolutions.resolutionsPerAuthority[0].values[0].value
-      && handlerInput.requestEnvelope.request.intent.slots.pet.resolutions.resolutionsPerAuthority[0].values[0].value.name === 'mythical_creatures') {
-      const attributesManager = handlerInput.attributesManager;
-      const sessionAttributes = attributesManager.getSessionAttributes();
-      sessionAttributes.mythicalCreature = handlerInput.requestEnvelope.request.intent.slots.pet.value;
-      attributesManager.setSessionAttributes(sessionAttributes);
-      isMythicalCreatures = true;
-    }
-
-    return isMythicalCreatures;
-  },
-  handle(handlerInput) {
-    const attributesManager = handlerInput.attributesManager;
-    const sessionAttributes = attributesManager.getSessionAttributes();
-
-    const outputSpeech = randomPhrase(slotsMeta.pet.invalid_responses).replace('{0}', sessionAttributes.mythicalCreature);
-
-    return handlerInput.responseBuilder
-      .speak(outputSpeech)
-      .getResponse();
-  },
-};
-
-const InProgressPetMatchIntent = {
+const InProgressUnpairServerIntent = {
   canHandle(handlerInput) {
     const request = handlerInput.requestEnvelope.request;
 
     return request.type === 'IntentRequest'
-      && request.intent.name === 'PetMatchIntent'
+      && request.intent.name === 'pair_server_again'
       && request.dialogState !== 'COMPLETED';
   },
   handle(handlerInput) {
     const currentIntent = handlerInput.requestEnvelope.request.intent;
+    console.log(`InProgressUnpairServerIntent.handler: Intent: ${handlerInput.requestEnvelope.request.intent.name} currentIntent: ${JSON.stringify(currentIntent)}`);
+
     let prompt = '';
 
     for (const slotName in currentIntent.slots) {
@@ -245,7 +205,7 @@ const InProgressPetMatchIntent = {
           && currentSlot.resolutions
           && currentSlot.resolutions.resolutionsPerAuthority[0]) {
           if (currentSlot.resolutions.resolutionsPerAuthority[0].status.code === 'ER_SUCCESS_MATCH') {
-            if (currentSlot.resolutions.resolutionsPerAuthority[0].values.length > 1) {
+            /*if (currentSlot.resolutions.resolutionsPerAuthority[0].values.length > 1) {
               prompt = 'Which would you like';
               const size = currentSlot.resolutions.resolutionsPerAuthority[0].values.length;
 
@@ -262,8 +222,9 @@ const InProgressPetMatchIntent = {
                 .addElicitSlotDirective(currentSlot.name)
                 .getResponse();
             }
+	    */
           } else if (currentSlot.resolutions.resolutionsPerAuthority[0].status.code === 'ER_SUCCESS_NO_MATCH') {
-            if (requiredSlots.indexOf(currentSlot.name) > -1) {
+            if (constants.mainStateHandlerRequiredSlots[handlerInput.requestEnvelope.request.intent.name].indexOf(currentSlot.name) > -1) {
               prompt = `What ${currentSlot.name} are you looking for`;
 
               return handlerInput.responseBuilder
@@ -283,46 +244,40 @@ const InProgressPetMatchIntent = {
   },
 };
 
-const CompletedPetMatchIntent = {
+const CompletedUnpairServerIntent = {
   canHandle(handlerInput) {
     const request = handlerInput.requestEnvelope.request;
 
     return request.type === 'IntentRequest'
-      && request.intent.name === 'PetMatchIntent'
+      && request.intent.name === 'pair_server_again'
       && request.dialogState === 'COMPLETED';
   },
   async handle(handlerInput) {
-    const filledSlots = handlerInput.requestEnvelope.request.intent.slots;
+    console.log(`CompletedUnpairServerIntent.handler: Intent: ${handlerInput.requestEnvelope.request.intent.name}`);
+    console.log(`CompletedUnpairServerIntent.handler: Intent: ${handlerInput.requestEnvelope.request.intent.name} handlerInput: ${JSON.stringify(handlerInput)}`);
 
-    const slotValues = getSlotValues(filledSlots);
-    const petMatchOptions = buildPetMatchOptions(slotValues);
+    const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
 
-    let outputSpeech = '';
+    let outputSpeech='';
 
-    try {
-      const response = await httpGet(petMatchOptions);
-
-      if (response.result.length > 0) {
-        outputSpeech = `So a ${slotValues.size.resolved} 
-          ${slotValues.temperament.resolved} 
-          ${slotValues.energy.resolved} 
-          energy dog sounds good for you. Consider a 
-          ${response.result[0].breed}`;
-      } else {
-        outputSpeech = `I am sorry I could not find a match 
-          for a ${slotValues.size.resolved} 
-          ${slotValues.temperament.resolved} 
-          ${slotValues.energy.resolved} dog`;
-      }
-    } catch (error) {
-      outputSpeech = 'I am really sorry. I am unable to access part of my memory. Please try again later';
-      console.log(`Intent: ${handlerInput.requestEnvelope.request.intent.name}: message: ${error.message}`);
+    if (requestEnvelope.request.intent.confirmationStatus === 'DENIED') {
+	    outputSpeech = 'Ok, the pairing process has ben cancelled';
+    } else { // intent was confirmed
+	    outputSpeech = 'The lirc do server has been successfully unpaired';
+            const sessionAttributes = attributesManager.getSessionAttributes();
+            delete sessionAttributes.applicationFQDN;
+            delete sessionAttributes.applicationPort;
+            delete sessionAttributes.shared_secret;
+            sessionAttributes.STATE = constants.states.PAIRING;
+            attributesManager.setSessionAttributes(sessionAttributes);
+            attributesManager.setPersistentAttributes(sessionAttributes);
+            await attributesManager.savePersistentAttributes();
+            console.log(`CompletedUnpairServerIntent.handler: after await`);
     }
-
     return handlerInput.responseBuilder
-      .speak(outputSpeech)
-      .getResponse();
-  },
+	    .speak(outputSpeech)
+	    .getResponse();
+      },
 };
 
 const FallbackHandler = {
@@ -331,11 +286,149 @@ const FallbackHandler = {
       && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.FallbackIntent';
   },
   handle(handlerInput) {
+    console.log(`FallbackHandler.handler: Intent: ${handlerInput.requestEnvelope.request.intent.name}`);
+    let speechOutput = randomPhrase(constants.mainStateHandlerLaunchHandlerSpeech.say);
+    let reprompt = randomPhrase(constants.mainStateHandlerLaunchHandlerSpeech.reprompt); 
     return handlerInput.responseBuilder
-      .speak('I\'m sorry Pet Match can\'t help you with that. ' +
-        'I can help find the perfect dog for you. What are two things you\'re ' +
-        'looking for in a dog?')
-      .reprompt('What size and temperament are you looking for?')
+      .speak(speechOutput)
+      .reprompt(reprompt)
+      .getResponse();
+  },
+};
+
+
+const InProgressActionIntent = {
+  canHandle(handlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+
+    return request.type === 'IntentRequest'
+      && ['lircdo', 'volume_action', 'channel_action', 'avr_action'].indexOf(request.intent.name) > -1 
+      && request.dialogState !== 'COMPLETED';
+  },
+  handle(handlerInput) {
+    const currentIntent = handlerInput.requestEnvelope.request.intent;
+    console.log(`InProgressActionIntent.handler: Intent: ${handlerInput.requestEnvelope.request.intent.name} currentIntent: ${JSON.stringify(currentIntent)}`);
+
+    let prompt = '';
+
+    for (const slotName in currentIntent.slots) {
+      if (Object.prototype.hasOwnProperty.call(currentIntent.slots, slotName)) {
+        const currentSlot = currentIntent.slots[slotName];
+        if (currentSlot.confirmationStatus !== 'CONFIRMED'
+          && currentSlot.resolutions
+          && currentSlot.resolutions.resolutionsPerAuthority[0]) {
+          if (currentSlot.resolutions.resolutionsPerAuthority[0].status.code === 'ER_SUCCESS_MATCH') {
+            /*if (currentSlot.resolutions.resolutionsPerAuthority[0].values.length > 1) {
+              prompt = 'Which would you like';
+              const size = currentSlot.resolutions.resolutionsPerAuthority[0].values.length;
+
+              currentSlot.resolutions.resolutionsPerAuthority[0].values
+                .forEach((element, index) => {
+                  prompt += ` ${(index === size - 1) ? ' or' : ' '} ${element.value.name}`;
+                });
+
+              prompt += '?';
+
+              return handlerInput.responseBuilder
+                .speak(prompt)
+                .reprompt(prompt)
+                .addElicitSlotDirective(currentSlot.name)
+                .getResponse();
+            }
+	    */
+          } else if (currentSlot.resolutions.resolutionsPerAuthority[0].status.code === 'ER_SUCCESS_NO_MATCH') {
+            if (constants.mainStateHandlerRequiredSlots[handlerInput.requestEnvelope.request.intent.name].indexOf(currentSlot.name) > -1) {
+              prompt = `What ${currentSlot.name} are you looking for`;
+
+              return handlerInput.responseBuilder
+                .speak(prompt)
+                .reprompt(prompt)
+                .addElicitSlotDirective(currentSlot.name)
+                .getResponse();
+            }
+          }
+        }
+      }
+    }
+
+    return handlerInput.responseBuilder
+      .addDelegateDirective(currentIntent)
+      .getResponse();
+  },
+};
+
+const CompletedActionIntent = {
+  canHandle(handlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+
+    return request.type === 'IntentRequest'
+      && ['lircdo', 'volume_action', 'channel_action', 'avr_action'].indexOf(request.intent.name) > -1 
+      && request.dialogState === 'COMPLETED';
+  },
+  async handle(handlerInput) {
+    console.log(`CompletedActionIntent.handler: Intent: ${handlerInput.requestEnvelope.request.intent.name}`);
+
+    const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
+    const sessionAttributes = attributesManager.getSessionAttributes();
+
+    const params = { shared_secret: sessionAttributes.shared_secret };
+    const filledSlots = handlerInput.requestEnvelope.request.intent.slots;
+
+    const slotValues = getSlotValues(filledSlots);
+    console.log(`CompletedActionIntent.handler: slotValues: ${JSON.stringify(slotValues)}`);
+
+    for (const key in slotValues) {
+            //console.log(`CompletedActionIntent.handler: key: ${JSON.stringify(key)}`);
+	    if (slotValues[key].resolved !== undefined) {
+               params[constants.stateHandlerSlotNameToParamNameLookup[requestEnvelope.request.intent.name][key]] = slotValues[key].resolved;
+	    }
+    }
+
+    console.log(`CompletedAcionIntent.handler: params: ${JSON.stringify(params)}`);
+    
+    const lircdoServerOptions = buildLircdoServerOptions(true, sessionAttributes.applicationFQDN, sessionAttributes.applicationPort, constants.stateHandlerIntentNameToCallbackLookup[requestEnvelope.request.intent.name], params);
+    console.log(`CompletedActionIntent.handler: lircdoServerOptions: ${JSON.stringify(lircdoServerOptions)}`);
+
+    let outputSpeech = '';
+    let reprompt= "What's next?";
+
+    try {
+      const response = await httpGet(lircdoServerOptions);
+
+      console.log(`CompletedActionIntent.handler: response: ${JSON.stringify(response)}`); 
+      if (response.message !== 'success') {
+         outputSpeech = `Action status was ${response.status} with message ${response.message}. What's next?`;
+      } else {
+	outputSpeech = `Action status was ${response.status}. What's next?`;
+      }
+    } catch (error) {
+      outputSpeech = `Sorry, there was a problem performing the requested action. error is ${error}`;
+      console.log(`Intent: ${handlerInput.requestEnvelope.request.intent.name}: message: ${JSON.stringify(error)}`);
+    }
+
+    return handlerInput.responseBuilder
+      .speak(outputSpeech)
+      .reprompt(reprompt)
+      .getResponse();
+  },
+};
+
+
+const CatchallHandler = {
+  canHandle(handlerInput) {
+    console.log(`CatchallHandler: handlerInput: ${JSON.stringify(handlerInput)}`);
+
+    return true;
+  },
+  async handle(handlerInput) {
+    console.log(`CatchallHandler.handle: handlerInput: ${JSON.stringify(handlerInput)}`);
+
+    let outputSpeech = 'In Catch all Handler?';
+    let reprompt = 'In Catch all Handler?';
+
+    return handlerInput.responseBuilder
+      .speak(outputSpeech)
+      .reprompt(reprompt)
       .getResponse();
   },
 };
@@ -348,9 +441,10 @@ const HelpHandler = {
       && request.intent.name === 'AMAZON.HelpIntent';
   },
   handle(handlerInput) {
+    console.log(`HelpHandler.handler: Intent: ${handlerInput.requestEnvelope.request.intent.name}`);
     return handlerInput.responseBuilder
-      .speak('This is pet match. I can help you find the perfect pet for you. You can say, I want a dog.')
-      .reprompt('What size and temperament are you looking for in a dog?')
+      .speak('You can operate your home audio and video equipment using voice commands. What would you like to do?')
+      .reprompt('What would you like to do?')
       .getResponse();
   },
 };
@@ -364,6 +458,7 @@ const ExitHandler = {
         || request.intent.name === 'AMAZON.StopIntent');
   },
   handle(handlerInput) {
+    console.log(`ExitHandler.handler: Intent: ${handlerInput.requestEnvelope.request.intent.name}`);
     return handlerInput.responseBuilder
       .speak('Bye')
       .getResponse();
@@ -461,7 +556,8 @@ function getSlotValues(filledSlots) {
         case 'ER_SUCCESS_MATCH':
           slotValues[name] = {
             synonym: filledSlots[item].value,
-            resolved: filledSlots[item].resolutions.resolutionsPerAuthority[0].values[0].value.name,
+            //resolved: filledSlots[item].resolutions.resolutionsPerAuthority[0].values[0].value.name,
+            resolved: filledSlots[item].resolutions.resolutionsPerAuthority[0].values[0].value.id,
             isValidated: true,
           };
           break;
@@ -556,18 +652,24 @@ exports.handler = skillBuilder
     LaunchRequestHandler,
     InProgressPairServerIntent,
     CompletedPairServerIntent,
-/*    MythicalCreaturesHandler,
-    InProgressPetMatchIntent,
-    CompletedPetMatchIntent,
-*/
+    InProgressUnpairServerIntent,
+    CompletedUnpairServerIntent,
+    InProgressActionIntent,
+    CompletedActionIntent,
     HelpHandler,
     FallbackHandler,
     ExitHandler,
     SessionEndedRequestHandler,
+    //CatchallHandler,
   )
   .addErrorHandlers(ErrorHandler)
+  .withSkillId(constants.appId)
   .withTableName(constants.dynamoDBTableName)
   .withAutoCreateTable(true)
   .withPartitionKeyGenerator(Alexa.PartitionKeyGenerators.deviceId)
+  .withDynamoDbClient ( // Required to allow mocha tests to run without
+                        //  complaining that region is not set for DynamoDB
+    new AWS.DynamoDB({ apiVersion: "latest", region: "us-east-1" })
+  )
 .lambda();
 

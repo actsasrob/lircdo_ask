@@ -5,14 +5,12 @@
   "main": "index.js",
   "dependencies": {
     "ask-sdk": "^2.3.0",
-    "ask-sdk-v1adapter": "^2.3.0",
-    "request": "^2.88.0",
-    "request-promise": "^4.1.1"
+    "ask-sdk-model": "^1.0.0",
+    "ask-sdk-test": "^2.0.0"
   },
   "keywords": [
     "alexa",
-    "skill",
-    "echo buttons"
+    "skill"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

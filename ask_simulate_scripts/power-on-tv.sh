@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ask simulate -l en-US -p default -t "ask ear remote to power on tv"
+ask simulate -l en-US -p default -t "tell ear remote, power on tv"
