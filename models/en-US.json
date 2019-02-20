@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "ear remote",
+            "invocationName": "baba zoo",
             "intents": [
                 {
                     "name": "AMAZON.CancelIntent",
@@ -195,7 +195,7 @@
                     "name": "pair_server_again",
                     "slots": [],
                     "samples": [
-                        "pair server"
+                        "unpair server"
                     ]
                 },
                 {

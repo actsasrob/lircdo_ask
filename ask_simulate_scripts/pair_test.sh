@@ -1,5 +1,5 @@
 #!/bin/bash
-ask simulate -l en-US -p default -t "open ear remote"
+ask simulate -l en-US -p default -t "open baba zoo"
 sleep 2 
 ask simulate -l en-US -p default -t "my application pin is one seven eight"
 sleep 2
