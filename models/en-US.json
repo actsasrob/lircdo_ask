@@ -302,7 +302,7 @@
                         {
                             "id": "UNMUTE",
                             "name": {
-                                "value": "mute"
+                                "value": "unmute"
                             }
                         },
                         {

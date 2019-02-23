@@ -6,14 +6,9 @@
 /* eslint-disable max-len */
 /* eslint-disable prefer-destructuring */
 
-//const Alexa = require('ask-sdk-core');
 const Alexa = require('ask-sdk');
 const AWS = require('aws-sdk');
 const https = require('https');
-
-// Set the region 
-//Alexa.config.update({region: 'us-east-1'}); // Required to allow mocha tests to run without
-//  complaining that region is not set for DynamoDB
 
 // Constants
 var constants = require('./constants/constants');
@@ -28,8 +23,8 @@ const LaunchRequestHandler = {
 		//    return instructions to start pairing process
 		// else 
 		//    ask what to do 
-		//return handlerInput.requestEnvelope.session.new || handlerInput.requestEnvelope.request.type === 'LaunchRequest';
-		return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
+		return handlerInput.requestEnvelope.session.new || handlerInput.requestEnvelope.request.type === 'LaunchRequest';
+		//return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
 	},
 	async handle(handlerInput) {
 		//console.log(`Intent: ${handlerInput.requestEnvelope.request.intent.name}: in handle:`);
@@ -62,10 +57,15 @@ const LaunchRequestHandler = {
 };
 
 const InProgressPairServerIntent = {
-	canHandle(handlerInput) {
+	async canHandle(handlerInput) {
 		const request = handlerInput.requestEnvelope.request;
-
+		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
+		var sessionAttributes = attributesManager.getSessionAttributes();
+		if (Object.keys(sessionAttributes).length === 0 || ! sessionAttributes.STATE) {
+			sessionAttributes = await loadSessionAttributes(attributesManager);
+		}
 		return request.type === 'IntentRequest'
+			&& sessionAttributes.STATE === constants.states.PAIRING
 			&& request.intent.name === 'pair_server'
 			&& request.dialogState !== 'COMPLETED';
 	},
@@ -128,10 +128,16 @@ const InProgressPairServerIntent = {
 };
 
 const CompletedPairServerIntent = {
-	canHandle(handlerInput) {
+	async canHandle(handlerInput) {
 		const request = handlerInput.requestEnvelope.request;
+		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
+		var sessionAttributes = attributesManager.getSessionAttributes();
+		if (Object.keys(sessionAttributes).length === 0 || ! sessionAttributes.STATE) {
+			sessionAttributes = await loadSessionAttributes(attributesManager);
+		}
 
 		return request.type === 'IntentRequest'
+			&& sessionAttributes.STATE === constants.states.PAIRING
 			&& request.intent.name === 'pair_server'
 			&& request.dialogState === 'COMPLETED';
 	},
@@ -185,10 +191,16 @@ const CompletedPairServerIntent = {
 
 
 const InProgressUnpairServerIntent = {
-	canHandle(handlerInput) {
+	async canHandle(handlerInput) {
 		const request = handlerInput.requestEnvelope.request;
+		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
+		var sessionAttributes = attributesManager.getSessionAttributes();
+		if (Object.keys(sessionAttributes).length === 0 || ! sessionAttributes.STATE) {
+			sessionAttributes = await loadSessionAttributes(attributesManager);
+		}
 
 		return request.type === 'IntentRequest'
+			&& sessionAttributes.STATE === constants.states.MAIN
 			&& request.intent.name === 'pair_server_again'
 			&& request.dialogState !== 'COMPLETED';
 	},
@@ -245,10 +257,16 @@ const InProgressUnpairServerIntent = {
 };
 
 const CompletedUnpairServerIntent = {
-	canHandle(handlerInput) {
+	async canHandle(handlerInput) {
 		const request = handlerInput.requestEnvelope.request;
+		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
+		var sessionAttributes = attributesManager.getSessionAttributes();
+		if (Object.keys(sessionAttributes).length === 0 || ! sessionAttributes.STATE) {
+			sessionAttributes = await loadSessionAttributes(attributesManager);
+		}
 
 		return request.type === 'IntentRequest'
+			&& sessionAttributes.STATE === constants.states.MAIN
 			&& request.intent.name === 'pair_server_again'
 			&& request.dialogState === 'COMPLETED';
 	},
@@ -268,6 +286,7 @@ const CompletedUnpairServerIntent = {
 			delete sessionAttributes.applicationFQDN;
 			delete sessionAttributes.applicationPort;
 			delete sessionAttributes.shared_secret;
+			delete sessionAttributes.thingsToSayIndex;
 			sessionAttributes.STATE = constants.states.PAIRING;
 			attributesManager.setSessionAttributes(sessionAttributes);
 			attributesManager.setPersistentAttributes(sessionAttributes);
@@ -298,10 +317,16 @@ const FallbackHandler = {
 
 
 const InProgressActionIntent = {
-	canHandle(handlerInput) {
+	async canHandle(handlerInput) {
 		const request = handlerInput.requestEnvelope.request;
+		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
+		var sessionAttributes = attributesManager.getSessionAttributes();
+		if (Object.keys(sessionAttributes).length === 0 || ! sessionAttributes.STATE) {
+			sessionAttributes = await loadSessionAttributes(attributesManager);
+		}
 
-		return request.type === 'IntentRequest'
+		return request.type === 'IntentRequest' &&
+			sessionAttributes.STATE === constants.states.MAIN
 			&& ['lircdo', 'volume_action', 'channel_action', 'avr_action'].indexOf(request.intent.name) > -1 
 			&& request.dialogState !== 'COMPLETED';
 	},
@@ -361,10 +386,16 @@ const InProgressActionIntent = {
 };
 
 const CompletedActionIntent = {
-	canHandle(handlerInput) {
+	async canHandle(handlerInput) {
 		const request = handlerInput.requestEnvelope.request;
+		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
+		var sessionAttributes = attributesManager.getSessionAttributes();
+		if (Object.keys(sessionAttributes).length === 0 || ! sessionAttributes.STATE) {
+			sessionAttributes = await loadSessionAttributes(attributesManager);
+		}
 
 		return request.type === 'IntentRequest'
+			&& sessionAttributes.STATE === constants.states.MAIN
 			&& ['lircdo', 'volume_action', 'channel_action', 'avr_action'].indexOf(request.intent.name) > -1 
 			&& request.dialogState === 'COMPLETED';
 	},
@@ -374,12 +405,10 @@ const CompletedActionIntent = {
 
 		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
 		var sessionAttributes = attributesManager.getSessionAttributes();
-		if (Object.keys(sessionAttributes).length === 0) {
-			const persistentAttributes = await attributesManager.getPersistentAttributes() || {};
-			console.log(`CompletedActionIntent.handle: loading session attributes from persistent store persistentAttributes: ${JSON.stringify(persistentAttributes)}`);
-			attributesManager.setSessionAttributes(persistentAttributes);
-			sessionAttributes = attributesManager.getSessionAttributes();
+		if (Object.keys(sessionAttributes).length === 0 || ! sessionAttributes.STATE) {
+			sessionAttributes = await loadSessionAttributes(attributesManager);
 		}
+
 		const params = { shared_secret: sessionAttributes.shared_secret };
 		const filledSlots = handlerInput.requestEnvelope.request.intent.slots;
 
@@ -432,13 +461,33 @@ const CatchallHandler = {
 	async handle(handlerInput) {
 		console.log(`CatchallHandler.handle: handlerInput: ${JSON.stringify(handlerInput)}`);
 
-		let outputSpeech = 'In Catch all Handler?';
-		let reprompt = 'In Catch all Handler?';
+		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
+		var sessionAttributes = attributesManager.getSessionAttributes();
+		if (Object.keys(sessionAttributes).length === 0 || ! sessionAttributes.STATE) {
+			sessionAttributes = await loadSessionAttributes(attributesManager);
+		}
 
-		return handlerInput.responseBuilder
-			.speak(outputSpeech)
-			.reprompt(reprompt)
-			.getResponse();
+		let speechOutput = ''; 
+		let reprompt = ''; 
+		if (sessionAttributes.STATE === constants.states._PAIRING) {
+			const cardTitle = constants.initialStateHandlerCard.title;
+			const cardContent = constants.initialStateHandlerCard.content;
+			speechOutput = randomPhrase(constants.initialStateHandlerHelpSpeech.say);
+			reprompt = randomPhrase(constants.initialStateHandlerHelpSpeech.reprompt);
+			return responseBuilder
+				.speak(speechOutput)
+				.reprompt(reprompt)
+				.withSimpleCard(cardTitle, cardContent)
+				.getResponse();
+		} else {
+
+			speechOutput = randomPhrase(constants.mainStateHandlerHelpSpeech.say); 
+			reprompt = randomPhrase(constants.mainStateHandlerHelpSpeech.reprompt); 
+			return responseBuilder
+				.speak(speechOutput)
+				.reprompt(reprompt)
+				.getResponse();
+		}
 	},
 };
 
@@ -449,12 +498,45 @@ const HelpHandler = {
 		return request.type === 'IntentRequest'
 			&& request.intent.name === 'AMAZON.HelpIntent';
 	},
-	handle(handlerInput) {
+	async handle(handlerInput) {
 		console.log(`HelpHandler.handler: Intent: ${handlerInput.requestEnvelope.request.intent.name}`);
-		return handlerInput.responseBuilder
-			.speak('You can operate your home audio and video equipment using voice commands. What would you like to do?')
-			.reprompt('What would you like to do?')
-			.getResponse();
+		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
+		var sessionAttributes = attributesManager.getSessionAttributes();
+		if (Object.keys(sessionAttributes).length === 0 || ! sessionAttributes.STATE) {
+			sessionAttributes = await loadSessionAttributes(attributesManager);
+		}
+
+		let speechOutput = '';
+		let reprompt = '';
+		if (sessionAttributes.STATE === constants.states._PAIRING) {
+			const cardTitle = constants.initialStateHandlerCard.title;
+			const cardContent = constants.initialStateHandlerCard.content;
+			speechOutput = randomPhrase(constants.initialStateHandlerHelpSpeech.say);
+			reprompt = randomPhrase(constants.initialStateHandlerHelpSpeech.reprompt);
+			return responseBuilder
+				.speak(speechOutput)
+				.reprompt(reprompt)
+				.withSimpleCard(cardTitle, cardContent)
+				.getResponse();
+		} else {
+			speechOutput = randomPhrase(constants.mainStateHandlerHelpSpeech.say); 
+			reprompt = randomPhrase(constants.mainStateHandlerHelpSpeech.reprompt); 
+			if (! sessionAttributes.thingsToSayIndex) {
+				sessionAttributes.thingsToSayIndex = 0;
+			}
+
+			const sampleThingsToSayArray = getSliceWrap(constants.mainStateHandlerThingsToSay.say, sessionAttributes.thingsToSayIndex, constants.mainStateHandlerThingsToSay.sayLength);
+			sessionAttributes.thingsToSayIndex +=  constants.mainStateHandlerThingsToSay.sayLength;
+			if (sessionAttributes.thingsToSayIndex >= constants.mainStateHandlerThingsToSay.say.length) {
+				sessionAttributes.thingsToSayIndex = sessionAttributes.thingsToSayIndex % constants.mainStateHandlerThingsToSay.say.length;
+			}
+			const sampleThingsToSay = joinArrayOfStrings(sampleThingsToSayArray);
+                        speechOutput = speechOutput.concat(' You can say things like,').concat(sampleThingsToSay).concat(' Ask for help to hear additional sample things you can say');
+			return responseBuilder
+				.speak(speechOutput)
+				.reprompt(reprompt)
+				.getResponse();
+		}
 	},
 };
 
@@ -502,38 +584,21 @@ const ErrorHandler = {
 
 /* CONSTANTS */
 
-const petMatchApi = {
-	hostname: 'e4v7rdwl7l.execute-api.us-east-1.amazonaws.com',
-	pets: '/Test',
-};
-
-const requiredSlots = [
-	'energy',
-	'size',
-	'temperament',
-];
-
-const slotsMeta = {
-	pet: {
-		invalid_responses: [
-			"I'm sorry, but I'm not qualified to match you with {0}s.",
-			'Ah yes, {0}s are splendid creatures, but unfortunately owning one as a pet is outlawed.',
-			"I'm sorry I can't match you with {0}s.",
-		],
-		error_default: "I'm sorry I can't match you with {0}s.",
-	},
-};
-
 /* HELPER FUNCTIONS */
 
-function buildPastMatchObject(response, slotValues) {
-	return {
-		match: response.result,
-		pet: slotValues.pet.resolved,
-		energy: slotValues.energy.resolved,
-		size: slotValues.size.resolved,
-		temperament: slotValues.temperament.resolved,
-	};
+// return session attributes and load from persistent store if needed
+async function loadSessionAttributes(attributesManager) {
+	var sessionAttributes = attributesManager.getSessionAttributes();
+	if (Object.keys(sessionAttributes).length === 0) {
+		const persistentAttributes = await attributesManager.getPersistentAttributes() || {};
+		console.log(`loadSessionAttributes: loading session attributes from persistent store persistentAttributes: ${JSON.stringify(persistentAttributes)}`);
+		attributesManager.setSessionAttributes(persistentAttributes);
+		sessionAttributes = attributesManager.getSessionAttributes();
+		if (Object.keys(sessionAttributes).length === 0 || ! sessionAttributes.STATE) {
+			sessionAttributes.STATE = constants.states._PAIRING;
+		}
+	}
+	return sessionAttributes;
 }
 
 function saveValue(options, handlerInput) {
@@ -596,6 +661,33 @@ function randomPhrase(array) {
 	return (array[Math.floor(Math.random() * array.length)]);
 }
 
+function joinArrayOfStrings(theArray) {
+	var index;
+	var retVal = '';
+	for (index = 0; index < theArray.length; ++index) {
+		retVal=retVal.concat(`${index === 0 ? '' : ' or '}${theArray[index]}`).concat('<break time="250ms"/>');
+	}
+	return retVal;
+}
+
+function getSliceWrap(theArray, beginNdx, sliceLength) {
+
+	var theSlice = [];
+	let arrayLength = theArray.length;
+	let startNdx = beginNdx;
+	if (beginNdx > (arrayLength - 1)) {
+		startNdx = startNdx %  arrayLength;
+	}
+	if ((startNdx + sliceLength) > (arrayLength - 1)) {
+		theSlice = theArray.slice(startNdx, arrayLength);
+		//theSlice.concat(theArray.slice(0, arrayLength - startNdx + 1));
+		theSlice = theSlice.concat(theArray.slice(0, 3));
+	} else {
+		theSlice = theArray.slice(startNdx, startNdx + sliceLength);
+	}
+	return theSlice;
+}
+
 function buildQueryString(params) {
 	let paramsList = '';
 	let index = 0;
@@ -656,7 +748,7 @@ function httpGet(options) {
 const skillBuilder = Alexa.SkillBuilders.standard();
 
 /* LAMBDA SETUP */
-	exports.handler = skillBuilder
+exports.handler = skillBuilder
 .addRequestHandlers(
 		LaunchRequestHandler,
 		InProgressPairServerIntent,
@@ -666,17 +758,18 @@ const skillBuilder = Alexa.SkillBuilders.standard();
 		InProgressActionIntent,
 		CompletedActionIntent,
 		HelpHandler,
-		FallbackHandler,
+		//FallbackHandler,
 		ExitHandler,
 		SessionEndedRequestHandler,
-		//CatchallHandler,
+		CatchallHandler,
 		)
 	.addErrorHandlers(ErrorHandler)
 	.withSkillId(constants.appId)
 	.withTableName(constants.dynamoDBTableName)
 	.withAutoCreateTable(true)
 .withPartitionKeyGenerator(Alexa.PartitionKeyGenerators.deviceId)
-	.withDynamoDbClient ( // Required to allow mocha tests to run without
+	.withDynamoDbClient ( 
+			// Required to allow mocha tests to run without
 			//  complaining that region is not set for DynamoDB
 			new AWS.DynamoDB({ apiVersion: "latest", region: "us-east-1" })
 			)
