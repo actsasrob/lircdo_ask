@@ -24,56 +24,17 @@ beforeAll(() => {
 //		//assert.include(result.prompt(), 'welcome');
 //	});
 //
-//	//test('Launch skill and pair server', async () => {
-//	//	let result = await alexa.launch();
-//	//	console.log(`result: ${JSON.stringify(result)}`);
-//	//	//assert.include(result.response.outputSpeech.ssml, constants.initialStateHandlerSpeech.say);
-//	//	//assert.include(result.response.outputSpeech.ssml, "Please say the application pin");
-//	//	const pair_server_step1 = await alexa.utter("my application pin is one seven eight");
-//	//	console.log(`initiate_unpair_step1: ${JSON.stringify(initiate_unpair_step1)}`);
-//	//	assert(true);
-//	//	//assert.include(result.prompt(), 'welcome');
-//	//});
 //
-//	test('Launch skill and pair server', (done) => { 
-//		//let result = await alexa.launch();
-//		//console.log(`result: ${JSON.stringify(result)}`);
-//		alexa.intend('pair_server', { OctetA: '108', OctetB: '51', OctetC: '25', OctetD: '67', ApplicationPort: '8844', ApplicationPin: '178' }).then((payload) => {
-//			console.log(`payload ${JSON.stringify(payload)}`);
-//                        expect(payload.prompt).toContain("What is the application I.P.");
-//                        //return alexa.utter("my application address is one zero eight dot five one dot two five dot six seven");
-//                        return alexa.intend('pair_server', { OctetA: '108', OctetB: '51', OctetC: '25', OctetD: '67' });
 //
-//                }).then((payload) => {
-//			console.log(`payload ${JSON.stringify(payload)}`);
-//			expect(payload.prompt).toContain("my application pin is");
-//			return alexa.utter("my application pin is one seven eight");
-//		}).then((payload) => {
-//			console.log(`payload ${JSON.stringify(payload)}`);
-//			expect(payload.response.outputSpeech.ssml).toContain("application address");
-//			return alexa.utter("my application address is one zero eight dot five one dot two five dot six seven");
+//      test('Launch skill and pair server', async () => { 
+//              //var result = await alexa.launch();
+//              //console.log(`result: ${JSON.stringify(result)}`);
+//              await alexa.intend('pair_server', { OctetA: '108', OctetB: '51', OctetC: '25', OctetD: '67', ApplicationPort: '8844', ApplicationPin: '178' });
+//              let result = await alexa.intend('pair_server', { OctetA: '108', OctetB: '51', OctetC: '25', OctetD: '67', ApplicationPort: '8844', ApplicationPin: '178' });
+//              console.log(`result: ${JSON.stringify(result)}`);
+//	      assert.equal(true,true);
+//      });
 //
-//		}).then((payload) => {
-//			console.log(`payload ${JSON.stringify(payload)}`);
-//			expect(payload.response.outputSpeech.ssml).toContain("correct");
-//			return alexa.utter("yes");
-//
-//		}).then((payload) => {
-//			console.log(`payload ${JSON.stringify(payload)}`);
-//			expect(payload.response.outputSpeech.ssml).toContain("correct");
-//			return alexa.utter("yes");
-//
-//		});
-//
-//	});
-//});
-
-//describe('Test expected intent responses against various input', function() {
-//test("change channel", (done) => {
-//    alexa.utter("change channel to 746").then((payload) => {
-//			console.log(`payload ${JSON.stringify(payload)}`);
-//        expect(payload.response.outputSpeech.ssml).toContain("success");
-//   }); 
 //});
 
 describe('Test expected intent responses against various input', function() {
