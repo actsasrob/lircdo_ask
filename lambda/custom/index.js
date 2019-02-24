@@ -469,7 +469,7 @@ const CatchallHandler = {
 
 		let speechOutput = ''; 
 		let reprompt = ''; 
-		if (sessionAttributes.STATE === constants.states._PAIRING) {
+		if (sessionAttributes.STATE === constants.states.PAIRING) {
 			const cardTitle = constants.initialStateHandlerCard.title;
 			const cardContent = constants.initialStateHandlerCard.content;
 			speechOutput = randomPhrase(constants.initialStateHandlerHelpSpeech.say);
@@ -508,7 +508,8 @@ const HelpHandler = {
 
 		let speechOutput = '';
 		let reprompt = '';
-		if (sessionAttributes.STATE === constants.states._PAIRING) {
+		console.log(`HelpHandler.handle: sessionAttributes=${JSON.stringify(sessionAttributes)}`);
+		if (sessionAttributes.STATE === constants.states.PAIRING) {
 			const cardTitle = constants.initialStateHandlerCard.title;
 			const cardContent = constants.initialStateHandlerCard.content;
 			speechOutput = randomPhrase(constants.initialStateHandlerHelpSpeech.say);
@@ -595,7 +596,7 @@ async function loadSessionAttributes(attributesManager) {
 		attributesManager.setSessionAttributes(persistentAttributes);
 		sessionAttributes = attributesManager.getSessionAttributes();
 		if (Object.keys(sessionAttributes).length === 0 || ! sessionAttributes.STATE) {
-			sessionAttributes.STATE = constants.states._PAIRING;
+			sessionAttributes.STATE = constants.states.PAIRING;
 		}
 	}
 	return sessionAttributes;
