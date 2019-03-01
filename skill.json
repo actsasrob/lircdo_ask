@@ -3,13 +3,13 @@
     "publishingInformation": {
       "locales": {
         "en-US": {
-          "summary": "Command home audio/video components using LIRC",
+          "summary": "Operate home audio/video components using voice commands.",
           "examplePhrases": [
-            "Alexa, open lirc do",
-            "Alexa, ask lirc do to power on system",
-            "Alexa, tell lirc do to change channel to 746"
+            "Alexa, open baba zoo",
+            "Alexa, ask baba zoo to power on system",
+            "Alexa, tell baba zoo to change channel to 746"
           ],
-          "name": "Linux Infrared Remote Control (LIRC) Do",
+          "name": "Baba Zoo",
           "description": "Command home audio/video components using Linux Infrared Remote Control (LIRC)",
 	  "smallIconUri": "https://s3.amazonaws.com/lircdo/icons/lircdo108x108.png",
 	  "largeIconUri": "https://s3.amazonaws.com/lircdo/icons/lircdo512x512.png",
@@ -24,9 +24,9 @@
         }
       },
       "isAvailableWorldwide": false,
-      "testingInstructions": "Say 'Alexa, open lirc do'",
+      "testingInstructions": "Say 'Alexa, open baba zoo'",
       "category": "SMART_HOME",
-      "distributionCountries": ["US", "GB"]
+      "distributionCountries": ["US"]
     },
     "apis": {
       "custom": {
