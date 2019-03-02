@@ -1,6 +1,6 @@
 # Baba Zoo Alexa Skill (AKA "LIRC Do")
 
-First, what does 'baba zoo' mean? It doesn't mean anything. It is a made up name that is easy and fun to pronounce. I really wanted the ([Alexa skill](https://developer.amazon.com/alexa-skills-kit/start)) and the invocation name to be **L**inux **I**nfrared **R**emote **C**ontrol ([LIRC](http://www.lirc.org/)) **Do**. If you continue reading you will see that ([LIRC](http://www.lirc.org/)) is the critical technology that enables the service to emit infrared (IR) signals to operate your homeaudio/video equipment. So you are really using *LIRC* to *do* stuff. Hence the name 'lircdo' that you will see everywhere in the documentation. Unfortunately 'lircdo' doesn't make a very good invocation name for the Alexa skill. It works great when you say 'Alexa, open lircdo', but the Alexa service gets really confused when you invoke the skill as 'Alexa, tell lircdo *to do something*'. After a bit of trial and error I eventually settled on 'baba zoo' as the invocation name. Baba Zoo is also the name of the skill when viewing skills in the Alexa app.
+First, what does 'baba zoo' mean? It doesn't mean anything. It is a made up name that is easy and fun to pronounce. I really wanted the ([Alexa skill](https://developer.amazon.com/alexa-skills-kit/start)) and the invocation name to be **L**inux **I**nfrared **R**emote **C**ontrol ([LIRC](http://www.lirc.org/)) **Do**. If you continue reading you will see that ([LIRC](http://www.lirc.org/)) is the critical technology that enables the service to emit infrared (IR) signals to operate your home audio/video equipment. So you are really using *LIRC* to *do* stuff. Hence the name 'lircdo' that you will see everywhere in the documentation. Unfortunately 'lircdo' doesn't make a very good invocation name for the Alexa skill. It works great when you say 'Alexa, open lircdo', but the Alexa service gets really confused when you invoke the skill as 'Alexa, tell lircdo *to do something*'. After a bit of trial and error I eventually settled on 'baba zoo' as the invocation name. Baba Zoo is also the name of the skill when viewing skills in the Alexa app.
 
 From here on out the Alexa skill and service will be referred to as 'lircdo'. Just remember to use 'baba zoo' as the invocation name.
 
@@ -20,7 +20,7 @@ You are currently reading the README page for the lircdo Alexa Skill component.
 
 This component is implemented using a small computer(e.g. Raspberry Pi 3 Model B) residing in your home and running the lircdo service. The lircdo server refers to the physical hardware. The lircdo service refers to the lircdo sofware running on the server. The lircdo server requires additional hardware capable of emitting infrared (IR) signals. The lircdo server/IR emitter combination control your home audio/video (AV) equipment using IR signals. **YOU MUST BUILD THIS COMPONENT YOURSELF!!!**. 
 
-To learn more about the lircdo server/service component navigate to this [link](https://github.com/actsasrob/lircdo)
+To learn more about the lircdo server/service component navigate to this [link](https://github.com/actsasrob/lircdo/blob/master/README.md)
 
 ## How Does It All Work?
 
