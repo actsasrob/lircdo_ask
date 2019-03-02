@@ -14,7 +14,6 @@ echo "DIR=$DIR"
 cwd=$(pwd)
 cd $DIR/.. 
 
-echo "remember to remove comments..."
 echo "unpairing lircdo server..."
 ./ask_simulate_scripts/pair_server_again.sh > /dev/null 2>&1
 
