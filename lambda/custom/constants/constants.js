@@ -78,8 +78,8 @@ var constants = Object.freeze({
 		reprompt :["Please see the card added to your alexa application for additional setup details. To start the pairing process now say your lirc do server pin number. You can say my application pin is, followed by the pin number."],
 	},
 	initialStateHandlerCard: {
-		title: 'lircdo Help',
-		content: 'Please navigate to the following link to learn more about lircdo including building the lircdo server: https://github.com/actsasrob/lircdo_ask/blob/master/README.md\n\nNavigate to this link to learn about how to interact with the lircdo Alexa skill: https://github.com/actsasrob/lircdo_ask/blob/master/README_using_skill.md',
+		title: 'Baba Zoo Help',
+		content: 'Please navigate to the following link to learn more about Baba zoo (aka LIRC Do) including building the lircdo server: https://github.com/actsasrob/lircdo_ask/blob/master/README.md\n\nNavigate to this link to learn about how to interact with the lircdo Alexa skill: https://github.com/actsasrob/lircdo_ask/blob/master/README_using_skill.md',
 	},
 
 });
