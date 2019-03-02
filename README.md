@@ -1,4 +1,4 @@
-# Baba Zoo Alexa Skill (AKA "LIRC Do")
+# Baba Zoo Alexa Skill (aka "LIRC Do")
 
 First, what does 'baba zoo' mean? It doesn't mean anything. It is a made up name that is easy and fun to pronounce. I really wanted the ([Alexa skill](https://developer.amazon.com/alexa-skills-kit/start)) and the invocation name to be **L**inux **I**nfrared **R**emote **C**ontrol ([LIRC](http://www.lirc.org/)) **Do**. If you continue reading you will see that ([LIRC](http://www.lirc.org/)) is the critical technology that enables the service to emit infrared (IR) signals to operate your home audio/video equipment. So you are really using *LIRC* to *do* stuff. Hence the name 'lircdo' that you will see everywhere in the documentation. Unfortunately 'lircdo' doesn't make a very good invocation name for the Alexa skill. It works great when you say 'Alexa, open lircdo', but the Alexa service gets really confused when you invoke the skill as 'Alexa, tell lircdo *to do something*'. After a bit of trial and error I eventually settled on 'baba zoo' as the invocation name. Baba Zoo is also the name of the skill when viewing skills in the Alexa app.
 
