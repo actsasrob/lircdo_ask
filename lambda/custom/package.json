@@ -16,7 +16,19 @@
   },
   "keywords": [
     "alexa",
-    "skill"
+    "skill",
+    "ask",
+    "voice first",
+    "automation",
+    "infrared",
+    "audio",
+    "video",
+    "A/V"
   ],
-  "author": "Rob Hughes"
+  "author": "Rob Hughes",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://@github.com:actsasrob/lircdo_ask.git"
+  }
 }
