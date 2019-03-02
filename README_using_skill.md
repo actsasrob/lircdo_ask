@@ -105,6 +105,8 @@ The text surrounded by curly braces are known as "slots". See the table below fo
 | "power off","turn off","off"| action=POWER_OFF |
 | "show menu","display menu","menu","display","show"| action=MENU_SHOW |
 | "dismiss menu","dismiss"| action=MENU_DISMISS |
+| "mute","silence"| action=MUTE |
+| "unmute"| action=UNMUTE |
 | "pause","halt"| action=PAUSE |
 | "unpause","continue","play"| action=UNPAUSE |
 | "record","record show","record movie"| action=RECORD |
