@@ -1,4 +1,4 @@
-# Baba Zoo
+# Baba Zoo Alexa Skill (AKA "LIRC Do")
 
 First, what does 'baba zoo' mean? It doesn't mean anything. It is a made up name that is easy and fun to pronounce. I really wanted the ([Alexa skill](https://developer.amazon.com/alexa-skills-kit/start)) and the invocation name to be **L**inux **I**nfrared **R**emote **C**ontrol ([LIRC](http://www.lirc.org/)) **Do**. If you continue reading you will see that ([LIRC](http://www.lirc.org/)) is the critical technology that enables the service to emit infrared (IR) signals to operate your homeaudio/video equipment. So you are really using *LIRC* to *do* stuff. Hence the name 'lircdo' that you will see everywhere in the documentation. Unfortunately 'lircdo' doesn't make a very good invocation name for the Alexa skill. It works great when you say 'Alexa, open lircdo', but the Alexa service gets really confused when you invoke the skill as 'Alexa, tell lircdo *to do something*'. After a bit of trial and error I eventually settled on 'baba zoo' as the invocation name. Baba Zoo is also the name of the skill when viewing skills in the Alexa app.
 
@@ -41,7 +41,7 @@ The Alexa service processes the request "open/tell/ask baba zoo" and recognizes 
 
 lircdo callbacks first validate all the required parameters were passed to the callback. For instance the volume intent requires one parameter to know whether to raise or lower the volume and a second required parameter which is a numeric argument which indicates by how much to raise or lower the volume. The volume intent take an optional third parameter which is the device or component that should have its volume raised or lowered. It is designed to be optional. In fact the device/component is optional for generic intents, volume intents, and channel intents. For each of these intents you can specify a default device/component which will be targeted. This is handy, say, if all your components are plugged into an audio/video receiver which handles the volume for all components.
 
-Once the lircdo callback determines it has all the required parameters it looks up the information for your lircdo server/service. The lircdo skills stores the minimal amount of information it needs to perform its function. It uses a dynamo DB instance to store the Alexa ID of your Alexa-enabled device, the fully qualified domain name (FQDN) of your lircdo server, the port number that the lircdo service listens on for incoming requests, and a "shared secret" used to better secure HTTPS requests. The lircdo skill captures this information during the intial "pairing" of the lircdo skill mentioned above.
+Once the lircdo callback determines it has all the required parameters it looks up the information for your lircdo server/service. The lircdo skills stores the minimal amount of information it needs to perform its function. It uses a dynamo DB instance to store the Alexa ID of your Alexa-enabled device, the fully qualified domain name (FQDN) of your lircdo server, the port number that the lircdo service listens on for incoming requests, and a "shared secret" used to better secure HTTPS requests. The lircdo skill captures this information during the initial "pairing" of the lircdo skill mentioned above.
 
 The lircdo callback then makes an HTTPS request to the lircdo service running on your lircdo server using the registered FQDN and the port number. Each of the callback intents for the lircdo skill have an associated callback function implemented by the lircdo service. Any additional parameters are passed to the lirdo service callback running in your home. 
 
@@ -51,11 +51,11 @@ If you wish to understand how the lircdo server/service process incoming HTTPS r
 
 ### Pairing lircdo Alexa skill with lircdo server/service
 
-The first time you launch the lircdo Alexa skill it will prompt you to pair the lircdo server/service residing in your home.  You will be prompted for a three digit pin, the WAN-side IP address of your home internet router, and the port number the lircdo service listens on. The pin is a randomly generated three digit code generated when the lircdo service is installed. The pin prevents someone from pairing the lircdo Alexa skill with someone else's lircdo server. During the pairing process the lircdo Alexa skill performs a reverse DNS lookup on the IP address to find the fully qualified domain name (FQDN) associated with the IP address. The lircdo Alexa skill then connects to your lircdo service using the FQDN and port number and passes along the pin number. If this is successful the lircdo service responds with a shared secrect. The shared secret is randomly generated when the lircdo service is installed. Later when the lircdo Alexa skill invokes a lircdo service callback it passes along the shared secret. The lircdo server compares the incoming shared secret and returns a 401 "unauthorized" message and refuses to perform the action if the shared secret does not match. The lircdo Alexa skill uses the FQDN when interacting with the lircdo service. Most residential internet service customers receive a dynamic IP address which will change over time. Because of this you must keep the IP address associated with the FQDN update-to-date. There are many companies that provide a "dynamic DNS" service that facilitate keeping the IP address up-to-date for domains that you own. I use [dyn.com](https://dyn.com). In additional the internet router provided by my internet provider has a helpful feature that communicates with my account over at dyn.com that keeps the IP address for my  various domains up-to-date. If your router does not provide this functionality you can find various solutions on the internet that you can install on a server in your home that will communicate with tyour dynamic DNS provider to keep the IP address associated with your domain up-to-date.
+The first time you launch the lircdo Alexa skill it will prompt you to pair the lircdo server/service residing in your home.  You will be prompted for a three digit pin, the WAN-side IP address of your home internet router, and the port number the lircdo service listens on. The pin is a randomly generated three digit code generated when the lircdo service is installed. The pin prevents someone from pairing the lircdo Alexa skill with someone else's lircdo server. During the pairing process the lircdo Alexa skill performs a reverse DNS lookup on the IP address to find the fully qualified domain name (FQDN) associated with the IP address. The lircdo Alexa skill then connects to your lircdo service using the FQDN and port number and passes along the pin number. If this is successful the lircdo service responds with a shared secrect. The shared secret is randomly generated when the lircdo service is installed. Later when the lircdo Alexa skill invokes a lircdo service callback it passes along the shared secret. The lircdo server compares the incoming shared secret and returns a 401 "unauthorized" message and refuses to perform the action if the shared secret does not match. The lircdo Alexa skill uses the FQDN when interacting with the lircdo service. Most residential internet service customers receive a dynamic IP address which will change over time. Because of this you must keep the IP address associated with the FQDN update-to-date. There are many companies that provide a "dynamic DNS" service that facilitate keeping the IP address up-to-date for domains that you own. I use [dyn.com](https://dyn.com). In addition the internet router provided by my internet provider has a helpful feature that communicates with my account over at dyn.com that keeps the IP address for my  various domains up-to-date. If your router does not provide this functionality you can find various solutions on the internet that you can install on a server in your home that will communicate with your dynamic DNS provider to keep the IP address associated with your domain up-to-date.
 
 ### Enabling the lircdo Alexa skill
 
-Once the lircdo skill is published as a publicly available skill you will be able to enable it by making a request to your Alexa-enabled device. Say "Alexa, enable lircdo". In that phrase "Alexa" is the wake word. You may have changed your wake word to something like "Echo" or "Computer". Replace the "Alexa" wake word as appropriate.
+Once the lircdo skill is published as a publicly available skill you will be able to enable it by making a request to your Alexa-enabled device. Say "Alexa, enable baba zoo". In that phrase "Alexa" is the wake word. You may have changed your wake word to something like "Echo" or "Computer". Replace the "Alexa" wake word as appropriate.
 
 I am in the process of doing some cleanup and testing of the lircdo Alexa skill and lircdo service. I plan to submit the lircdo Alexa skill soon to the Alexa Skills team certification process. Hopefully it will be accepted and published as a publicly available skill.
 
@@ -113,20 +113,25 @@ Here is a nice [overview](https://developer.amazon.com/docs/smapi/quick-start-al
 
 ## Testing
 
-### Install mocha
-    npm install -g mocha
+### Install jest and virtual-alexa 
+    npm install -g jest virtual-alexa 
+
+
+### Execute the jest tests from the test directory: e.g.
+    cd  <top level project directory>
+    ./test/testit.sh
+
+### Ask simulate scripts
+    Pairing/unpairing the lircdo server takes time. The ask_simulate_scripts/pair\*.sh scripts demonstrate how test multi-step dialogs including how to pair and unpair the lircdo server.
 
 Execute the "ask simulate" scripts in the ask_simulate_scripts directory from the top-level project directory: e.g.
 
+    cd  <top level project directory>
     ./ask_simulate_scripts/pair.sh
-
-**NOTE:** If you look at the contents of the scripts in the ask_simulate_scripts directory you may notice the Alexa skill is invoked as "open baba zoo" instead of "open lircdo". This is because I have created a second Alexa skill with invocation name "baba zoo" paired with with its own lircdo server/service which I use for test purposes only. This allows me to do testing, and in particular, run bulk mocha tests, without causing my main lircdo server/service to emit many IR signals to my home audio/video equipment.
-
-## Execute the mocha tests from the test directory: e.g.
-    cd test
-    ./testit.sh
 
 ## Credit
 
    Big thanks to Oscar Merry and the excellent Advanced Alexa course over at [A CLOUD GURU](https://acloud.guru/)
-   Source code for this project borrowed from: https://github.com/MerryOscar/voice-devs-lessons
+   Source code for the ask sdk v1 version of this project borrowed from: https://github.com/MerryOscar/voice-devs-lessons.
+
+  The skill was completely re-written to use the ask sdk v2. Much of the source code was borrowed from the [sample Pet Match](https://github.com/alexa/skill-sample-nodejs-petmatch) and the [sample High Low Game](https://github.com/alexa/skill-sample-nodejs-highlowgame) GitHub projects. A big Thank You to the Alexa skill development team for those sample projects.

@@ -33,7 +33,7 @@ var constants = Object.freeze({
 		'close d.v.d. tray',
 		'play d.v.d. player',
 		'pause set top box',
-		'<phoneme alphabet="ipa" ph="ˈrəkərd">record</phoneme> set top box',
+		'<phoneme alphabet="ipa" ph="ˈrəkɔrd">record</phoneme> set top box',
 		'show menu set top box',
 		'dismiss menu s.t.b.',
 		'increase volume by 5',

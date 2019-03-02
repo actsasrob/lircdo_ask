@@ -10,7 +10,23 @@
             "Alexa, tell baba zoo to change channel to 746"
           ],
           "name": "Baba Zoo",
-          "description": "Command home audio/video components using Linux Infrared Remote Control (LIRC)",
+          "description":' 
+	Baba zoo is a "voice first" interface for controlling your home audio/video equipment. There are two components:
+
+1. Baba Zoo Alexa Skill
+2. lircdo server/service
+
+## lircdo [Alexa](https://en.wikipedia.org/wiki/Amazon_Echo) Skill 
+
+This component is written in node.js and implements the [AWS](https://aws.amazon.com/what-is-aws/) [lambda](https://aws.amazon.com/lambda/) function that is called by the Amazon Alexa service when you invoke the lircdo skill via your Alexa-enabled device. You invoke the skill by saying something like '*Alexa, open baba zoo*'. **NOTE: The lircdo Alexa skill has not yet been published and is not currently available to the public. Hopefully it will be available soon.**
+
+You are currently reading the README page for the lircdo Alexa Skill component.
+
+## lircdo server/service 
+
+This component is implemented using a small computer(e.g. Raspberry Pi 3 Model B) residing in your home and running the lircdo service. The lircdo server refers to the physical hardware. The lircdo service refers to the lircdo sofware running on the server. The lircdo server requires additional hardware capable of emitting infrared (IR) signals. The lircdo server/IR emitter combination control your home audio/video (AV) equipment using IR signals. **YOU MUST BUILD THIS COMPONENT YOURSELF!!!**.
+	  ',
+
 	  "smallIconUri": "https://s3.amazonaws.com/lircdo/icons/lircdo108x108.png",
 	  "largeIconUri": "https://s3.amazonaws.com/lircdo/icons/lircdo512x512.png",
           "keywords": [
