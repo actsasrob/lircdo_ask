@@ -79,7 +79,7 @@ var constants = Object.freeze({
 	},
 	initialStateHandlerCard: {
 		title: 'Baba Zoo Help',
-		content: 'Please navigate to the following link to learn more about Baba zoo (aka LIRC Do) including building the lircdo server: https://github.com/actsasrob/lircdo_ask/blob/master/README.md\n\nNavigate to this link to learn about how to interact with the lircdo Alexa skill: https://github.com/actsasrob/lircdo_ask/blob/master/README_using_skill.md',
+		content: 'Please navigate to the following link to learn more about Baba zoo (aka LIRC Do) including building the lircdo server: https://github.com/actsasrob/lircdo_ask/blob/master/README.md\n\nNavigate to this link to learn about how to interact with the Baba zoo (aka LIRC Do) Alexa skill: https://github.com/actsasrob/lircdo_ask/blob/master/README_using_skill.md',
 	},
 
 });
