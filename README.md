@@ -140,4 +140,4 @@ Execute the "ask simulate" scripts in the ask_simulate_scripts directory from th
 
 [Privacy Policy](https://s3.amazonaws.com/lircdo/resources/privacy_policy.html)
 
-[Terms OF Use](https://s3.amazonaws.com/lircdo/resources/privacy_policy.html)
+[Terms Of Use](https://s3.amazonaws.com/lircdo/resources/privacy_policy.html)
