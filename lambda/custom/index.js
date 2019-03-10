@@ -180,7 +180,11 @@ const CompletedPairServerIntent = {
 			}
 		} catch (error) {
 			outputSpeech = `Sorry, there was a problem performing the requested action. error is ${error}`;
-			console.log(`Intent: ${handlerInput.requestEnvelope.request.intent.name}: message: ${JSON.stringify(error)}`);
+			console.log(`Intent: ${handlerInput.requestEnvelope.request.intent.name}: message: ${error}`);
+			// handle the special case where the LIRC Do service was probably not started in pairing mode
+			if (error.message.match(/404:/)) {
+				outputSpeech = `Sorry, there was a problem pairing with the LIRC Do service. Please ensure the LIRC Do service is started in pairing mode and try again`;
+			}	
 		}
 
 		return handlerInput.responseBuilder
@@ -442,6 +446,9 @@ const CompletedActionIntent = {
 		} catch (error) {
 			outputSpeech = `Sorry, there was a problem performing the requested action. error is ${error}`;
 			console.log(`Intent: ${handlerInput.requestEnvelope.request.intent.name}: message: ${JSON.stringify(error)}`);
+			if (error.message.match(/302:/)) {
+				outputSpeech = `Sorry, there was a problem with the LIRC Do service executing the requested action. Please ensure the LIRC Do service is started in non-pairing mode and try again`;
+			}
 		}
 
 		return handlerInput.responseBuilder
@@ -532,7 +539,7 @@ const HelpHandler = {
 				sessionAttributes.thingsToSayIndex = sessionAttributes.thingsToSayIndex % constants.mainStateHandlerThingsToSay.say.length;
 			}
 			const sampleThingsToSay = joinArrayOfStrings(sampleThingsToSayArray);
-                        speechOutput = speechOutput.concat(' You can say things like,').concat(sampleThingsToSay).concat(' Ask for help to hear additional sample things you can say');
+			speechOutput = speechOutput.concat(' You can say things like,').concat(sampleThingsToSay).concat(' Ask for help to hear additional sample things you can say');
 			return responseBuilder
 				.speak(speechOutput)
 				.reprompt(reprompt)
