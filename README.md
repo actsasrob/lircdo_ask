@@ -135,3 +135,9 @@ Execute the "ask simulate" scripts in the ask_simulate_scripts directory from th
    Source code for the ask sdk v1 version of this project borrowed from: https://github.com/MerryOscar/voice-devs-lessons.
 
   The skill was completely re-written to use the ask sdk v2. Much of the source code was borrowed from the [sample Pet Match](https://github.com/alexa/skill-sample-nodejs-petmatch) and the [sample High Low Game](https://github.com/alexa/skill-sample-nodejs-highlowgame) GitHub projects. A big Thank You to the Alexa skill development team for those sample projects.
+
+## Legal
+
+[Privacy Policy](https://s3.amazonaws.com/lircdo/resources/privacy_policy.html)
+
+[Terms OF Use](https://s3.amazonaws.com/lircdo/resources/privacy_policy.html)
