@@ -155,7 +155,7 @@ const CompletedPairServerIntent = {
 		const params = { 'pin': slotValues.ApplicationPin.resolved };
 		console.log(`CompletedPairServerIntent.handler: ip_address: ${ip_address} applicationPort: ${applicationPort} params: ${JSON.stringify(params)}`);
 
-		const lircdoServerOptions = buildLircdoServerOptions(false, ip_address, applicationPort, constants.stateHandlerIntentNameToCallbackLookup[requestEnvelope.request.intent.name], params);
+		const lircdoServerOptions = buildLircdoServerOptions(false, ip_address, applicationPort, "", constants.stateHandlerIntentNameToCallbackLookup[requestEnvelope.request.intent.name], params);
 		console.log(`CompletedPairServerIntent.handler: lircdoServerOptions: ${JSON.stringify(lircdoServerOptions)}`);
 
 		let outputSpeech = '';
@@ -172,6 +172,7 @@ const CompletedPairServerIntent = {
 				const sessionAttributes = attributesManager.getSessionAttributes();
 				sessionAttributes.applicationFQDN = response.fqdn;
 				sessionAttributes.applicationPort = response.port;
+				sessionAttributes.trustedCA = response.trustedCA;
 				sessionAttributes.shared_secret = response.shared_secret;
 				sessionAttributes.STATE = constants.states.MAIN;
 				attributesManager.setPersistentAttributes(sessionAttributes);
@@ -289,6 +290,7 @@ const CompletedUnpairServerIntent = {
 			const sessionAttributes = attributesManager.getSessionAttributes();
 			delete sessionAttributes.applicationFQDN;
 			delete sessionAttributes.applicationPort;
+			delete sessionAttributes.trustedCA;
 			delete sessionAttributes.shared_secret;
 			delete sessionAttributes.thingsToSayIndex;
 			sessionAttributes.STATE = constants.states.PAIRING;
@@ -428,7 +430,7 @@ const CompletedActionIntent = {
 
 		console.log(`CompletedActionIntent.handle: params: ${JSON.stringify(params)}`);
 
-		const lircdoServerOptions = buildLircdoServerOptions(true, sessionAttributes.applicationFQDN, sessionAttributes.applicationPort, constants.stateHandlerIntentNameToCallbackLookup[requestEnvelope.request.intent.name], params);
+		const lircdoServerOptions = buildLircdoServerOptions(true, sessionAttributes.applicationFQDN, sessionAttributes.applicationPort, sessionAttributes.trustedCA, constants.stateHandlerIntentNameToCallbackLookup[requestEnvelope.request.intent.name], params);
 		console.log(`CompletedActionIntent.handler: lircdoServerOptions: ${JSON.stringify(lircdoServerOptions)}`);
 
 		let outputSpeech = '';
@@ -708,7 +710,7 @@ function buildQueryString(params) {
 	return paramsList;
 }
 
-function buildHttpGetOptions(doHostnameCheck, host, path, port, params) {
+function buildHttpGetOptions(doHostnameCheck, host, trustedCA, path, port, params) {
 	let options = {
 		hostname: host,
 		path: path + buildQueryString(params),
@@ -716,14 +718,18 @@ function buildHttpGetOptions(doHostnameCheck, host, path, port, params) {
 		method: 'GET',
 		rejectUnauthorized: doHostnameCheck,
 	};
+	if (doHostnameCheck) {
+	        let ca_cert = trustedCA.replace(/\./g, '\n');
+		options.ca = ca_cert;
+	}
 	options.agent = new https.Agent(options);
 
 	return options;
 }
 
-function buildLircdoServerOptions(doHostnameCheck, lircdoHost, lircdoPort, lircdoServerCallback, params) {
+function buildLircdoServerOptions(doHostnameCheck, lircdoHost, lircdoPort, trustedCA, lircdoServerCallback, params) {
 	const port = parseInt(lircdoPort);
-	return buildHttpGetOptions(doHostnameCheck, lircdoHost, lircdoServerCallback, port, params);
+	return buildHttpGetOptions(doHostnameCheck, lircdoHost, trustedCA, lircdoServerCallback, port, params);
 }
 
 function httpGet(options) {
