@@ -172,7 +172,7 @@ const CompletedPairServerIntent = {
 				const sessionAttributes = attributesManager.getSessionAttributes();
 				sessionAttributes.applicationFQDN = response.fqdn;
 				sessionAttributes.applicationPort = response.port;
-				sessionAttributes.trustedCA = response.trustedCA;
+				sessionAttributes.trustedCA = response.ca_cert;
 				sessionAttributes.shared_secret = response.shared_secret;
 				sessionAttributes.STATE = constants.states.MAIN;
 				attributesManager.setPersistentAttributes(sessionAttributes);
