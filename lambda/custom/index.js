@@ -172,7 +172,9 @@ const CompletedPairServerIntent = {
 				const sessionAttributes = attributesManager.getSessionAttributes();
 				sessionAttributes.applicationFQDN = response.fqdn;
 				sessionAttributes.applicationPort = response.port;
-				sessionAttributes.trustedCA = response.ca_cert;
+				if ("ca_cert" in response) {
+				   sessionAttributes.trustedCA = response.ca_cert;
+				}
 				sessionAttributes.shared_secret = response.shared_secret;
 				sessionAttributes.STATE = constants.states.MAIN;
 				attributesManager.setPersistentAttributes(sessionAttributes);
@@ -429,8 +431,11 @@ const CompletedActionIntent = {
 		}
 
 		console.log(`CompletedActionIntent.handle: params: ${JSON.stringify(params)}`);
-
-		const lircdoServerOptions = buildLircdoServerOptions(true, sessionAttributes.applicationFQDN, sessionAttributes.applicationPort, sessionAttributes.trustedCA, constants.stateHandlerIntentNameToCallbackLookup[requestEnvelope.request.intent.name], params);
+		var trustedCA="";
+                if ( "trustedCA" in sessionAttributes) {
+			trustedCA=sessionAttributes.trustedCA;
+		}	
+		const lircdoServerOptions = buildLircdoServerOptions(true, sessionAttributes.applicationFQDN, sessionAttributes.applicationPort, trustedCA, constants.stateHandlerIntentNameToCallbackLookup[requestEnvelope.request.intent.name], params);
 		console.log(`CompletedActionIntent.handler: lircdoServerOptions: ${JSON.stringify(lircdoServerOptions)}`);
 
 		let outputSpeech = '';
@@ -718,7 +723,7 @@ function buildHttpGetOptions(doHostnameCheck, host, trustedCA, path, port, param
 		method: 'GET',
 		rejectUnauthorized: doHostnameCheck,
 	};
-	if (doHostnameCheck) {
+	if (doHostnameCheck && trustedCA !== "") {
 	        let ca_cert = trustedCA.replace(/\./g, '\n');
 		options.ca = ca_cert;
 	}
