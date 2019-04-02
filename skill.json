@@ -1,19 +1,39 @@
-{
-  "manifest": {
-    "publishingInformation": {
+ {
+   "manifest": {
+    "apis": {
+      "custom": {
+        "endpoint": {
+	  "sourceDir": "lambda/custom"
+        }
+      }
+    },
+    "manifestVersion": "1.0",
+    "privacyAndCompliance": {
       "locales": {
         "en-US": {
-          "summary": "Operate home audio/video components using voice commands.",
-          "examplePhrases": [
-            "Alexa, open baba zoo",
-            "Alexa, ask baba zoo to power on system",
-            "Alexa, tell baba zoo to change channel to 746"
-          ],
+          "privacyPolicyUrl": "https://s3.amazonaws.com/lircdo/resources/privacy_policy.html",
+          "termsOfUseUrl": "https://s3.amazonaws.com/lircdo/resources/privacy_policy.html"
+        }
+      },
+      "allowsPurchases": false,
+      "usesPersonalInfo": false,
+      "isChildDirected": false,
+      "isExportCompliant": true,
+      "containsAds": false
+    },
+     "publishingInformation": {
+       "locales": {
+         "en-US": {
           "name": "Baba Zoo",
-          "description":"Baba Zoo is a 'voice first' interface for controlling your home audio/video equipment using infrared (IR) signals. There are two components:\n\n  1. Baba Zoo Alexa Skill\n  2. Baba Zoo server/service\n\nThe Baba Zoo Alexa Skill is responsible for responding to your voice commands via an Alexa-enabled device. The Alexa service processes your requests, determines the actions you would like to perform, invokes the appropriate handler within the Baba Zoo Alexa skill, and passes along the action to perform and any extra arguments. The Baba Zoo skill validates the input then communicates with the Baba Zoo server/service in your home.\n\nThe Baba Zoo server/service component is implemented using a small computer(e.g. Raspberry Pi 3 Model B) residing in your home and running the Baba Zoo service. The Baba Zoo server refers to the physical hardware. The Baba Zoo service refers to the software running on the server. The Baba Zoo server requires additional hardware capable of emitting IR signals. The Baba Zoo server/IR emitter combination control your home audio/video (AV) equipment using IR signals.    **YOU MUST BUILD THIS COMPONENT YOURSELF!!!**.\n\nThe Baba Zoo server/service receives commands from the Baba Zoo Alexa skill and matches the commands to scripts residing on the Baba Zoo server. If a match is found the script is executed. The scripts, that you create, use LIRC (see http://www.lirc.org/ for more info) to generate and send IR signals to control your home audio/video equipment.\n\nTo get started and learn more please navigate to this link in a browser: https://github.com/actsasrob/lircdo_ask/blob/master/README.md\n\n",
-
-	  "smallIconUri": "https://s3.amazonaws.com/lircdo/icons/babazoo108x108.png",
-	  "largeIconUri": "https://s3.amazonaws.com/lircdo/icons/babazoo512x512.png",
+          "smallIconUri": "https://s3.amazonaws.com/lircdo/icons/babazoo108x108.png",
+          "largeIconUri": "https://s3.amazonaws.com/lircdo/icons/babazoo512x512.png",
+          "summary": "Operate home audio/video components using voice commands.",
+          "description": "Baba Zoo is a 'voice first' interface for controlling your home audio/video equipment using infrared (IR) signals. There are two components:\n\n  1. Baba Zoo Alexa Skill\n  2. Baba Zoo server/service\n\nThe Baba Zoo Alexa Skill is responsible for responding to your voice commands via an Alexa-enabled device. The Alexa service processes your requests, determines the actions you would like to perform, invokes the appropriate handler within the Baba Zoo Alexa skill, and passes along the action to perform and any extra arguments. The Baba Zoo skill validates the input then communicates with the Baba Zoo server/service in your home.\n\nThe Baba Zoo server/service component is implemented using a small computer(e.g. Raspberry Pi 3 Model B) residing in your home and running the Baba Zoo service. The Baba Zoo server refers to the physical hardware. The Baba Zoo service refers to the software running on the server. The Baba Zoo server requires additional hardware capable of emitting IR signals. The Baba Zoo server/IR emitter combination control your home audio/video (AV) equipment using IR signals.    **YOU MUST BUILD THIS COMPONENT YOURSELF!!!**.\n\nThe Baba Zoo server/service receives commands from the Baba Zoo Alexa skill and matches the commands to scripts residing on the Baba Zoo server. If a match is found the script is executed. The scripts, that you create, use LIRC (see http://www.lirc.org/ for more info) to generate and send IR signals to control your home audio/video equipment.\n\nTo get started and learn more please navigate to this link in a browser: https://github.com/actsasrob/lircdo_ask/blob/master/README.md",
+           "examplePhrases": [
+            "Alexa, open baba zoo",
+            "Alexa, launch baba zoo",
+            "Alexa, start baba zoo"
+           ],
           "keywords": [
             "Smart Home",
             "linux",
@@ -22,33 +42,14 @@
             "audio",
             "video"
           ]
-        }
-      },
-      "isAvailableWorldwide": true,
-      "testingInstructions": "Say 'Alexa, open baba zoo'",
+         }
+       },
+      "isAvailableWorldwide": false,
+      "testingInstructions": "You will need a Baba Zoo server/service to test against.  The Baba Zoo server/service receives commands from the Baba Zoo Alexa skill. When commands are received the Baba Zoo service looks up the appropriate shell script and then executes the script if a match is found. The shell scripts are user created and normally use the LIRC CLI to cause infrared (IR) signals to be sent to operate their home audio/video components.\n\nI have set up a Baba Zoo server/service that you can use to test the Baba Zoo skill.\n\nThe first time the Baba Zoo skill is invoked from any Alexa enabled device it will prompt to \"pair\" with the Baba Zoo server/service. The following information is required to pair with a Baba Zoo server:\nI.P. address of the Baba Zoo server\nPort number the Baba Zoo service listens on within the Baba Zoo server.\nPin number of the Baba Zoo service.\n\nPlease use this information:\nI.P. address assigned to lirc.robhughes.net. Currently (108.51.25.67). (This I.P. address is dynamic and could change over time). \nPort number: 8844\nPin number: 178\n\nSay 'Alexa, open baba zoo'\nRespond to the prompts using the information above.\nPlease respond to the pin prompt like \"my application pin is one seven eight\".\nPlease respond to the address prompt like \"my application address is one zero eight dot five one dot two five dot six seven\".\nPlease respond to the port prompt like \"my application port is eight eight four four\"\nAll other prompts are simple \"yes\" or \"no\" responses.\n\nOnce the Baba Zoo skill is successfully paired for each Alexa enabled device you can then invoke the skill and use it to send commands to the Baba Zoo server/service.\n\nSay 'Alexa, open baba zoo'\nAsk for help to hear a list sample utterances.\n\nIf you wish to learn more about the the Baba Zoo skill or build your own Baba Zoo server/service for testing purposes please see the README here: https://github.com/actsasrob/lircdo_ask/blob/master/README.md\n\nThank You",
       "category": "SMART_HOME",
-      "distributionCountries": ["US"]
-    },
-    "apis": {
-      "custom": {
-        "endpoint": {
-          "sourceDir": "lambda/custom"
-        }
-      }
-    },
-    "manifestVersion": "1.0",
-    "privacyAndCompliance": {
-      "allowsPurchases": false,
-      "usesPersonalInfo": false,
-      "isChildDirected": false,
-      "isExportCompliant": true,
-      "containsAds": false,
-      "locales": {
-		         "en-US": {
-			       "privacyPolicyUrl": "https://s3.amazonaws.com/lircdo/resources/privacy_policy.html",
-			       "termsOfUseUrl": "https://s3.amazonaws.com/lircdo/resources/privacy_policy.html"
-			          }
-                 }
+      "distributionCountries": [
+        "US"
+      ]
     }
-  }
-}
+   }
+ }

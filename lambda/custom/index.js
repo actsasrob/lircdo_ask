@@ -58,6 +58,7 @@ const LaunchRequestHandler = {
 
 const InProgressPairServerIntent = {
 	async canHandle(handlerInput) {
+		console.log(`in InProgressPairServerIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
 		const request = handlerInput.requestEnvelope.request;
 		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
 		var sessionAttributes = attributesManager.getSessionAttributes();
@@ -129,6 +130,7 @@ const InProgressPairServerIntent = {
 
 const CompletedPairServerIntent = {
 	async canHandle(handlerInput) {
+		console.log(`in CompletedPairServerIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
 		const request = handlerInput.requestEnvelope.request;
 		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
 		var sessionAttributes = attributesManager.getSessionAttributes();
@@ -199,6 +201,7 @@ const CompletedPairServerIntent = {
 
 const InProgressUnpairServerIntent = {
 	async canHandle(handlerInput) {
+		console.log(`in InProgressUnpairServerIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
 		const request = handlerInput.requestEnvelope.request;
 		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
 		var sessionAttributes = attributesManager.getSessionAttributes();
@@ -265,6 +268,7 @@ const InProgressUnpairServerIntent = {
 
 const CompletedUnpairServerIntent = {
 	async canHandle(handlerInput) {
+		console.log(`in CompletedUnpairServerIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
 		const request = handlerInput.requestEnvelope.request;
 		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
 		var sessionAttributes = attributesManager.getSessionAttributes();
@@ -769,13 +773,14 @@ const skillBuilder = Alexa.SkillBuilders.standard();
 /* LAMBDA SETUP */
 exports.handler = skillBuilder
 .addRequestHandlers(
-		LaunchRequestHandler,
+		//LaunchRequestHandler,
 		InProgressPairServerIntent,
 		CompletedPairServerIntent,
 		InProgressUnpairServerIntent,
 		CompletedUnpairServerIntent,
 		InProgressActionIntent,
 		CompletedActionIntent,
+		LaunchRequestHandler,
 		HelpHandler,
 		//FallbackHandler,
 		ExitHandler,
