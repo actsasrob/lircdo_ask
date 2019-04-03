@@ -499,8 +499,8 @@ const CatchallHandler = {
 				.getResponse();
 		} else {
 
-			speechOutput = randomPhrase(constants.mainStateHandlerHelpSpeech.say); 
-			reprompt = randomPhrase(constants.mainStateHandlerHelpSpeech.reprompt); 
+			speechOutput = randomPhrase(constants.mainStateCatchallHandlerHelpSpeech.say); 
+			reprompt = randomPhrase(constants.mainStateCatchallHandlerHelpSpeech.reprompt); 
 			return responseBuilder
 				.speak(speechOutput)
 				.reprompt(reprompt)

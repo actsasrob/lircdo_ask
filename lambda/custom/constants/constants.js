@@ -24,6 +24,10 @@ var constants = Object.freeze({
 		say : ["You can operate your audio and video equipment using voice commands."],
 		reprompt :['What action would you like to perform?', 'What would you like to do?'],
 	},
+	mainStateCatchallHandlerHelpSpeech: {
+		say : ["Sorry, I didn't understand the request. Say, help, to learn about things I can do. What would you like to do?"],
+		reprompt :['What action would you like to perform?', 'What would you like to do?'],
+	},
 	mainStateHandlerThingsToSay: {
 		sayLength: 5,
 		say: ['power on system',
@@ -47,6 +51,7 @@ var constants = Object.freeze({
 		'mute system',
 		'unmute system',
 		'mute t.v.',
+		'unpair server',
 		],
 	},
 	mainStateHandlerRequiredSlots: {
