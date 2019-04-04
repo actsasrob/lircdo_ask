@@ -12,7 +12,9 @@ lircdo is a "voice first" interface for controlling your home audio/video equipm
 
 ## lircdo [Alexa](https://en.wikipedia.org/wiki/Amazon_Echo) Skill 
 
-This component is written in node.js and implements the [AWS](https://aws.amazon.com/what-is-aws/) [lambda](https://aws.amazon.com/lambda/) function that is called by the Amazon Alexa service when you invoke the lircdo skill via your Alexa-enabled device. You invoke the skill by saying something like '*Alexa, open baba zoo*'. **NOTE: The lircdo Alexa skill has not yet been published and is not currently available to the public. Hopefully it will be available soon.**
+This component is written in node.js and implements the [AWS](https://aws.amazon.com/what-is-aws/) [lambda](https://aws.amazon.com/lambda/) function that is called by the Amazon Alexa service when you invoke the lircdo skill via your Alexa-enabled device. You invoke the skill by saying something like '*Alexa, open baba zoo*'. 
+
+The skill is now publically available and can be enabled via the Alexa app.
 
 You are currently reading the README page for the lircdo Alexa Skill component.
 
@@ -28,7 +30,7 @@ The lircdo Alexa Skill is responsible for responding to your voice commands via 
 
 "Alexa, open baba zoo"
 
-You can also also use the variants: "Alexa, tell baba zoo <*to do something*>" or "Alexa, ask baba zoo <*to do something*>" But I find it works best to launch the skill via "Alexa, open baba zoo".
+You can also also use the variants: "Alexa, tell baba zoo <*to do something*>" or "Alexa, ask baba zoo <*to do something*>"
 
 The Alexa service processes the request "open/tell/ask baba zoo" and recognizes you want to launch a skill named "baba zoo". It looks through its inventory of skills, finds the baba zoo skill and launches it. What it does next depends on whether you used the word "open"  or "tell/ask". For "open" Alexa launches the skill and sends it a launch request. The skill responds to the launch request by responding with a simple welcome back phrase and asks you want you would like to do. At that point you can speak the actions you want the skill to perform. In Alexa skill parlance these actions are known as "intents". The Alexa skill listens for you to say actions. It processes the words and tries to match them to the intents made available by the skill. If the Alexa skill recognizes a valid intent it invokes a callback within the skill and passes any extra parameters to the callback. When you launch the skill with the "tell/ask" words you additionally say an action to perform. In this case the Alexa skill first determines the skill you wish to invoke, determines the intent you wish to use, and then launches the skill and invokes the associated callback.
 
@@ -55,9 +57,11 @@ The first time you launch the lircdo Alexa skill it will prompt you to pair the 
 
 ### Enabling the lircdo Alexa skill
 
-Once the lircdo skill is published as a publicly available skill you will be able to enable it by making a request to your Alexa-enabled device. Say "Alexa, enable baba zoo". In that phrase "Alexa" is the wake word. You may have changed your wake word to something like "Echo" or "Computer". Replace the "Alexa" wake word as appropriate.
+The skill is now publicly available and you can enable it by making a request to your Alexa-enabled device. Say "Alexa, enable baba zoo". In that phrase "Alexa" is the wake word. You may have changed your wake word to something like "Echo" or "Computer". Replace the "Alexa" wake word as appropriate.
 
-I am in the process of doing some cleanup and testing of the lircdo Alexa skill and lircdo service. I plan to submit the lircdo Alexa skill soon to the Alexa Skills team certification process. Hopefully it will be accepted and published as a publicly available skill.
+## Q&A and Web Forum
+
+https://groups.google.com/forum/#!forum/lircdo
 
 ## More About lircdo Alexa Skill
 
