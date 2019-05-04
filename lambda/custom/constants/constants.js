@@ -59,6 +59,7 @@ var constants = Object.freeze({
 		volume_action: [ 'LircVolumeAction', 'LircNumericArgument' ],
 		channel_action: [ 'LircChannelAction', 'LircNumericArgument' ],
 		avr_action: [ 'LircAVRAction', 'LircAVDevice' ],
+		navigate_action: [ 'LircNavigateAction' ],
 		pair_server: [ 'OctetA', 'ApplicationPin', 'ApplicationPort' ],
 	},
 	stateHandlerIntentNameToCallbackLookup: {
@@ -66,6 +67,7 @@ var constants = Object.freeze({
 		volume_action: '/volume_action_ask', 
 		channel_action: '/channel_action_ask',
 		avr_action: '/avr_action_ask',
+		navigate_action: '/navigate_action_ask',
 		pair_server: '/pair_action_ask',
 	},
 	stateHandlerSlotNameToParamNameLookup: {
@@ -73,6 +75,7 @@ var constants = Object.freeze({
 		volume_action: { LircComponent: 'lircComponent', LircVolumeAction: 'lircVolumeAction', LircNumericArgument: 'lircArgument' },
 		channel_action: { LircComponent: 'lircComponent', LircChannelAction: 'lircChannelAction', LircNumericArgument: 'lircArgument' },
 		avr_action: { LircAVDevice: 'lircAVDevice', LircAVRAction: 'lircAVRAction' },
+		navigate_action: { LircComponent: 'lircComponent', LircNavigateAction: 'lircNavigateAction', LircNumericArgument: 'lircArgument' },
 	},
 	initialStateHandlerSpeech: {
 		say : ['We need to pair the LIRC do server-side application. Please say the application pin of the server like, my application pin is, followed by the pin number'],

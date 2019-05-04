@@ -87,7 +87,9 @@
                 "turn {LircComponent} {LircAction}",
                 "power {LircComponent} {LircAction}",
                 "the action is {LircAction}",
-                "{LircAction} for {LircComponent}"
+                "{LircAction} for {LircComponent}",
+                "{LircAction}",
+                "{LircComponent} {LircAction}"
               ]
             }
           ],
@@ -96,7 +98,9 @@
             "power {LircComponent} {LircAction}",
             "{LircAction} for {LircComponent}",
             "{LircAction} {LircComponent} tray",
-            "{LircAction} tray"
+            "{LircAction} tray",
+            "{LircAction}",
+            "{LircComponent} {LircAction}"
           ]
         },
         {
@@ -197,6 +201,77 @@
           "slots": [],
           "samples": [
             "unpair server"
+          ]
+        },
+        {
+          "name": "navigate_action",
+          "slots": [
+            {
+              "name": "LircNavigateAction",
+              "type": "LIRC_NAVIGATE_ACTION",
+              "samples": [
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction}",
+                "{LircComponent} {LircNavigateAction}",
+                "{LircNavigateVerb} {LircNavigateAction}",
+                "{LircNavigateAction}",
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction} times",
+                "{LircComponent} {LircNavigateAction} times",
+                "{LircNavigateVerb} {LircNavigateAction} times",
+                "{LircNavigateAction} times"
+              ]
+            },
+            {
+              "name": "LircNavigateVerb",
+              "type": "LIRC_NAVIGATE_VERB",
+              "samples": [
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction}",
+                "{LircComponent} {LircNavigateAction}",
+                "{LircNavigateVerb} {LircNavigateAction}",
+                "{LircNavigateAction}",
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction} times",
+                "{LircComponent} {LircNavigateAction} times",
+                "{LircNavigateVerb} {LircNavigateAction} times",
+                "{LircNavigateAction} times"
+              ]
+            },
+            {
+              "name": "LircComponent",
+              "type": "LIRC_COMPONENT",
+              "samples": [
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction}",
+                "{LircComponent} {LircNavigateAction}",
+                "{LircNavigateVerb} {LircNavigateAction}",
+                "{LircNavigateAction}",
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction} times",
+                "{LircComponent} {LircNavigateAction} times",
+                "{LircNavigateVerb} {LircNavigateAction} times",
+                "{LircNavigateAction} times"
+              ]
+            },
+            {
+              "name": "LircNumericArgument",
+              "type": "AMAZON.NUMBER",
+              "samples": [
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction}",
+                "{LircComponent} {LircNavigateAction}",
+                "{LircNavigateVerb} {LircNavigateAction}",
+                "{LircNavigateAction}",
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction} times",
+                "{LircComponent} {LircNavigateAction} times",
+                "{LircNavigateVerb} {LircNavigateAction} times",
+                "{LircNavigateAction} times"
+              ]
+            }
+          ],
+          "samples": [
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction}",
+                "{LircComponent} {LircNavigateAction}",
+                "{LircNavigateVerb} {LircNavigateAction}",
+                "{LircNavigateAction}",
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction} times",
+                "{LircComponent} {LircNavigateAction} times",
+                "{LircNavigateVerb} {LircNavigateAction} times",
+                "{LircNavigateAction} times"
           ]
         },
         {
@@ -325,8 +400,7 @@
               "name": {
                 "value": "unpause",
                 "synonyms": [
-                  "continue",
-                  "play"
+                  "continue"
                 ]
               }
             },
@@ -384,6 +458,8 @@
                 "value": "last",
                 "synonyms": [
                   "last channel",
+                  "previous channel",
+                  "previous",
                   "go back"
                 ]
               }
@@ -395,6 +471,49 @@
                 "synonyms": [
                   "stop record",
                   "stop recording"
+                ]
+              }
+            },
+            {
+              "id": "SELECT",
+              "name": {
+                "value": "select",
+                "synonyms": [
+                  "o.k.",
+		  "ok",
+		  "accept"
+                ]
+              }
+            },
+            {
+              "id": "SOURCE_SELECT",
+              "name": {
+                "value": "source",
+                "synonyms": [
+                  "select source",
+                  "source select",
+                  "change source"
+                ]
+              }
+            },
+            {
+              "id": "PIP",
+              "name": {
+                "value": "pip",
+                "synonyms": [
+                  "picture in picture"
+                ]
+              }
+            },
+            {
+              "id": "GUIDE",
+              "name": {
+                "value": "guide",
+                "synonyms": [
+                  "channel guide",
+                  "show guide",
+		  "show channels",
+		  "channel guide"
                 ]
               }
             },
@@ -750,6 +869,87 @@
             }
           ],
           "name": "LIRC_VOLUME_ACTION"
+        },
+        {
+          "values": [
+            {
+              "id": "NAVIGATE_VERB",
+              "name": {
+                "value": "navigate",
+                "synonyms": [
+                  "scroll",
+                  "go"
+                ]
+              }
+            }
+          ],
+          "name": "LIRC_NAVIGATE_VERB"
+        },
+        {
+          "values": [
+            {
+              "id": "NAVIGATE_UP",
+              "name": {
+                "value": "up",
+                "synonyms": [
+                  "upward"
+                ]
+              }
+            },
+            {
+              "id": "NAVIGATE_DOWN",
+              "name": {
+                "value": "down",
+                "synonyms": [
+                  "downward"
+                ]
+              }
+            },
+            {
+              "id": "NAVIGATE_RIGHT",
+              "name": {
+                "value": "right",
+                "synonyms": [
+                  "rightward"
+                ]
+              }
+            },
+            {
+              "id": "NAVIGATE_LEFT",
+              "name": {
+                "value": "left",
+                "synonyms": [
+                  "leftward"
+                ]
+              }
+            },
+            {
+              "id": "CHANNEL_UP",
+              "name": {
+                "value": "channel up",
+                "synonyms": [
+                ]
+              }
+            },
+            {
+              "id": "CHANNEL_DOWN",
+              "name": {
+                "value": "channel down",
+                "synonyms": [
+                ]
+              }
+            },
+            {
+              "id": "NAVIGATE_RETURN",
+              "name": {
+                "value": "return",
+                "synonyms": [
+                  "back"
+                ]
+              }
+            }
+          ],
+          "name": "LIRC_NAVIGATE_ACTION"
         }
       ]
     },
@@ -938,6 +1138,43 @@
               }
             }
           ]
+        },
+        {
+          "name": "navigate_action",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "LircNavigateVerb",
+              "type": "LIRC_NAVIGATE_VERB",
+              "elicitationRequired": false,
+              "confirmationRequired": false,
+              "prompts": {}
+            },
+            {
+              "name": "LircNavigateAction",
+              "type": "LIRC_NAVIGATE_ACTION",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Intent-navigate_action.IntentSlot-LircNavigateAction"
+              }
+            },
+            {
+              "name": "LircComponent",
+              "type": "LIRC_COMPONENT",
+              "elicitationRequired": false,
+              "confirmationRequired": false,
+              "prompts": {}
+            },
+            {
+              "name": "LircNumericArgument",
+              "type": "AMAZON.NUMBER",
+              "elicitationRequired": false,
+              "confirmationRequired": false,
+              "prompts": {}
+            }
+          ]
         }
       ],
       "delegationStrategy": "SKILL_RESPONSE"
@@ -976,6 +1213,24 @@
           {
             "type": "PlainText",
             "value": "Action mission. You can say change channel to number."
+          }
+        ]
+      },
+      {
+	"id": "Elicit.Intent-navigate_action.IntentSlot-LircNavigateAction",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Action mission. You can say scroll up, down, left, or right followed by an optional numeric argument like, one, or two times."
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Intent-navigate_action.IntentSlot-LircComponent",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Action mission. You can say scroll up, down, left, or right followed by an optional numeric argument like, one, or two times."
           }
         ]
       },

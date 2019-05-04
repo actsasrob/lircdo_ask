@@ -1,4 +1,4 @@
-/* eslint-disable  func-names */
+
 /* eslint-disable  no-restricted-syntax */
 /* eslint-disable  no-loop-func */
 /* eslint-disable  consistent-return */
@@ -58,7 +58,7 @@ const LaunchRequestHandler = {
 
 const InProgressPairServerIntent = {
 	async canHandle(handlerInput) {
-		console.log(`in InProgressPairServerIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
+		//console.log(`in InProgressPairServerIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
 		const request = handlerInput.requestEnvelope.request;
 		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
 		var sessionAttributes = attributesManager.getSessionAttributes();
@@ -130,7 +130,7 @@ const InProgressPairServerIntent = {
 
 const CompletedPairServerIntent = {
 	async canHandle(handlerInput) {
-		console.log(`in CompletedPairServerIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
+		//console.log(`in CompletedPairServerIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
 		const request = handlerInput.requestEnvelope.request;
 		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
 		var sessionAttributes = attributesManager.getSessionAttributes();
@@ -201,7 +201,7 @@ const CompletedPairServerIntent = {
 
 const InProgressUnpairServerIntent = {
 	async canHandle(handlerInput) {
-		console.log(`in InProgressUnpairServerIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
+		//console.log(`in InProgressUnpairServerIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
 		const request = handlerInput.requestEnvelope.request;
 		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
 		var sessionAttributes = attributesManager.getSessionAttributes();
@@ -268,7 +268,7 @@ const InProgressUnpairServerIntent = {
 
 const CompletedUnpairServerIntent = {
 	async canHandle(handlerInput) {
-		console.log(`in CompletedUnpairServerIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
+		//console.log(`in CompletedUnpairServerIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
 		const request = handlerInput.requestEnvelope.request;
 		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
 		var sessionAttributes = attributesManager.getSessionAttributes();
@@ -339,7 +339,7 @@ const InProgressActionIntent = {
 
 		return request.type === 'IntentRequest' &&
 			sessionAttributes.STATE === constants.states.MAIN
-			&& ['lircdo', 'volume_action', 'channel_action', 'avr_action'].indexOf(request.intent.name) > -1 
+			&& ['lircdo', 'volume_action', 'channel_action', 'avr_action', 'navigate_action'].indexOf(request.intent.name) > -1 
 			&& request.dialogState !== 'COMPLETED';
 	},
 	async handle(handlerInput) {
@@ -408,7 +408,7 @@ const CompletedActionIntent = {
 
 		return request.type === 'IntentRequest'
 			&& sessionAttributes.STATE === constants.states.MAIN
-			&& ['lircdo', 'volume_action', 'channel_action', 'avr_action'].indexOf(request.intent.name) > -1 
+			&& ['lircdo', 'volume_action', 'channel_action', 'avr_action', 'navigate_action'].indexOf(request.intent.name) > -1 
 			&& request.dialogState === 'COMPLETED';
 	},
 	async handle(handlerInput) {
@@ -773,7 +773,6 @@ const skillBuilder = Alexa.SkillBuilders.standard();
 /* LAMBDA SETUP */
 exports.handler = skillBuilder
 .addRequestHandlers(
-		//LaunchRequestHandler,
 		InProgressPairServerIntent,
 		CompletedPairServerIntent,
 		InProgressUnpairServerIntent,
