@@ -214,10 +214,13 @@
                 "{LircComponent} {LircNavigateAction}",
                 "{LircNavigateVerb} {LircNavigateAction}",
                 "{LircNavigateAction}",
-                "{LircComponent} {LircNavigateVerb} {LircNavigateAction} times",
-                "{LircComponent} {LircNavigateAction} times",
-                "{LircNavigateVerb} {LircNavigateAction} times",
-                "{LircNavigateAction} times"
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction} {LircNumericArgument} times",
+                "{LircComponent} {LircNavigateAction} {LircNumericArgument} times",
+                "{LircNavigateVerb} {LircNavigateAction} {LircNumericArgument} times",
+                "{LircNavigateAction} {LircNumericArgument} times",
+                "{LircComponent} {LircNavigateAction} {LircNumericArgument}",
+                "{LircNavigateVerb} {LircNavigateAction} {LircNumericArgument}",
+                "{LircNavigateAction} {LircNumericArgument}"
               ]
             },
             {
@@ -228,10 +231,13 @@
                 "{LircComponent} {LircNavigateAction}",
                 "{LircNavigateVerb} {LircNavigateAction}",
                 "{LircNavigateAction}",
-                "{LircComponent} {LircNavigateVerb} {LircNavigateAction} times",
-                "{LircComponent} {LircNavigateAction} times",
-                "{LircNavigateVerb} {LircNavigateAction} times",
-                "{LircNavigateAction} times"
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction} {LircNumericArgument} times",
+                "{LircComponent} {LircNavigateAction} {LircNumericArgument} times",
+                "{LircNavigateVerb} {LircNavigateAction} {LircNumericArgument} times",
+                "{LircNavigateAction} {LircNumericArgument} times",
+                "{LircComponent} {LircNavigateAction} {LircNumericArgument}",
+                "{LircNavigateVerb} {LircNavigateAction} {LircNumericArgument}",
+                "{LircNavigateAction} {LircNumericArgument}"
               ]
             },
             {
@@ -242,24 +248,19 @@
                 "{LircComponent} {LircNavigateAction}",
                 "{LircNavigateVerb} {LircNavigateAction}",
                 "{LircNavigateAction}",
-                "{LircComponent} {LircNavigateVerb} {LircNavigateAction} times",
-                "{LircComponent} {LircNavigateAction} times",
-                "{LircNavigateVerb} {LircNavigateAction} times",
-                "{LircNavigateAction} times"
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction} {LircNumericArgument} times",
+                "{LircComponent} {LircNavigateAction} {LircNumericArgument} times",
+                "{LircNavigateVerb} {LircNavigateAction} {LircNumericArgument} times",
+                "{LircNavigateAction} {LircNumericArgument} times",
+                "{LircComponent} {LircNavigateAction} {LircNumericArgument}",
+                "{LircNavigateVerb} {LircNavigateAction} {LircNumericArgument}",
+                "{LircNavigateAction} {LircNumericArgument}"
               ]
             },
             {
               "name": "LircNumericArgument",
               "type": "AMAZON.NUMBER",
               "samples": [
-                "{LircComponent} {LircNavigateVerb} {LircNavigateAction}",
-                "{LircComponent} {LircNavigateAction}",
-                "{LircNavigateVerb} {LircNavigateAction}",
-                "{LircNavigateAction}",
-                "{LircComponent} {LircNavigateVerb} {LircNavigateAction} times",
-                "{LircComponent} {LircNavigateAction} times",
-                "{LircNavigateVerb} {LircNavigateAction} times",
-                "{LircNavigateAction} times"
               ]
             }
           ],
@@ -268,10 +269,13 @@
                 "{LircComponent} {LircNavigateAction}",
                 "{LircNavigateVerb} {LircNavigateAction}",
                 "{LircNavigateAction}",
-                "{LircComponent} {LircNavigateVerb} {LircNavigateAction} times",
-                "{LircComponent} {LircNavigateAction} times",
-                "{LircNavigateVerb} {LircNavigateAction} times",
-                "{LircNavigateAction} times"
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction} {LircNumericArgument} times",
+                "{LircComponent} {LircNavigateAction} {LircNumericArgument} times",
+                "{LircNavigateVerb} {LircNavigateAction} {LircNumericArgument} times",
+                "{LircNavigateAction} {LircNumericArgument} times",
+                "{LircComponent} {LircNavigateAction} {LircNumericArgument}",
+                "{LircNavigateVerb} {LircNavigateAction} {LircNumericArgument}",
+                "{LircNavigateAction} {LircNumericArgument}"
           ]
         },
         {
@@ -391,7 +395,8 @@
               "name": {
                 "value": "pause",
                 "synonyms": [
-                  "halt"
+                  "halt",
+		  "pause play"
                 ]
               }
             },
@@ -400,7 +405,9 @@
               "name": {
                 "value": "unpause",
                 "synonyms": [
-                  "continue"
+                  "continue",
+		  "play",
+		  "toggle pause"
                 ]
               }
             },
@@ -417,7 +424,12 @@
             {
               "id": "TOP_MENU",
               "name": {
-                "value": "top menu"
+                "value": "top menu",
+                "synonyms": [
+	          "home",
+                  "home menu",
+                  "go home"
+                ]
               }
             },
             {
@@ -920,6 +932,38 @@
                 "value": "left",
                 "synonyms": [
                   "leftward"
+                ]
+              }
+            },
+            {
+              "id": "NAVIGATE_PAGE_UP",
+              "name": {
+                "value": "page up",
+                "synonyms": [
+                ]
+              }
+            },
+            {
+              "id": "NAVIGATE_PAGE_DOWN",
+              "name": {
+                "value": "page down",
+                "synonyms": [
+                ]
+              }
+            },
+            {
+              "id": "NAVIGATE_PAGE_RIGHT",
+              "name": {
+                "value": "page right",
+                "synonyms": [
+                ]
+              }
+            },
+            {
+              "id": "NAVIGATE_PAGE_LEFT",
+              "name": {
+                "value": "page left",
+                "synonyms": [
                 ]
               }
             },
