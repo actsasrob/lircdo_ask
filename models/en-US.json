@@ -104,23 +104,6 @@
           ]
         },
         {
-          "name": "NameCapture",
-          "slots": [
-            {
-              "name": "USFirstName",
-              "type": "AMAZON.US_FIRST_NAME"
-            },
-            {
-              "name": "UKFirstName",
-              "type": "AMAZON.GB_FIRST_NAME"
-            }
-          ],
-          "samples": [
-            "my name is {USFirstName}",
-            "my name is {UKFirstName}"
-          ]
-        },
-        {
           "name": "pair_server",
           "slots": [
             {
