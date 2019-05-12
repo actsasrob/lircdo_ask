@@ -15,10 +15,21 @@ var constants = Object.freeze({
 		PAIRING : '_PAIRING',
 		MAIN : '_MAIN',
 	},
-
+	brief_mode_states : {
+		VERBOSE : 'VERBOSE',
+		BRIEF : 'BRIEF',
+	},
 	mainStateHandlerLaunchHandlerSpeech: {
 		say : ['Welcome back. What action would you like to perform?', 'Welcome back. What would you like to do?'],
+		brief_say : ['What action?', "What's next?"],
 		reprompt : ['What action would you like to perform?', 'What would you like to do?'],
+		brief_reprompt : ['Action?', "Next?"],
+	},
+	mainStateActionHandlerSpeech: {
+		say : ['What action?', "What's next?"],
+		brief_say : ['Action?', 'Next?' ],
+		reprompt : ['What action?', "What's next?"],
+		brief_reprompt : ['Action?', 'Next?' ],
 	},
 	mainStateHandlerHelpSpeech: {
 		say : ["You can operate your audio and video equipment using voice commands."],
@@ -52,6 +63,9 @@ var constants = Object.freeze({
 		'unmute system',
 		'mute t.v.',
 		'unpair server',
+		'brief mode',
+		'change brief mode',
+		'toggle brief mode',
 		],
 	},
 	mainStateHandlerRequiredSlots: {

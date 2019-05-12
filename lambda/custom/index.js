@@ -40,8 +40,13 @@ const LaunchRequestHandler = {
 
 		attributesManager.setSessionAttributes(persistentAttributes);
 
-		let speechOutput = randomPhrase(constants.mainStateHandlerLaunchHandlerSpeech.say);
-		let reprompt = randomPhrase(constants.mainStateHandlerLaunchHandlerSpeech.reprompt); 
+		let outputSpeech=randomPhrase(constants.mainStateHandlerLaunchHandlerSpeech.brief_say); 
+		let reprompt=randomPhrase(constants.mainStateHandlerLaunchHandlerSpeech.brief_reprompt); 
+		if (! persistentAttributes.BRIEF_MODE_STATE || persistentAttributes.BRIEF_MODE_STATE === constants.brief_mode_states.VERBOSE) {
+		        outputSpeech=randomPhrase(constants.mainStateHandlerLaunchHandlerSpeech.say);
+		        reprompt=randomPhrase(constants.mainStateHandlerLaunchHandlerSpeech.reprompt);
+		}
+
 		if (persistentAttributes.STATE && persistentAttributes.STATE === constants.states.PAIRING) {
 			const currentIntent = handlerInput.requestEnvelope.request.intent;
 			console.log(`LaunchRequestHandler.handle handlerInput ${JSON.stringify(handlerInput)}`);
@@ -50,7 +55,7 @@ const LaunchRequestHandler = {
 		}
 
 		return responseBuilder
-			.speak(speechOutput)
+			.speak(outputSpeech)
 			.reprompt(reprompt)
 			.getResponse();
 	},
@@ -290,7 +295,7 @@ const CompletedUnpairServerIntent = {
 		let outputSpeech='';
 
 		if (requestEnvelope.request.intent.confirmationStatus === 'DENIED') {
-			outputSpeech = 'Ok, the pairing process has ben cancelled';
+			outputSpeech = 'Ok, the pairing process has been cancelled';
 		} else { // intent was confirmed
 			outputSpeech = 'The lirc do server has been successfully unpaired';
 			const sessionAttributes = attributesManager.getSessionAttributes();
@@ -311,6 +316,120 @@ const CompletedUnpairServerIntent = {
 	},
 };
 
+
+const InProgressBriefModeIntent = {
+	async canHandle(handlerInput) {
+		//console.log(`in InProgressBriefIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
+		const request = handlerInput.requestEnvelope.request;
+		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
+		var sessionAttributes = attributesManager.getSessionAttributes();
+		if (Object.keys(sessionAttributes).length === 0 || ! sessionAttributes.STATE) {
+			sessionAttributes = await loadSessionAttributes(attributesManager);
+		}
+
+		return request.type === 'IntentRequest'
+			&& sessionAttributes.STATE === constants.states.MAIN
+			&& request.intent.name === 'brief_mode'
+			&& request.dialogState !== 'COMPLETED';
+	},
+	handle(handlerInput) {
+		const currentIntent = handlerInput.requestEnvelope.request.intent;
+		console.log(`InProgressBriefModeIntent.handler: Intent: ${handlerInput.requestEnvelope.request.intent.name} currentIntent: ${JSON.stringify(currentIntent)}`);
+
+		let prompt = '';
+
+		for (const slotName in currentIntent.slots) {
+			if (Object.prototype.hasOwnProperty.call(currentIntent.slots, slotName)) {
+				const currentSlot = currentIntent.slots[slotName];
+				if (currentSlot.confirmationStatus !== 'CONFIRMED'
+						&& currentSlot.resolutions
+						&& currentSlot.resolutions.resolutionsPerAuthority[0]) {
+					if (currentSlot.resolutions.resolutionsPerAuthority[0].status.code === 'ER_SUCCESS_MATCH') {
+						/*if (currentSlot.resolutions.resolutionsPerAuthority[0].values.length > 1) {
+						  prompt = 'Which would you like';
+						  const size = currentSlot.resolutions.resolutionsPerAuthority[0].values.length;
+
+						  currentSlot.resolutions.resolutionsPerAuthority[0].values
+						  .forEach((element, index) => {
+						  prompt += ` ${(index === size - 1) ? ' or' : ' '} ${element.value.name}`;
+						  });
+
+						  prompt += '?';
+
+						  return handlerInput.responseBuilder
+						  .speak(prompt)
+						  .reprompt(prompt)
+						  .addElicitSlotDirective(currentSlot.name)
+						  .getResponse();
+						  }
+						  */
+					} else if (currentSlot.resolutions.resolutionsPerAuthority[0].status.code === 'ER_SUCCESS_NO_MATCH') {
+						if (constants.mainStateHandlerRequiredSlots[handlerInput.requestEnvelope.request.intent.name].indexOf(currentSlot.name) > -1) {
+							prompt = `What ${currentSlot.name} are you looking for`;
+
+							return handlerInput.responseBuilder
+								.speak(prompt)
+								.reprompt(prompt)
+								.addElicitSlotDirective(currentSlot.name)
+								.getResponse();
+						}
+					}
+				}
+			}
+		}
+
+		return handlerInput.responseBuilder
+			.addDelegateDirective(currentIntent)
+			.getResponse();
+	},
+};
+
+const CompletedBriefModeIntent = {
+	async canHandle(handlerInput) {
+		console.log(`in CompletedBriefModeIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
+		const request = handlerInput.requestEnvelope.request;
+		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
+		var sessionAttributes = attributesManager.getSessionAttributes();
+		if (Object.keys(sessionAttributes).length === 0 || ! sessionAttributes.STATE) {
+			sessionAttributes = await loadSessionAttributes(attributesManager);
+		}
+
+		return request.type === 'IntentRequest'
+			&& sessionAttributes.STATE === constants.states.MAIN
+			&& request.intent.name === 'brief_mode'
+			&& request.dialogState === 'COMPLETED';
+	},
+	async handle(handlerInput) {
+		console.log(`CompletedBriefModeIntent.handler: Intent: ${handlerInput.requestEnvelope.request.intent.name}`);
+		console.log(`CompletedBriefModeIntent.handler: Intent: ${handlerInput.requestEnvelope.request.intent.name} handlerInput: ${JSON.stringify(handlerInput)}`);
+
+		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
+
+		let outputSpeech='';
+		let reprompt = randomPhrase(constants.mainStateActionHandlerSpeech.reprompt);
+		if (requestEnvelope.request.intent.confirmationStatus === 'DENIED') {
+			outputSpeech = 'Ok, response verbosity will not change';
+		} else { // intent was confirmed
+			let brief_mode_state = constants.brief_mode_states.VERBOSE;
+			outputSpeech = 'OK, responses are now changed to ';
+			const sessionAttributes = attributesManager.getSessionAttributes();
+			if (! sessionAttributes.BRIEF_MODE_STATE || sessionAttributes.BRIEF_MODE_STATE === constants.brief_mode_states.VERBOSE) {
+				brief_mode_state = constants.brief_mode_states.BRIEF;
+				reprompt = randomPhrase(constants.mainStateActionHandlerSpeech.brief_reprompt);
+			}
+			outputSpeech = 'OK, responses will now be ' + brief_mode_state.toLowerCase();
+			sessionAttributes.BRIEF_MODE_STATE = brief_mode_state; 
+			attributesManager.setSessionAttributes(sessionAttributes);
+			attributesManager.setPersistentAttributes(sessionAttributes);
+			await attributesManager.savePersistentAttributes();
+			console.log(`CompletedBriefModeIntent.handler: after await`);
+		}
+		return handlerInput.responseBuilder
+			.speak(outputSpeech)
+			.reprompt(reprompt)
+			.getResponse();
+	},
+};
 const FallbackHandler = {
 	canHandle(handlerInput) {
 		return handlerInput.requestEnvelope.request.type === 'IntentRequest'
@@ -441,18 +560,23 @@ const CompletedActionIntent = {
 		}	
 		const lircdoServerOptions = buildLircdoServerOptions(true, sessionAttributes.applicationFQDN, sessionAttributes.applicationPort, trustedCA, constants.stateHandlerIntentNameToCallbackLookup[requestEnvelope.request.intent.name], params);
 		console.log(`CompletedActionIntent.handler: lircdoServerOptions: ${JSON.stringify(lircdoServerOptions)}`);
-
-		let outputSpeech = '';
-		let reprompt= "What's next?";
+		let outputSpeech="<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_01'/> " + randomPhrase(constants.mainStateActionHandlerSpeech.brief_say); 
+		let reprompt=randomPhrase(constants.mainStateActionHandlerSpeech.brief_reprompt); 
+		if (! sessionAttributes.BRIEF_MODE_STATE || sessionAttributes.BRIEF_MODE_STATE === constants.brief_mode_states.VERBOSE) {
+		        outputSpeech=randomPhrase(constants.mainStateActionHandlerSpeech.say);
+		        reprompt=randomPhrase(constants.mainStateActionHandlerSpeech.reprompt);
+		}
 
 		try {
 			const response = await httpGet(lircdoServerOptions);
 
 			console.log(`CompletedActionIntent.handle: response: ${JSON.stringify(response)}`); 
 			if (response.message !== 'success') {
-				outputSpeech = `Action status was ${response.status} with message ${response.message}. What's next?`;
-			} else {
-				outputSpeech = `Action status was ${response.status}. What's next?`;
+				if (! sessionAttributes.BRIEF_MODE_STATE || sessionAttributes.BRIEF_MODE_STATE === constants.brief_mode_states.VERBOSE) {
+					outputSpeech = `Action status was ${response.status} with message ${response.message}. What's next?`;
+				} else {
+					outputSpeech = "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_negative_response_02'/> " + outputSpeech;
+				}
 			}
 		} catch (error) {
 			outputSpeech = `Sorry, there was a problem performing the requested action. error is ${error}`;
@@ -567,10 +691,20 @@ const ExitHandler = {
 			&& (request.intent.name === 'AMAZON.CancelIntent'
 					|| request.intent.name === 'AMAZON.StopIntent');
 	},
-	handle(handlerInput) {
+	async handle(handlerInput) {
 		console.log(`ExitHandler.handler: Intent: ${handlerInput.requestEnvelope.request.intent.name}`);
+		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
+		var sessionAttributes = attributesManager.getSessionAttributes();
+		if (Object.keys(sessionAttributes).length === 0 || ! sessionAttributes.STATE) {
+			sessionAttributes = await loadSessionAttributes(attributesManager);
+		}
+
+		let outputSpeech="<audio src='soundbank://soundlibrary/musical/amzn_sfx_electronic_beep_02'/>"; 
+		if (! sessionAttributes.BRIEF_MODE_STATE || sessionAttributes.BRIEF_MODE_STATE === constants.brief_mode_states.VERBOSE) {
+			outputSpeech='Bye';
+		}
 		return handlerInput.responseBuilder
-			.speak('Bye')
+			.speak(outputSpeech)
 			.getResponse();
 	},
 };
@@ -777,6 +911,8 @@ exports.handler = skillBuilder
 		CompletedPairServerIntent,
 		InProgressUnpairServerIntent,
 		CompletedUnpairServerIntent,
+		InProgressBriefModeIntent,
+		CompletedBriefModeIntent,
 		InProgressActionIntent,
 		CompletedActionIntent,
 		LaunchRequestHandler,
