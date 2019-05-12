@@ -304,6 +304,7 @@ const CompletedUnpairServerIntent = {
 			delete sessionAttributes.trustedCA;
 			delete sessionAttributes.shared_secret;
 			delete sessionAttributes.thingsToSayIndex;
+			delete sessionAttributes.BRIEF_MODE_STATE;
 			sessionAttributes.STATE = constants.states.PAIRING;
 			attributesManager.setSessionAttributes(sessionAttributes);
 			attributesManager.setPersistentAttributes(sessionAttributes);
