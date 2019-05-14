@@ -447,6 +447,26 @@
               }
             },
             {
+              "id": "OPTIONS",
+              "name": {
+                "value": "options",
+                "synonyms": [
+                  "show options",
+                  "display options"
+                ]
+              }
+            },
+            {
+              "id": "ON_DEMAND",
+              "name": {
+                "value": "on demand",
+                "synonyms": [
+                  "show on demand",
+                  "display on demand"
+                ]
+              }
+            },
+            {
               "id": "INFORMATION",
               "name": {
                 "value": "info",
