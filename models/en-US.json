@@ -455,6 +455,27 @@
                   "display options"
                 ]
               }
+            }, 
+            {
+              "id": "DISPLAY_SETTINGS",
+              "name": {
+                "value": "show visual settings",
+                "synonyms": [
+                  "show visual options",
+                  "show display settings",
+                  "show display options"
+                ]
+              }
+            },
+            {
+              "id": "AUDIO_SETTINGS",
+              "name": {
+                "value": "audio",
+                "synonyms": [
+                  "audio settings",
+                  "change audio settings"
+                ]
+              }
             },
             {
               "id": "ON_DEMAND",
@@ -516,7 +537,10 @@
                 "synonyms": [
                   "select source",
                   "source select",
-                  "change source"
+                  "change source",
+                  "input select",
+                  "select input",
+                  "change input"
                 ]
               }
             },
@@ -979,6 +1003,24 @@
               }
             },
             {
+              "id": "NAVIGATE_CHAPTER_PREVIOUS",
+              "name": {
+                "value": "previous chapter",
+                "synonyms": [
+                   "chapter back"
+                ]
+              }
+            },
+            {
+              "id": "NAVIGATE_CHAPTER_NEXT",
+              "name": {
+                "value": "next chapter",
+                "synonyms": [
+                  "chapter forward"
+                ]
+              }
+            },
+            {
               "id": "CHANNEL_UP",
               "name": {
                 "value": "channel up",
@@ -991,6 +1033,25 @@
               "name": {
                 "value": "channel down",
                 "synonyms": [
+                ]
+              }
+            },
+            {
+              "id": "FAST_FORWARD",
+              "name": {
+                "value": "fast forward",
+                "synonyms": [
+                    "forward"
+                ]
+              }
+            },
+            {
+              "id": "REVERSE",
+              "name": {
+                "value": "reverse",
+                "synonyms": [
+                    "rewind",
+                    "reverse play"
                 ]
               }
             },
