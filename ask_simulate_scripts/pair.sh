@@ -11,6 +11,6 @@ ask simulate -l en-US -p default -t "yes"
 sleep 2
 ask simulate -l en-US -p default -t "no"
 sleep 2
-ask simulate -l en-US -p default -t "my application port is eight eight four four"
+ask simulate -l en-US -p default -t "my application port is eight eight four five"
 sleep 2
 ask simulate -l en-US -p default -t "yes"

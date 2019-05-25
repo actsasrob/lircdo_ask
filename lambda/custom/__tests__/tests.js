@@ -49,13 +49,13 @@ describe('Test expected intent responses against various input', function() {
         test('lircdo intent valid slot values', async () => {
                  await alexa.intend("lircdo", { LircAction: 'power on', LircComponent: 'tv'});
                  let result =await alexa.intend("lircdo", { LircAction: 'power on', LircComponent: 'tv'});
-                assert.include(result.response.outputSpeech.ssml, 'Action status was success');
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
         });
 
         test('lircdo intent valid slot values', async () => {
                  await alexa.intend("lircdo", { LircAction: 'TRAY_CLOSE', LircComponent: 'COMPONENT_DVD'});
                  let result = await alexa.intend("lircdo", { LircAction: 'TRAY_CLOSE', LircComponent: 'COMPONENT_DVD'});
-                assert.include(result.response.outputSpeech.ssml, 'Action status was success');
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
         });
 
         test('lircdo intent detect no matching LIRC script', async () => {
@@ -64,36 +64,25 @@ describe('Test expected intent responses against various input', function() {
                 assert.include(result.response.outputSpeech.ssml, 'No matching LIRC script');
         });
 
-	
-       /*
-        test('test lircdo intent is detected', async () => {
-                await alexa.intent("turn on system");
-                let result = await alexa.utter("turn on system");
-                console.log(`result: ${JSON.stringify(result)}`);
-                assert.include(result.response.outputSpeech.ssml, 'Action status was success');
-        });
-	*/
-
-
         test('change channel intent valid slot values', async () => {
                  await alexa.intend("channel_action", { LircChannelAction: 'change channel', LircNumericArgument: '746'});
                 let result = await alexa.intend("channel_action", { LircChannelAction: 'change channel', LircNumericArgument: '746'});
                 //console.log(`result: ${JSON.stringify(result)}`);
-                assert.include(result.response.outputSpeech.ssml, 'Action status was success');
-        });
-
-        test('change channel intent detect no matching lirc scrpt', async () => {
-                 await alexa.intend("channel_action", { LircChannelAction: 'CHANGE_CHANNEL', LircComponent: 'COMPONENT_FIRETV', LircNumericArgument: '746'});
-                 let result = await alexa.intend("channel_action", { LircChannelAction: 'CHANGE_CHANNEL', LircComponent: 'COMPONENT_FIRETV', LircNumericArgument: '746'});
-                //console.log(`result: ${JSON.stringify(result)}`);
-                assert.include(result.response.outputSpeech.ssml, 'No matching LIRC script');
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
         });
 
         test('test channel_action intent is detected', async () => {
-                await alexa.utter("set channel to 231");
-                let result = await alexa.utter("change channel to 231");
+                await alexa.utter("change channel to 233");
+                let result = await alexa.utter("change channel to 233");
                 //console.log(`result: ${JSON.stringify(result)}`);
-                assert.include(result.response.outputSpeech.ssml, 'Action status was success');
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
+        });
+
+        test('change channel intent detect no matching lirc scrpt', async () => {
+                 await alexa.intend("channel_action", { LircChannelAction: 'CHANNEL_CHANGE', LircComponent: 'COMPONENT_FIRETV', LircNumericArgument: '746'});
+                 let result = await alexa.intend("channel_action", { LircChannelAction: 'CHANNEL_CHANGE', LircComponent: 'COMPONENT_FIRETV', LircNumericArgument: '746'});
+                //console.log(`result: ${JSON.stringify(result)}`);
+                assert.include(result.response.outputSpeech.ssml, 'No matching LIRC script');
         });
 
         test('test channel_action intent detects channel argument > five digits', async () => {
@@ -114,17 +103,8 @@ describe('Test expected intent responses against various input', function() {
                 await alexa.intend("volume_action", { LircVolumeAction: "raise volume", LircNumericArgument: '5'});
                 let result=await alexa.intend("volume_action", { LircVolumeAction: "raise volume", LircNumericArgument: '5'});
                         //console.log(`result: ${JSON.stringify(result)}`);
-                assert.include(result.response.outputSpeech.ssml, 'Action status was success');
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
                 });
-
-	/*
-	test('test volume_action intent is detected ', async () => {
-		await alexa.utter("lower volume by 10");
-		let result = await alexa.utter("lower volume by 10");
-		//console.log(`result: ${JSON.stringify(result)}`);
-		assert.include(result.response.outputSpeech.ssml, 'Action status was success');
-	});
-	*/
 
         test("test volume_action detects non-numeric argument", async () => {
                 await alexa.intend("volume_action", { LircVolumeAction: "raise volume", LircNumericArgument: 'bad', LircComponent: 'COMPONENT_STB'});
@@ -145,7 +125,7 @@ describe('Test expected intent responses against various input', function() {
                 await alexa.intend("avr_action", { LircAVRAction: "change component", LircAVDevice: 'firetv'});
                 let result = await alexa.intend("avr_action", { LircAVRAction: "change component", LircAVDevice: 'firetv'});
                         //console.log(`result: ${JSON.stringify(result)}`);
-                assert.include(result.response.outputSpeech.ssml, 'Action status was success');
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
                 });
 
         test("test avr_action detect no matching LIRC script", async () => {

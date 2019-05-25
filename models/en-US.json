@@ -737,8 +737,7 @@
               "name": {
                 "value": "change channel",
                 "synonyms": [
-                  "set channel",
-                  "channel"
+                  "set channel"
                 ]
               }
             }

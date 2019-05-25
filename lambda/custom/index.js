@@ -387,7 +387,7 @@ const InProgressBriefModeIntent = {
 
 const CompletedBriefModeIntent = {
 	async canHandle(handlerInput) {
-		console.log(`in CompletedBriefModeIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
+		//console.log(`in CompletedBriefModeIntent.canHandle: handlerInput=${JSON.stringify(handlerInput)}`);
 		const request = handlerInput.requestEnvelope.request;
 		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
 		var sessionAttributes = attributesManager.getSessionAttributes();
