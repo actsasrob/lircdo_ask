@@ -11,6 +11,7 @@ Currently the lircdo Alexa skill understands five kinds of intents:
 * [audio/video receiver (AVR) intents](#avr_action_intent) like "change component to tv", "set component to fire tv", "set device to apple tv"
 * [volume intents](#volume_action_intent) like "raise volume on set top box by 5" and "lower volume by 10"
 * [channel intents](#channel_action_intent) like "change channel on set top box to 746" or "set channel to 231"
+* [navigation intents](#navigate_action_intent) like "dvd player scroll right" or "page up 2 times"
 * pair server intent requests. When you launch the lircdo skill for the first time it will prompt you for information that it needs to connect with the lircdo server/service in your home. 
 
 | Intent Name | Description | lircdo server Key & Value |
@@ -18,8 +19,11 @@ Currently the lircdo Alexa skill understands five kinds of intents:
 | [lircdo](#lircdo_intent) | Perform a variety of actions on a variety of A/V components | intent=lircdo |
 | [channel_action](#channel_action_intent) | Change channel of A/V component | intent=channel_action |
 | [volume_action](#volume_action_intent)  | Raise or lower volume of A/V component | intent=volume_action |
+| [navigate_action](#navigate_action_intent)  | Navigate menus | intent=navigate_action |
 | [avr_action](#avr_action_intent)     | Change selected component of Audio Video Receiver (AVR) | intent=avr_action |
 | pair_server    | Used to pair the Alexa lircdo skill with the lircdo server | N/A |
+| unpair_server    | Used to unpair the Alexa lircdo skill with the lircdo server | N/A |
+| brief_mode    | Change verbosity of sklll responses | N/A |
  
 ## <a id="lircdo_intent"></a>Generic "lircdo" Intent
 
@@ -76,6 +80,35 @@ The text surrounded by curly braces are known as "slots". See the table below fo
 | [LircComponent](#LircComponent) | The A/V component to apply the action to |  yes |
 | LircNumericArgument | A positive integer indicating how much the volume should be raised or lowered. Note: for raise volume actions the maximum value allowed by the lircdo server is 5 |  yes |
 
+
+## <a id="navigate_action_intent"></a>Navigation Intent
+
+Navigate menus.
+
+### Phrases understand by navigate_action intent
+
+   "{LircComponent} {LircNavigateVerb} {LircNavigateAction}",
+   "{LircComponent} {LircNavigateAction}",
+   "{LircNavigateVerb} {LircNavigateAction}",
+   "{LircNavigateAction}",
+   "{LircComponent} {LircNavigateVerb} {LircNavigateAction} {LircNumericArgument} times",
+   "{LircComponent} {LircNavigateAction} {LircNumericArgument} times",
+   "{LircNavigateVerb} {LircNavigateAction} {LircNumericArgument} times",
+   "{LircNavigateAction} {LircNumericArgument} times",
+   "{LircComponent} {LircNavigateAction} {LircNumericArgument}",
+   "{LircNavigateVerb} {LircNavigateAction} {LircNumericArgument}",
+   "{LircNavigateAction} {LircNumericArgument}"
+
+The text surrounded by curly braces are known as "slots". See the table below for more information about each slot.
+
+| Slot          |      Description      |  Optional |
+|---------------|-------------|------|
+| [LircNavigateAction](#LircNavigateAction)    |  The navigate action to perform | no |
+| LircNavigateVerb | Helper verbs: "navigate", "scroll", or "go" |  yes |
+| [LircComponent](#LircComponent) | The A/V component to apply the action to |  yes |
+| LircNumericArgument | Number of times to repeat action. Defaults to 1 |  yes |
+
+
 ## <a id="avr_action_intent"></a>avr_action intent
 
 Change selected component of Audio Video Receiver (AVR).
@@ -107,16 +140,24 @@ The text surrounded by curly braces are known as "slots". See the table below fo
 | "dismiss menu","dismiss"| action=MENU_DISMISS |
 | "mute","silence"| action=MUTE |
 | "unmute"| action=UNMUTE |
-| "pause","halt"| action=PAUSE |
-| "unpause","continue","play"| action=UNPAUSE |
+| "pause","halt","pause play"| action=PAUSE |
+| "unpause","continue","play","toggle pause"| action=UNPAUSE |
 | "record","record show","record movie"| action=RECORD |
-| "top menu"| action=TOP_MENU |
+| "top menu","home","home menu","go home"| action=TOP_MENU |
 | "subtitles"| action=SUBTITLES |
 | "close captions"| action=CLOSE_CAPTIONS |
 | "favorites","show favorites","display favorites"| action=FAVORITES |
+| "options","show options","display options"| action=OPTIONS |
+| "show visual settings","show visual options","show display settings","show display options"| action=DISPLAY_SETTINGS |
+| "audio","audio settings","change audio settings"| action=AUDIO_SETTINGS |
+| "on demand","show on demand","display on demand"| action=ON_DEMAND |
 | "info","show info","show information"| action=INFORMATION |
-| "last","last channel","go back"| action=LAST_CHANNEL |
+| "last","last channel","previous channel","previous","go back"| action=LAST_CHANNEL |
 | "stop play","stop record","stop recording"| action=STOP_PLAY |
+| "select","o.k.","ok","accept"| action=SELECT |
+| "source","select source","source select","change source","input select","select input","change input"| action=SOURCE_SELECT |
+| "pip","picture in picture"| action=PIP |
+| "guide","channel guide","show guide","show channels"| action=GUIDE |
 | "dvr menu"| action=DVR_MENU |
 
 ### <a id="LircComponent"></a>LircComponent Slot
@@ -176,3 +217,24 @@ The text surrounded by curly braces are known as "slots". See the table below fo
 |-----|-----|
 | "increase volume","increase","raise volume","raise"| action=VOLUME_INCREASE |
 | "decrease volume","decrease","lower volume","lower"| action=VOLUME_DECREASE |
+
+### <a id="LircNavigateAction"></a>LircNavigateAction Slot
+
+| What you can say | lircdo server meta Key & Value |
+|-----|-----|
+| "up","upward"| action=NAVIGATE_UP |
+| "down","downward"| action=NAVIGATE_DOWN |
+| "right","rightward"| action=NAVIGATE_RIGHT |
+| "left","leftward"| action=NAVIGATE_LEFT |
+| "page up"| action=NAVIGATE_PAGE_UP |
+| "page down"| action=NAVIGATE_PAGE_DOWN |
+| "page right"| action=NAVIGATE_PAGE_RIGHT |
+| "page left"| action=NAVIGATE_PAGE_LEFT |
+| "previous chapter","chapter back"| action=NAVIGATE_CHAPTER_PREVIOUS |
+| "next chapter","chapter forward"| action=NAVIGATE_CHAPTER_NEXT |
+| "channel up"| action=CHANNEL_UP |
+| "channel down"| action=CHANNEL_DOWN |
+| "fast forward","forward"| action=FAST_FORWARD |
+| "reverse","rewind","reverse play"| action=REVERSE |
+| "return","back"| action=NAVIGATE_RETURN |
+
