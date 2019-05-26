@@ -34,12 +34,14 @@ You can also also use the variants: "Alexa, tell baba zoo <*to do something*>" o
 
 The Alexa service processes the request "open/tell/ask baba zoo" and recognizes you want to launch a skill named "baba zoo". It looks through its inventory of skills, finds the baba zoo skill and launches it. What it does next depends on whether you used the word "open"  or "tell/ask". For "open" Alexa launches the skill and sends it a launch request. The skill responds to the launch request by responding with a simple welcome back phrase and asks you want you would like to do. At that point you can speak the actions you want the skill to perform. In Alexa skill parlance these actions are known as "intents". The Alexa skill listens for you to say actions. It processes the words and tries to match them to the intents made available by the skill. If the Alexa skill recognizes a valid intent it invokes a callback within the skill and passes any extra parameters to the callback. When you launch the skill with the "tell/ask" words you additionally say an action to perform. In this case the Alexa skill first determines the skill you wish to invoke, determines the intent you wish to use, and then launches the skill and invokes the associated callback.
 
-### Currently the lircdo skill understands five kinds of intents: 
+### Currently the lircdo skill understands seven kinds of intents: 
 * generic intents like "power on system", "change component to dvd player", "open dvd tray" etc.
 * audio/video receiver (AVR) intents like "change component to tv", "set component to fire tv", "set device to apple tv"
 * volume intents like "raise volume on set top box by 5" and "lower volume by 10"
 * channel intents like "change channel on set top box to 746" or "set channel to 231"
-* pair server requests. When you launch the lircdo skill for the first time it will prompt you for information that it needs to connect with the lircdo server/service in your home. (*More on that later*)
+* navigation intents like "dvd player scroll right" or "page up 2 times"
+* pair/unpair server requests. When you launch the lircdo skill for the first time it will prompt you for information that it needs to connect with the lircdo server/service in your home. (*More on that later*)
+* response vebosity intent requests. Allows you to toggle the verbosity of skill responses.
 
 lircdo callbacks first validate all the required parameters were passed to the callback. For instance the volume intent requires one parameter to know whether to raise or lower the volume and a second required parameter which is a numeric argument which indicates by how much to raise or lower the volume. The volume intent take an optional third parameter which is the device or component that should have its volume raised or lowered. It is designed to be optional. In fact the device/component is optional for generic intents, volume intents, and channel intents. For each of these intents you can specify a default device/component which will be targeted. This is handy, say, if all your components are plugged into an audio/video receiver which handles the volume for all components.
 
