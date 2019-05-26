@@ -167,7 +167,7 @@ The text surrounded by curly braces are known as "slots". See the table below fo
 | "dvd player","dvd, d.v.d. player"| component=COMPONENT_DVD |
 | "dvr","digital video recorder, d. v. r."| component=COMPONENT_DVR |
 | "hdp","high definition player, h. d. p."| component=COMPONENT_HDP |
-| "ps4","playstation four, playstation, p. s. four"| component=COMPONENT_PS4 |
+| "ps4","playstation four, playstation, p. s. four"| component=COMPONENT_PS |
 | "tv","television, t. v."| component=COMPONENT_TV |
 | "set top box","s. t. b.","settopbox"| component=COMPONENT_STB |
 | "cable box","cable"| component=COMPONENT_CABLE |
@@ -193,7 +193,7 @@ The text surrounded by curly braces are known as "slots". See the table below fo
 | "dvd player","dvd, d.v.d. player"| component=COMPONENT_DVD |
 | "dvr","digital video recorder, d. v. r."| component=COMPONENT_DVR |
 | "hdp","high definition player, h. d. p."| component=COMPONENT_HDP |
-| "ps4","playstation four, playstation, p. s. four"| component=COMPONENT_PS4 |
+| "ps4","playstation four, playstation, p. s. four"| component=COMPONENT_PS |
 | "tv","television, t. v."| component=COMPONENT_TV |
 | "set top box","s. t. b.","settopbox"| component=COMPONENT_STB |
 | "cable box","cable"| component=COMPONENT_CABLE |
