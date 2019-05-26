@@ -14,6 +14,7 @@ def type_to_action(argument):
         "LIRC_AV_DEVICE": "LircAVDevice", 
         "LIRC_CHANNEL_ACTION": "LircChannelAction",
         "LIRC_VOLUME_ACTION": "LircVolumeAction",
+		"LIRC_NAVIGATE_ACTION": "LircNavigateAction",
     } 
   
     # get() method of dictionary data type returns  
@@ -33,7 +34,7 @@ types = language_model.get("types")
 #print("%s" % types)
 types_index = build_dict(types, key="name")
 tom_info = types_index.get("LIRC_ACTION")
-types_ordered = [types_index.get("LIRC_ACTION"), types_index.get("LIRC_COMPONENT"), types_index.get("LIRC_AVR_ACTION"), types_index.get("LIRC_AV_DEVICE"), types_index.get("LIRC_CHANNEL_ACTION"), types_index.get("LIRC_VOLUME_ACTION")]
+types_ordered = [types_index.get("LIRC_ACTION"), types_index.get("LIRC_COMPONENT"), types_index.get("LIRC_AVR_ACTION"), types_index.get("LIRC_AV_DEVICE"), types_index.get("LIRC_CHANNEL_ACTION"), types_index.get("LIRC_VOLUME_ACTION"), types_index.get('LIRC_NAVIGATE_ACTION')]
 for type in types_ordered:
 	#print("type %s\n" % (type.get("name")))
 	type_name = type.get("name")

@@ -603,7 +603,7 @@
               }
             },
             {
-              "id": "COMPONENT_PS4",
+              "id": "COMPONENT_PS",
               "name": {
                 "value": "ps4",
                 "synonyms": [
@@ -774,7 +774,7 @@
               }
             },
             {
-              "id": "COMPONENT_PS4",
+              "id": "COMPONENT_PS",
               "name": {
                 "value": "ps4",
                 "synonyms": [
