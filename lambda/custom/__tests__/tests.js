@@ -46,15 +46,53 @@ describe('Test expected intent responses against various input', function() {
                 assert(true, constants.mainStateHandlerLaunchHandlerSpeech.reprompt.some(x => x.includes(result.response.reprompt.outputSpeech.ssml.replace('<speak>', '').replace('</speak>', ''))));
         });
 
-        test('lircdo intent valid slot values', async () => {
+        test('lircdo intent valid slot values -- recognizes power on', async () => {
                  await alexa.intend("lircdo", { LircAction: 'power on', LircComponent: 'tv'});
                  let result =await alexa.intend("lircdo", { LircAction: 'power on', LircComponent: 'tv'});
                 assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
         });
 
-        test('lircdo intent valid slot values', async () => {
+        test('lircdo intent valid slot values -- recognizes TRAY_CLOSE', async () => {
                  await alexa.intend("lircdo", { LircAction: 'TRAY_CLOSE', LircComponent: 'COMPONENT_DVD'});
                  let result = await alexa.intend("lircdo", { LircAction: 'TRAY_CLOSE', LircComponent: 'COMPONENT_DVD'});
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
+        });
+
+        test('lircdo intent valid slot values -- recognizes SELECT', async () => {
+                 await alexa.intend("lircdo", { LircAction: 'SELECT', LircComponent: 'COMPONENT_STB'});
+                 let result = await alexa.intend("lircdo", { LircAction: 'SELECT', LircComponent: 'COMPONENT_STB'});
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
+        });
+
+        test('lircdo intent valid slot values -- recognizes MUTE', async () => {
+                 await alexa.intend("lircdo", { LircAction: 'MUTE', LircComponent: 'COMPONENT_SYSTEM'});
+                 let result = await alexa.intend("lircdo", { LircAction: 'MUTE', LircComponent: 'COMPONENT_SYSTEM'});
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
+        });
+
+        test('lircdo intent valid slot values -- recognizes on demand', async () => {
+                 await alexa.intend("lircdo", { LircAction: 'ON_DEMAND', LircComponent: 'COMPONENT_STB'});
+                 let result = await alexa.intend("lircdo", { LircAction: 'ON_DEMAND', LircComponent: 'COMPONENT_STB'});
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
+        });
+
+        test('lircdo intent valid slot values -- recognizes unpause', async () => {
+                 await alexa.intend("lircdo", { LircAction: 'unpause', LircComponent: 'COMPONENT_DVD'});
+                 let result = await alexa.intend("lircdo", { LircAction: 'unpause', LircComponent: 'COMPONENT_DVD'});
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
+        });
+
+        test('lircdo intent is detected -- recognizes subtitles', async () => {
+                await alexa.utter("subtitles");
+                let result = await alexa.utter("subtitles");
+                //console.log(`result: ${JSON.stringify(result)}`);
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
+        });
+
+        test('lircdo intent is detected -- recognizes play', async () => {
+                await alexa.utter("play");
+                let result = await alexa.utter("play");
+                //console.log(`result: ${JSON.stringify(result)}`);
                 assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
         });
 
@@ -135,6 +173,49 @@ describe('Test expected intent responses against various input', function() {
                         //console.log(`result: ${JSON.stringify(result)}`);
                 assert.include(result.response.outputSpeech.ssml, 'No matching LIRC script');
                 });
+
+        test('navigate_action intent valid slot values', async () => {
+                 await alexa.intend("navigate_action", { LircNavigateAction: 'page up', LircComponent: 'set top box'});
+                 let result = await alexa.intend("navigate_action", { LircNavigateAction: 'page up', LircComponent: 'set top box'});
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
+        });
+
+        test('navigate_action intent valid slot values with default component', async () => {
+                 await alexa.intend("navigate_action", { LircNavigateAction: 'page right', LircNumericArgument: '3'});
+                 let result = await alexa.intend("navigate_action", { LircNavigateAction: 'page right', LircNumericArgument: '3'});
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
+        });
+
+        test('navigate_action intent valid slot values -- recognizes fast forward', async () => {
+                 await alexa.intend("navigate_action", { LircNavigateAction: 'fast forward', LircNumericArgument: '1'});
+                 let result = await alexa.intend("navigate_action", { LircNavigateAction: 'fast forward', LircNumericArgument: '1'});
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
+        });
+
+        test('navigate_action intent valid slot values -- recognizes rewind', async () => {
+                 await alexa.intend("navigate_action", { LircNavigateAction: 'rewind', LircNumericArgument: '1'});
+                 let result = await alexa.intend("navigate_action", { LircNavigateAction: 'rewind', LircNumericArgument: '1'});
+                assert.include(constants.mainStateActionHandlerSpeech.say, result.response.outputSpeech.ssml.replace('<speak>','').replace('</speak>',''));
+        });
+
+        test('navigate_action intent detects no matching LIRC script', async () => {
+                 await alexa.intend("navigate_action", { LircNavigateAction: 'left', LircComponent: 'firetv'});
+                 let result = await alexa.intend("navigate_action", { LircNavigateAction: 'left', LircComponent: 'firetv'});
+                assert.include(result.response.outputSpeech.ssml, 'No matching LIRC script');
+        });
+
+        test('test navigate_action intent is detected -- recognizes previous chapter', async () => {
+                await alexa.utter("previous chapter");
+                let result = await alexa.utter("previous chapter");
+                //console.log(`result: ${JSON.stringify(result)}`);
+                assert.include(result.response.outputSpeech.ssml, 'No matching LIRC script');
+        });
+
+        test('navigate_action intent test invalid numeric argument', async () => {
+                 await alexa.intend("navigate_action", { LircNavigateAction: 'down', LircNumericArgument: '3'});
+                 let result = await alexa.intend("navigate_action", { LircNavigateAction: 'down', LircNumericArgument: '99999'});
+                assert.include(result.response.outputSpeech.ssml, 'error with message invalid numeric');
+        });
 
         test('test action intent does not end session ', async () => {
                 await alexa.utter("set component to ps4");
