@@ -40,8 +40,8 @@ The Alexa service processes the request "open/tell/ask baba zoo" and recognizes 
 * volume intents like "raise volume on set top box by 5" and "lower volume by 10"
 * channel intents like "change channel on set top box to 746" or "set channel to 231"
 * navigation intents like "dvd player scroll right" or "page up 2 times"
-* pair/unpair server requests. When you launch the lircdo skill for the first time it will prompt you for information that it needs to connect with the lircdo server/service in your home. (*More on that later*)
-* response vebosity intent requests. Allows you to toggle the verbosity of skill responses.
+* pair/unpair server requests. When you launch the lircdo skill for the first time it will prompt you for information that it needs to connect with the lircdo server/service in your home. You can say things like "pair server" or "unpair server" 
+* response vebosity intent requests. Allows you to toggle the verbosity of skill responses. You can say things like "change brief mode" or "toggle brief mode"
 
 lircdo callbacks first validate all the required parameters were passed to the callback. For instance the volume intent requires one parameter to know whether to raise or lower the volume and a second required parameter which is a numeric argument which indicates by how much to raise or lower the volume. The volume intent take an optional third parameter which is the device or component that should have its volume raised or lowered. It is designed to be optional. In fact the device/component is optional for generic intents, volume intents, and channel intents. For each of these intents you can specify a default device/component which will be targeted. This is handy, say, if all your components are plugged into an audio/video receiver which handles the volume for all components.
 
