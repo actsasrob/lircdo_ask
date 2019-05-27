@@ -192,7 +192,7 @@
           "samples": [
             "brief mode",
             "change brief mode",
-            "toggle brief mode"
+	    "toggle brief mode"
           ]
         },
         {
@@ -252,21 +252,22 @@
             {
               "name": "LircNumericArgument",
               "type": "AMAZON.NUMBER",
-              "samples": []
+              "samples": [
+              ]
             }
           ],
           "samples": [
-            "{LircComponent} {LircNavigateVerb} {LircNavigateAction}",
-            "{LircComponent} {LircNavigateAction}",
-            "{LircNavigateVerb} {LircNavigateAction}",
-            "{LircNavigateAction}",
-            "{LircComponent} {LircNavigateVerb} {LircNavigateAction} {LircNumericArgument} times",
-            "{LircComponent} {LircNavigateAction} {LircNumericArgument} times",
-            "{LircNavigateVerb} {LircNavigateAction} {LircNumericArgument} times",
-            "{LircNavigateAction} {LircNumericArgument} times",
-            "{LircComponent} {LircNavigateAction} {LircNumericArgument}",
-            "{LircNavigateVerb} {LircNavigateAction} {LircNumericArgument}",
-            "{LircNavigateAction} {LircNumericArgument}"
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction}",
+                "{LircComponent} {LircNavigateAction}",
+                "{LircNavigateVerb} {LircNavigateAction}",
+                "{LircNavigateAction}",
+                "{LircComponent} {LircNavigateVerb} {LircNavigateAction} {LircNumericArgument} times",
+                "{LircComponent} {LircNavigateAction} {LircNumericArgument} times",
+                "{LircNavigateVerb} {LircNavigateAction} {LircNumericArgument} times",
+                "{LircNavigateAction} {LircNumericArgument} times",
+                "{LircComponent} {LircNavigateAction} {LircNumericArgument}",
+                "{LircNavigateVerb} {LircNavigateAction} {LircNumericArgument}",
+                "{LircNavigateAction} {LircNumericArgument}"
           ]
         },
         {
@@ -387,7 +388,7 @@
                 "value": "pause",
                 "synonyms": [
                   "halt",
-                  "pause play"
+		  "pause play"
                 ]
               }
             },
@@ -397,8 +398,8 @@
                 "value": "unpause",
                 "synonyms": [
                   "continue",
-                  "play",
-                  "toggle pause"
+		  "play",
+		  "toggle pause"
                 ]
               }
             },
@@ -417,7 +418,7 @@
               "name": {
                 "value": "top menu",
                 "synonyms": [
-                  "home",
+	          "home",
                   "home menu",
                   "go home"
                 ]
@@ -454,7 +455,7 @@
                   "display options"
                 ]
               }
-            },
+            }, 
             {
               "id": "DISPLAY_SETTINGS",
               "name": {
@@ -524,8 +525,8 @@
                 "value": "select",
                 "synonyms": [
                   "o.k.",
-                  "ok",
-                  "accept"
+		  "ok",
+		  "accept"
                 ]
               }
             },
@@ -559,7 +560,7 @@
                 "synonyms": [
                   "channel guide",
                   "show guide",
-                  "show channels"
+		  "show channels"
                 ]
               }
             },
@@ -972,28 +973,32 @@
               "id": "NAVIGATE_PAGE_UP",
               "name": {
                 "value": "page up",
-                "synonyms": []
+                "synonyms": [
+                ]
               }
             },
             {
               "id": "NAVIGATE_PAGE_DOWN",
               "name": {
                 "value": "page down",
-                "synonyms": []
+                "synonyms": [
+                ]
               }
             },
             {
               "id": "NAVIGATE_PAGE_RIGHT",
               "name": {
                 "value": "page right",
-                "synonyms": []
+                "synonyms": [
+                ]
               }
             },
             {
               "id": "NAVIGATE_PAGE_LEFT",
               "name": {
                 "value": "page left",
-                "synonyms": []
+                "synonyms": [
+                ]
               }
             },
             {
@@ -1001,7 +1006,7 @@
               "name": {
                 "value": "previous chapter",
                 "synonyms": [
-                  "chapter back"
+                   "chapter back"
                 ]
               }
             },
@@ -1018,14 +1023,16 @@
               "id": "CHANNEL_UP",
               "name": {
                 "value": "channel up",
-                "synonyms": []
+                "synonyms": [
+                ]
               }
             },
             {
               "id": "CHANNEL_DOWN",
               "name": {
                 "value": "channel down",
-                "synonyms": []
+                "synonyms": [
+                ]
               }
             },
             {
@@ -1033,7 +1040,7 @@
               "name": {
                 "value": "fast forward",
                 "synonyms": [
-                  "forward"
+                    "forward"
                 ]
               }
             },
@@ -1042,8 +1049,8 @@
               "name": {
                 "value": "reverse",
                 "synonyms": [
-                  "rewind",
-                  "reverse play"
+                    "rewind",
+                    "reverse play"
                 ]
               }
             },
@@ -1333,7 +1340,7 @@
         ]
       },
       {
-        "id": "Elicit.Intent-navigate_action.IntentSlot-LircNavigateAction",
+	"id": "Elicit.Intent-navigate_action.IntentSlot-LircNavigateAction",
         "variations": [
           {
             "type": "PlainText",
@@ -1478,5 +1485,5 @@
       }
     ]
   },
-  "version": "51"
+  "version": "7"
 }
