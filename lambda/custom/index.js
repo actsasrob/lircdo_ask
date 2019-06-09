@@ -43,14 +43,14 @@ const LaunchRequestHandler = {
 		let outputSpeech=randomPhrase(constants.mainStateHandlerLaunchHandlerSpeech.brief_say); 
 		let reprompt=randomPhrase(constants.mainStateHandlerLaunchHandlerSpeech.brief_reprompt); 
 		if (! persistentAttributes.BRIEF_MODE_STATE || persistentAttributes.BRIEF_MODE_STATE === constants.brief_mode_states.VERBOSE) {
-		        outputSpeech=randomPhrase(constants.mainStateHandlerLaunchHandlerSpeech.say);
-		        reprompt=randomPhrase(constants.mainStateHandlerLaunchHandlerSpeech.reprompt);
+			outputSpeech=randomPhrase(constants.mainStateHandlerLaunchHandlerSpeech.say);
+			reprompt=randomPhrase(constants.mainStateHandlerLaunchHandlerSpeech.reprompt);
 		}
 
 		if (persistentAttributes.STATE && persistentAttributes.STATE === constants.states.PAIRING) {
 			const currentIntent = handlerInput.requestEnvelope.request.intent;
 			console.log(`LaunchRequestHandler.handle handlerInput ${JSON.stringify(handlerInput)}`);
-			speechOutput = randomPhrase(constants.initialStateHandlerSpeech.say);
+			outputSpeech = randomPhrase(constants.initialStateHandlerSpeech.say);
 			reprompt = randomPhrase(constants.initialStateHandlerSpeech.reprompt); 
 		}
 
@@ -149,7 +149,7 @@ const CompletedPairServerIntent = {
 			&& request.dialogState === 'COMPLETED';
 	},
 	async handle(handlerInput) {
-		console.log(`CompletedPairServerIntent.handler: Intent: ${handlerInput.requestEnvelope.request.intent.name}`);
+		console.log(`CompletedPairServerIntent.handle: Intent: ${handlerInput.requestEnvelope.request.intent.name}`);
 
 		const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
 
@@ -158,6 +158,15 @@ const CompletedPairServerIntent = {
 		const slotValues = getSlotValues(filledSlots);
 		console.log(`CompletedPairServerIntent.handler: slotValues: ${JSON.stringify(slotValues)}`);
 		const ip_address = `${slotValues.OctetA.resolved}.${slotValues.OctetB.resolved}.${slotValues.OctetC.resolved}.${slotValues.OctetD.resolved}`; 
+		if (! validIPAddress(ip_address)) {
+			console.log('CompletedPairServerIntent.handler: detected invalid I.P. address');
+			return handlerInput.responseBuilder
+				.speak("The requested application address is not a valid I.P. address. What is the application I.P. address? You can say my application address is, followed by the I.P. address in dotted decimal format")
+				.reprompt("What is the application I.P. address? you can say my application address is, followed by the I.P. address in dotted decimal format")
+				.addElicitSlotDirective("OctetA")
+				.getResponse();
+		}
+		console.log('CompletedPairServerIntent.handler: valid I.P. address');
 		const applicationPort = slotValues.ApplicationPort.resolved;
 		const params = { 'pin': slotValues.ApplicationPin.resolved };
 		console.log(`CompletedPairServerIntent.handler: ip_address: ${ip_address} applicationPort: ${applicationPort} params: ${JSON.stringify(params)}`);
@@ -167,8 +176,7 @@ const CompletedPairServerIntent = {
 
 		let outputSpeech = '';
 
-		try {
-			const response = await httpGet(lircdoServerOptions);
+		await httpGet(lircdoServerOptions).then(async (response) => {
 
 			console.log(`CompletedPairServerIntent.handler: response: ${JSON.stringify(response)}`); 
 			if (response.status !== 'success') {
@@ -180,22 +188,32 @@ const CompletedPairServerIntent = {
 				sessionAttributes.applicationFQDN = response.fqdn;
 				sessionAttributes.applicationPort = response.port;
 				if ("ca_cert" in response) {
-				   sessionAttributes.trustedCA = response.ca_cert;
+					sessionAttributes.trustedCA = response.ca_cert;
 				}
 				sessionAttributes.shared_secret = response.shared_secret;
 				sessionAttributes.STATE = constants.states.MAIN;
 				attributesManager.setPersistentAttributes(sessionAttributes);
 				await attributesManager.savePersistentAttributes();
-				console.log(`CompletedPairServerIntent.handler: after await`); 
 			}
-		} catch (error) {
-			outputSpeech = `Sorry, there was a problem performing the requested action. error is ${error}`;
-			console.log(`Intent: ${handlerInput.requestEnvelope.request.intent.name}: message: ${error}`);
+		})
+		.catch(error => {
+			var error_string=JSON.stringify(error);
+			console.log(`CompletedPairServerIntent.handler: in .catch: error= ${error_string}`);
+			outputSpeech = `Sorry, there was an unkown problem performing the requested action. Please verify LIRC do service I. P. address, port number, and pin number are correct. Also verify the LIRC do service is running in pairing mode, then try again`;
+			if (error_string.match(/ECONNREFUSED/)) {
+				outputSpeech = `Sorry, the connection to the LIRC do server was refused. The most likely reasons for this is that the LIRC do service is not running, or that your home router is not forwarding incoming connections to the correct server and port, or that the LIRC do service is listening on a different address or port number then requested. Please verify the LIRC do service is running and that the service is listening on the expected address and port number then try again.`;
+			}
 			// handle the special case where the LIRC Do service was probably not started in pairing mode
-			if (error.message.match(/404:/)) {
-				outputSpeech = `Sorry, there was a problem pairing with the LIRC Do service. Please ensure the LIRC Do service is started in pairing mode and try again`;
-			}	
-		}
+			else if (error_string.match(/302/)) {
+				outputSpeech = `Sorry, the pairing request failed. The most likely reason is that the LIRC do service is not running in pairing mode. Please restart the LIRC do service in pairing mode, if needed, and then try again.`;
+			}
+			else if (error_string.match(/402/)) {
+				outputSpeech = `Sorry, the pairing request failed. The most likely reason is the application pin number is incorrect. Please verify the pin number, then try again.`;
+			}
+			else if (error_string.match(/timeout/) || error_string.match(/ECONNRESET/)) {
+				outputSpeech = 'Sorry, the connection to the LIRC do service timed out. The most likely reasons for this is that the LIRC do service is not running, or that your home router is not forwarding incoming connections to the correct server and port, or that the LIRC do service is listening on a different address or port number then requested. Please verify the LIRC do service is running and that the service is listening on the expected address and port number then try again.';
+			}
+		});
 
 		return handlerInput.responseBuilder
 			.speak(outputSpeech)
@@ -556,7 +574,7 @@ const CompletedActionIntent = {
 
 		console.log(`CompletedActionIntent.handle: params: ${JSON.stringify(params)}`);
 		var trustedCA="";
-                if ( "trustedCA" in sessionAttributes) {
+		if ( "trustedCA" in sessionAttributes) {
 			trustedCA=sessionAttributes.trustedCA;
 		}	
 		const lircdoServerOptions = buildLircdoServerOptions(true, sessionAttributes.applicationFQDN, sessionAttributes.applicationPort, trustedCA, constants.stateHandlerIntentNameToCallbackLookup[requestEnvelope.request.intent.name], params);
@@ -564,12 +582,11 @@ const CompletedActionIntent = {
 		let outputSpeech="<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_01'/> " + randomPhrase(constants.mainStateActionHandlerSpeech.brief_say); 
 		let reprompt=randomPhrase(constants.mainStateActionHandlerSpeech.brief_reprompt); 
 		if (! sessionAttributes.BRIEF_MODE_STATE || sessionAttributes.BRIEF_MODE_STATE === constants.brief_mode_states.VERBOSE) {
-		        outputSpeech=randomPhrase(constants.mainStateActionHandlerSpeech.say);
-		        reprompt=randomPhrase(constants.mainStateActionHandlerSpeech.reprompt);
+			outputSpeech=randomPhrase(constants.mainStateActionHandlerSpeech.say);
+			reprompt=randomPhrase(constants.mainStateActionHandlerSpeech.reprompt);
 		}
 
-		try {
-			const response = await httpGet(lircdoServerOptions);
+		await httpGet(lircdoServerOptions).then((response) => {
 
 			console.log(`CompletedActionIntent.handle: response: ${JSON.stringify(response)}`); 
 			if (response.message !== 'success') {
@@ -579,13 +596,34 @@ const CompletedActionIntent = {
 					outputSpeech = "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_negative_response_02'/> " + outputSpeech;
 				}
 			}
-		} catch (error) {
-			outputSpeech = `Sorry, there was a problem performing the requested action. error is ${error}`;
-			console.log(`Intent: ${handlerInput.requestEnvelope.request.intent.name}: message: ${JSON.stringify(error)}`);
-			if (error.message.match(/302:/)) {
-				outputSpeech = `Sorry, there was a problem with the LIRC Do service executing the requested action. Please ensure the LIRC Do service is started in non-pairing mode and try again`;
-			}
-		}
+		})
+		.catch(error => {
+			var error_string=JSON.stringify(error);
+			console.log(`CompletedActionIntent.handle: in .catch: error= ${error_string}`);
+
+			if (! sessionAttributes.BRIEF_MODE_STATE || sessionAttributes.BRIEF_MODE_STATE === constants.brief_mode_states.VERBOSE) {
+
+				outputSpeech = "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_negative_response_02'/> " + outputSpeech;
+			} else { // verbose error
+				outputSpeech = `Sorry, there was a problem performing the requested action. Please verify the LIRC do service is running in non-pairing mode, then try again. error is ${error}`;
+
+				console.log(`Intent: ${handlerInput.requestEnvelope.request.intent.name}: message: ${error_string}`);
+				if (error_string.match(/ECONNREFUSED/)) {
+					outputSpeech = `Sorry, the connection to the LIRC do server was refused. The most likely reasons for this is that the LIRC do service is not running, or that your home router is not forwarding incoming connections to the correct server and port, or that the LIRC do service is listening on a different address or port number then requested. Also, verify the domain name for the LIRC do service points to the correct I. P. address. Please check the previously mentioned things and then try again.`;
+				}
+				// handle the special case where the LIRC Do service was probably not started in pairing mode
+				else if (error_string.match(/302/)) {
+					outputSpeech = `Sorry, the requested action failed. The most likely reason is that the LIRC do service is running in pairing mode. Please restart the LIRC do server in non-pairing mode, if needed, and then try again.`;
+				}
+				else if (error_string.match(/401/)) {
+					outputSpeech = `Sorry, the requested action failed. This can happen when the LIRC do service is using a different shared secret then the shared secret captured during the LIRC do service pairing phase. To correct this try unpairing the Alexa skill and then pairing with the LIRC do service again.`;
+				}
+				else if (error_string.match(/timeout/) || error_string.match(/ECONNRESET/)) {
+					outputSpeech = 'Sorry, the connection to the LIRC do service timed out. The most likely reasons for this is that the LIRC do service is not running, or that your home router is not forwarding incoming connections to the correct server and port, or that the LIRC do service is listening on a different address or port number then requested. Also, verify the domain name for the LIRC do service points to the correct I. P. address. Please check the previously mentioned things and then try again.';
+				}
+			} // end verbose error
+
+		});
 
 		return handlerInput.responseBuilder
 			.speak(outputSpeech)
@@ -863,7 +901,7 @@ function buildHttpGetOptions(doHostnameCheck, host, trustedCA, path, port, param
 		rejectUnauthorized: doHostnameCheck,
 	};
 	if (doHostnameCheck && trustedCA !== "") {
-	        let ca_cert = trustedCA.replace(/\./g, '\n');
+		let ca_cert = trustedCA.replace(/\./g, '\n');
 		options.ca = ca_cert;
 	}
 	options.agent = new https.Agent(options);
@@ -883,7 +921,10 @@ function httpGet(options) {
 			let returnData = '';
 
 			if (response.statusCode < 200 || response.statusCode >= 300) {
-				return reject(new Error(`${response.statusCode}: ${response.req.getHeader('host')} ${response.req.path}`));
+				var error = new Error(`${response.statusCode}: ${response.req.getHeader('host')} ${response.req.path} blash`);
+				error.code = response.statusCode;
+				error.message = "LIRC do server returned unsuccesful HTTP response";
+				return reject(error);
 			}
 
 			response.on('data', (chunk) => {
@@ -898,10 +939,39 @@ function httpGet(options) {
 				reject(error);
 			});
 		});
+		// use its "timeout" event to abort the request
+		request.on('socket', function(socket) { 
+			socket.setTimeout(constants.socketTimeout, function () {   // set short timeout so discovery fails fast
+				var e = new Error ('Timeout connecting to ' + options.host );
+				e.name = 'timeout';
+				console.log(`in httpGet: request.on socket: ${JSON.stringify(e)}`);
+				request.abort();    // kill socket
+				return reject(e);   
+			});
+			socket.on('error', function (err) { // this catches ECONNREFUSED events
+				var currdatetime = new Date().getTime();
+				console.log(`${currdatetime} in httpGet: in socket.on error: ${JSON.stringify(err)}`);
+				request.abort();    // kill socket
+				return reject(err); 
+			});
+		}); // handle connection events and errors
+
+		request.on('error', function (e) {  // happens when we abort
+			var currdatetime = new Date().getTime();
+			console.log(`${currdatetime} in httpget: in request.on error: ${JSON.stringify(e)}`);
+			return reject(e);
+		});
 		request.end();
 	}));
 }
 
+function validIPAddress(ipaddress) {
+	if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {
+		return (true)
+	} else {
+		return (false)
+	}
+}
 
 const skillBuilder = Alexa.SkillBuilders.standard();
 

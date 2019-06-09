@@ -120,8 +120,8 @@
               "type": "AMAZON.NUMBER",
               "samples": [
                 "the application address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
-                "the address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
-                " {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}"
+                "{OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
+                "the address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}"
               ]
             },
             {
@@ -129,8 +129,8 @@
               "type": "AMAZON.NUMBER",
               "samples": [
                 "the application address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
-                "the address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
-                "{OctetA} dot {OctetB} dot {OctetC} dot {OctetD}"
+                "{OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
+                "the address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}"
               ]
             },
             {
@@ -138,8 +138,8 @@
               "type": "AMAZON.NUMBER",
               "samples": [
                 "the application address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
-                "the address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
-                "{OctetA} dot {OctetB} dot {OctetC} dot {OctetD}"
+                "{OctetA} dot {OctetB} dot {OctetC} dot {OctetD}",
+                "the address is {OctetA} dot {OctetB} dot {OctetC} dot {OctetD}"
               ]
             },
             {
@@ -1364,7 +1364,7 @@
         "variations": [
           {
             "type": "PlainText",
-            "value": "What is the application I.P. address. you can say my application address is, followed by the I.P. address"
+            "value": "What is the application I.P. address. you can say my application address is, followed by the I.P. address in dotted decimal format"
           }
         ]
       },
@@ -1382,7 +1382,7 @@
         "variations": [
           {
             "type": "PlainText",
-            "value": "What is the application I.P. address. you can say my application address is, followed by the I.P. address"
+            "value": "What is the application I.P. address. you can say my application address is, followed by the I.P. address in dotted decimal format"
           }
         ]
       },
@@ -1391,7 +1391,7 @@
         "variations": [
           {
             "type": "PlainText",
-            "value": "What is the application I.P. address. you can say my application address is, followed by the I.P. address"
+            "value": "What is the application I.P. address. you can say my application address is, followed by the I.P. address dotted decimal format"
           }
         ]
       },
@@ -1400,7 +1400,7 @@
         "variations": [
           {
             "type": "PlainText",
-            "value": "What is the application I.P. address. you can say my application address is, followed by the I.P. address"
+            "value": "What is the application I.P. address. you can say my application address is, followed by the I.P. address in dotted decimal format"
           }
         ]
       },

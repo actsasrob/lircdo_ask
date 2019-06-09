@@ -9,6 +9,9 @@ var constants = Object.freeze({
 	// Default application port
 	defaultApplicationPort : '8843',
 
+	// LIRC Do Service Socket Timeout
+	socketTimeout: 5000, // 5 seconds
+
 	// Skill States
 	states : {
 		INITIAL : '',
