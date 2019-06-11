@@ -16,7 +16,9 @@
 				"Adds ability to go to home menu",
 				"Adds picture-in-picture (PIP) option",
 				"Adds channel guide option",
-				"Adds source select option"
+				"Adds source select option",
+				"Add better error handling for LIRC do server HTTPS connections",
+				"Respond with more helpful messages when LIRC do server connections fail"
 			]
 		}, 
 		{

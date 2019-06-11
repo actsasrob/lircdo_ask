@@ -192,6 +192,7 @@ const CompletedPairServerIntent = {
 				}
 				sessionAttributes.shared_secret = response.shared_secret;
 				sessionAttributes.STATE = constants.states.MAIN;
+				sessionAttributes.BRIEF_MODE_STATE = constants.brief_mode_states.VERBOSE;
 				attributesManager.setPersistentAttributes(sessionAttributes);
 				await attributesManager.savePersistentAttributes();
 			}
@@ -601,10 +602,10 @@ const CompletedActionIntent = {
 			var error_string=JSON.stringify(error);
 			console.log(`CompletedActionIntent.handle: in .catch: error= ${error_string}`);
 
-			if (! sessionAttributes.BRIEF_MODE_STATE || sessionAttributes.BRIEF_MODE_STATE === constants.brief_mode_states.VERBOSE) {
+			if (sessionAttributes.BRIEF_MODE_STATE === constants.brief_mode_states.BRIEF) { // verbose error
 
 				outputSpeech = "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_negative_response_02'/> " + outputSpeech;
-			} else { // verbose error
+			} else { r
 				outputSpeech = `Sorry, there was a problem performing the requested action. Please verify the LIRC do service is running in non-pairing mode, then try again. error is ${error}`;
 
 				console.log(`Intent: ${handlerInput.requestEnvelope.request.intent.name}: message: ${error_string}`);
@@ -949,16 +950,14 @@ function httpGet(options) {
 				return reject(e);   
 			});
 			socket.on('error', function (err) { // this catches ECONNREFUSED events
-				var currdatetime = new Date().getTime();
-				console.log(`${currdatetime} in httpGet: in socket.on error: ${JSON.stringify(err)}`);
+				console.log(`in httpGet: in socket.on error: ${JSON.stringify(err)}`);
 				request.abort();    // kill socket
 				return reject(err); 
 			});
 		}); // handle connection events and errors
 
 		request.on('error', function (e) {  // happens when we abort
-			var currdatetime = new Date().getTime();
-			console.log(`${currdatetime} in httpget: in request.on error: ${JSON.stringify(e)}`);
+			console.log(`in httpget: in request.on error: ${JSON.stringify(e)}`);
 			return reject(e);
 		});
 		request.end();
